@@ -1,14 +1,14 @@
 /**
  * @name Lucyjs
- * @version 6.0
+ * @version 1
  * @authors
 	 Thomas Marchi
 		 @github https://github.com/tomekmarchi/
 	 Nathan Woltman
 		 @github https://github.com/woollybogger
- * @copyright 2014 Thomas Marchi,Nathan Woltman
+ * @copyright 2015 Thomas Marchi,Nathan Woltman
  * @github https://github.com/tomekmarchi/ACID
- * @email tom@lnkit.com
+ * @email tomekmarchi@gmail.com
  */
 
 module.exports = function() {
@@ -2628,7 +2628,7 @@ module.exports = function() {
 		//lib name
 		name: 'Lucy',
 		//lib version
-		version: 6.0,
+		version: 1,
 		//platform type
 		platform: 'stable'
 	};
