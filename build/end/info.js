@@ -3,9 +3,9 @@ $.lucy = {
 	//lib name
 	name: 'Lucy',
 	//lib version
-	version: 6.0,
+	version: 1,
 	//platform type
 	platform: 'stable'
 };
 //log out the ACID version
-console.log('Lucy v' + $.lucy.version);
+console.log(`Lucy v${$.lucy.version}`);
