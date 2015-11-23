@@ -8,4 +8,4 @@ $.lucy = {
 	platform: 'stable'
 };
 //log out the ACID version
-console.log(`Lucy v${$.lucy.version}`);
+acidConsole(`Lucy v${$.lucy.version} ${$.lucy.platform}`,'notify');

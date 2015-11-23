@@ -11,7 +11,7 @@
  * @email tomekmarchi@gmail.com
  */
 
-module.exports = function() {
+module.exports = function(_global) {
 	"use strict";
 	var $ = {};
 
@@ -82,64 +82,39 @@ module.exports = function() {
 		_array_push = array_prototype.push,
 		_object_getOwnPropertyDescriptor = _object.getOwnPropertyDescriptor;
 
-	/*
- 
- 	Object. Functions cached
- 
- */
-	//object keys cached
-	if (!_object.assign) {
-		_object.defineProperty(_object, 'assign', {
-			enumerable: false,
-			configurable: true,
-			writable: true,
-			value: function value(target, firstSource) {
-				'use strict';
-				if (target === undefined || target === null) {
-					return target;
-				}
-
-				var to = Object(target);
-				for (var i = 1; i < arguments.length; i++) {
-					var nextSource = arguments[i];
-					if (nextSource === undefined || nextSource === null) {
-						continue;
-					}
-
-					var keysArray = Object.keys(Object(nextSource));
-					for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-						var nextKey = keysArray[nextIndex];
-						var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-						if (desc !== undefined && desc.enumerable) {
-							to[nextKey] = nextSource[nextKey];
-						}
-					}
-				}
-				return to;
-			}
-		});
-	}
-
 	var regex_space = /\s/,
 		regex_space_global = /\s/g,
 		regex_dot = /\./g,
 		regex_dash = /-/g,
 		regex_fowardslash = /\//g,
 		regex_ext = /\.[0-9a-z]+$/i,
-		regex_underscore = /_/g;
+		regex_underscore = /_/g,
+		isJSRegex = /\.js/,
+		isCSSRegex = /\.css/,
+		isJSONRegex = /\.json/,
+		hasDotRegex = /\./;
+
 	//convert object to string
 	var $tostring = object_prototype.toString,
 
 		//make collection into an array
-		_toArray = _array.from ? _array.from : function(nodes) {
+		arrayFrom = _array.from,
+		_toArray;
+	if (arrayFrom) {
+		_toArray = function(item) {
+			return arrayFrom.call(_array, item);
+		};
+	} else {
+		_toArray = function(items) {
 			var arr = [];
-			for (var i = -1, l = nodes.length; ++i !== l; arr[i] = nodes[i]);
+			for (var i = -1, l = items.length; ++i !== l; arr[i] = items[i]);
 			return arr;
 		};
+	}
 
 	/*
- This is for object checking is or isnot
- */
+ 	This is for object checking is or isnot
+ 	*/
 	//checking
 	var obj_strng_gen = function obj_strng_gen(name) {
 			return '[object ' + name + ']';
@@ -324,12 +299,26 @@ module.exports = function() {
 			}
 			return false;
 		},
-		isJavascript = function isJavascript(string) {
-			return _has(string, '.js');
+		isFileCSS = function isFileCSS(item) {
+			return isCSSRegex.test(item);
 		},
-		isCSS = function isCSS(string) {
-			return _has(string, '.css');
+		isFileJSON = function isFileJSON(item) {
+			return isJSONRegex.test(item);
 		},
+		isFileJS = function isFileJS(item) {
+			return isJSRegex.test(item) && !isFileJSON(item);
+		},
+		hasDot = function hasDot(item) {
+			return hasDotRegex.test(item);
+		},
+		getModelRootName = function getModelRootName(string) {
+			return string.split('.')[0];
+		},
+		getModelProperty = function getModelProperty(string) {
+			return _arrayLastItem(string.split('/'))[0];
+		},
+		isJavascript = isFileJS,
+		isCSS = isFileCSS,
 		getModelName = function getModelName(string) {
 			var splitIt = string.split('/');
 			return _find(splitIt[splitIt.length - 1].split('.js')[0], _model);
@@ -430,7 +419,18 @@ module.exports = function() {
 				fun = null,
 				funn = null;
 			return false;
-		};
+		},
+
+		//make a promise
+		_promoiseFN = $.promise = function(array, name, fun) {
+			if (!fun) {
+				return _promised(array, name);
+			}
+			return _promise(array, name, fun);
+		},
+		_promises = {};
+	$.promises = _promises;
+
 	var _arrayLastItem = function _arrayLastItem(array, indexFrom) {
 		var result;
 		if (!indexFrom) {
@@ -725,9 +725,12 @@ module.exports = function() {
 		};
 	//initialize array object for array prototype
 	var array_extend = {};
-	$.pushApply = function(item, array) {
+	var pushApply = function pushApply(item, array) {
 		return _array_push.apply(item, array);
 	};
+
+	$.pushApply = pushApply;
+
 	/**
 	 * Finds the index of a value in a sorted array using a binary search algorithm.
 	 *
@@ -1011,28 +1014,9 @@ module.exports = function() {
 	//loop while the count is less than the length of the array
 	$.whileLength = _whileLength;
 
-	/**
-	 * Determines if the arrays are equal by doing a shallow comparison of their elements using strict equality.
-	 *
-	 * __Note:__ The order of elements in the arrays __does__ matter. The elements must be found in the same order
-	 * for the arrays to be considered equal.
-	 *
-	 * @function Array#equals
-	 * @param {Array} array - An array to compare for equality.
-	 * @returns {boolean} `true` if the arrays are equal, `false` otherwise.
-	 *
-	 * @example
-	 * var array = [1, 2, 3];
-	 *
-	 * array.equals(array);
-	 * // -> true
-	 *
-	 * array.equals([1, 2, 3]);
-	 * // -> true
-	 *
-	 * array.equals([3, 2, 1]);
-	 * // -> false
-	 */
+	/*
+  Determines if the arrays are equal by doing a shallow comparison of their elements using strict equality.
+ */
 	$.isEqualArray = function(item, array) {
 		if (array === item) {
 			return true;
@@ -1050,6 +1034,7 @@ module.exports = function() {
 
 		return true;
 	};
+
 	//Returns the first element of an array. Passing n will return the first n elements of the array.
 	$.first = function(array, n) {
 		if (n) {
@@ -2462,6 +2447,12 @@ module.exports = function() {
 	$.isInt = _isInt;
 	$.isNull = isNull;
 	$.isEmpty = isEmpty;
+	$.isFileCSS = isFileCSS;
+	$.isFileJSON = isFileJSON;
+	$.isFileJS = isFileJS;
+	$.hasDot = hasDot;
+	$.getModelProperty = getModelProperty;
+	$.getModelRootName = getModelRootName;
 
 	function jsonWithCatch(str) {
 		try {
@@ -2513,30 +2504,80 @@ module.exports = function() {
 	//Square root of 2, approximately 1.414.
 	$.sqrt2 = _math.SQRT2;
 	var _model = (function() {
-		//get model -> (bool) option for a lean model meaning no methods will be attached
-		var model_function = function model_function(modelName, object, bool) {
-			if (hasValue(object)) {
-				var model = _model[modelName] = object;
-				if (_isFunction(model)) {
-					model = model.bind(model);
-				} else if (isPlainObject(model)) {
-					_each_object(model, function(item, key) {
-						if (_isFunction(item)) {
-							model[key] = item.bind(model);
-						}
-					});
+			//get model -> (bool) option for a lean model meaning no methods will be attached
+			var model_function = function model_function(modelName, object, bool) {
+				if (hasValue(object)) {
+					var model = _model[modelName] = object;
+					if (_isFunction(model)) {
+						model = model.bind(model);
+					} else if (isPlainObject(model)) {
+						_each_object(model, function(item, key) {
+							if (_isFunction(item)) {
+								model[key] = item.bind(model);
+							}
+						});
+					}
+					model.modelName = modelName;
+					return model;
+				} else if (_has(modelName, '.')) {
+					return _find(modelName, _model);
 				}
-				model.modelName = modelName;
-				return model;
-			} else if (_has(modelName, '.')) {
-				return _find(modelName, _model);
+				return _model[modelName];
+			};
+			return model_function;
+		})(),
+		buildArgumentsMethod = function buildArgumentsMethod(item) {
+			if (_isString(item)) {
+				item = _find(item, $);
 			}
-			return _model[modelName];
+			return item;
+		},
+		requireAvailable = false,
+		importScriptsAvailable = false,
+		requireMethod = (function() {
+			if (_global) {
+				if (_global.require && !_global.importScripts) {
+					return _global.require;
+				} else if (_global.importScripts) {
+					return _global.importScripts;
+				}
+			} else if (require) {
+				return require;
+			}
+		})(),
+		buildArgumentsRequireMethod = function buildArgumentsRequireMethod(item) {
+			if (_isString(item)) {
+				item = requireMethod(item);
+			}
+			return item;
+		},
+		define = function define(data) {
+			var funct = data.invoke,
+				modelName = data.name,
+				argsRequire = data.require,
+				args = _each_array(data['import'], buildArgumentsMethod),
+				wrapFunct = (function() {
+					var freshArgs;
+					if (arguments.length > 0) {
+						freshArgs = _toArray(args);
+						pushApply(freshArgs, arguments);
+					} else {
+						freshArgs = args;
+					}
+					return funct.apply(wrapFunct, freshArgs);
+				}).bind(wrapFunct);
+			if (modelName) {
+				_model[modelName] = wrapFunct;
+			}
+			if (argsRequire) {
+				pushApply(args, _each_array(argsRequire, buildArgumentsRequireMethod));
+			}
+
+			return wrapFunct;
 		};
-		return model_function;
-	})();
 
 	$.model = _model;
+	$.define = define;
 
 	//export native functions
 	$.keys = _object_keys;
@@ -2633,7 +2674,7 @@ module.exports = function() {
 		platform: 'stable'
 	};
 	//log out the ACID version
-	console.log('Lucy v' + $.lucy.version);
+	acidConsole('Lucy v' + $.lucy.version + ' ' + $.lucy.platform, 'notify');
 
 	return $;
 };
