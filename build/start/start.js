@@ -1,3 +1,2 @@
-module.exports=function (_global) {
+var lucy=function (global) {
 	"use strict";
-	var $={};

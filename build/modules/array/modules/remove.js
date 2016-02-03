@@ -10,45 +10,31 @@
  * @example
  * var array = [1, 2, 3, 3, 4, 3, 5];
  *
- * array.remove(1);
+ * remove(array,1);
  * // -> [2, 3, 3, 4, 3, 5]
  *
- * array.remove(3);
+ * remove(array,3);
  * // -> [2, 4, 5]
  *
- * array.remove(2, 5);
+ * remove(array,[2, 5]);
  * // -> [4]
  */
-$.remove = function(array,args) {
-    var remStartIndex = 0;
-    var numToRemove = 0;
-
-    for (var i = 0; i < array.length; i++) {
-        var removeCurrentIndex = false,
-            j;
-
-        for (j = 0; j < args.length; j++) {
-            if (array[i] === args[j]) {
-                removeCurrentIndex = true;
-                break;
-            }
+$.remove = function(array, args) {
+    if (isFunction(args)) {
+		eachRaw(array, (item, index) => {
+			if (args(item)) {
+				spliceArray(array, index, 1);
+			}
+		});
+    } else {
+        if (!isArray(args)) {
+            args = [args];
         }
-
-        if (removeCurrentIndex) {
-            if (!numToRemove) {
-                remStartIndex = i;
+        eachRaw(array, (item, index) => {
+            if (has(args, item)) {
+                spliceArray(array, index, 1);
             }
-            ++numToRemove;
-        } else if (numToRemove) {
-            array.splice(remStartIndex, numToRemove);
-            i -= numToRemove;
-            numToRemove = 0;
-        }
+        });
     }
-
-    if (numToRemove) {
-        array.splice(remStartIndex, numToRemove);
-    }
-
     return array;
 };

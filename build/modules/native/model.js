@@ -1,47 +1,37 @@
-var _model = (() => {
-        //get model -> (bool) option for a lean model meaning no methods will be attached
-        var model_function = (modelName, object, bool) => {
-            if (hasValue(object)) {
-                var model = _model[modelName] = object;
-                if (_isFunction(model)) {
-                    model = model.bind(model);
-                } else if (isPlainObject(model)) {
-                    _each_object(model, (item, key) => {
-                        if (_isFunction(item)) {
-                            model[key] = item.bind(model);
-                        }
-                    });
-                }
-                model.modelName = modelName;
-                return model;
-            } else if (_has(modelName, '.')) {
-                return _find(modelName, _model);
+var modelMethod = (modelName, object, bool) => {
+        if (hasValue(object)) {
+            var model = modelMethod[modelName] = object;
+            if (isFunction(model)) {
+                model = model.bind(model);
+            } else if (isPlainObject(model)) {
+                eachObject(model, (item, key) => {
+                    if (isFunction(item)) {
+                        model[key] = item.bind(model);
+                    }
+                });
             }
-            return _model[modelName];
-        };
-        return model_function;
-    })(),
+            model.modelName = modelName;
+            return model;
+        } else if (hasDot(modelName)) {
+            return find(modelName, modelMethod);
+        }
+        return modelMethod[modelName];
+    },
     buildArgumentsMethod = (item) => {
-        if (_isString(item)) {
-            item = _find(item, $);
+        if (isString(item)) {
+            item = find(item, $);
         }
         return item;
     },
-    requireAvailable=false,
-    importScriptsAvailable=false,
-    requireMethod =(()=>{
-        if(_global){
-            if(_global.require && !_global.importScripts){
-                return _global.require;
-            }else if(_global.importScripts){
-                return _global.importScripts;
-            }
-        }else if(require){
-            return require;
-        }
+    requireMethod = (() => {
+		if (hasImport) {
+			return importScripts;
+		} else if (hasRequire) {
+			return require;
+		}
     })(),
     buildArgumentsRequireMethod = (item) => {
-        if (_isString(item)) {
+        if (isString(item)) {
             item = requireMethod(item);
         }
         return item;
@@ -50,26 +40,26 @@ var _model = (() => {
         var funct = data.invoke,
             modelName = data.name,
             argsRequire = data.require,
-            args = _each_array(data.import, buildArgumentsMethod),
+            args = eachArray(data.import, buildArgumentsMethod),
             wrapFunct = function() {
-				var freshArgs;
-				if (arguments.length > 0) {
-					freshArgs = _toArray(args);
-					pushApply(freshArgs, arguments);
-				} else {
-					freshArgs = args;
-				}
-				return funct.apply(wrapFunct, freshArgs);
+                var freshArgs;
+                if (getLength(arguments)) {
+                    freshArgs = toArray(args);
+                    pushApply(freshArgs, arguments);
+                } else {
+                    freshArgs = args;
+                }
+                return funct.apply(wrapFunct, freshArgs);
             }.bind(wrapFunct);
         if (modelName) {
-            _model[modelName] = wrapFunct;
+            modelMethod[modelName] = wrapFunct;
         }
         if (argsRequire) {
-            pushApply(args, _each_array(argsRequire, buildArgumentsRequireMethod));
+            pushApply(args, eachArray(argsRequire, buildArgumentsRequireMethod));
         }
 
         return wrapFunct;
     };
 
-$.model = _model;
+$.model = modelMethod;
 $.define = define;

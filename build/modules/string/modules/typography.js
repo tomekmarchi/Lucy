@@ -1,109 +1,68 @@
-//uppercase first letter lower case the rest
-$.ucFirst = _ucFirst;
-
 //uppercase first letter for all
-$.ucFirstAll = function (string) {
-	var array = string.split(' '),
-		len = array.length;
-	for (var i = 0; i < len; i++) {
-		var item=array[i];
-		array[i]=item.charAt(0).toUpperCase() + item.substr(1);
-	}
-	return array.join(' ');
-};
-
-//uppercase first letter lower case the rest
-$.ucFirstOnly = function (string) {
-	return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
-};
-
-//uppercase first letter lower case the rest all
-$.ucFirstOnlyAll = function (string) {
-	var array = string.split(' '),
-		len = array.length;
-	for (var i = 0; i < len; i++) {
-		var item=array[i];
-		array[i]=item.charAt(0).toUpperCase() + item.substr(1).toLowerCase();
-	}
-	return array.join(' ');
-};
-
-//Returns the camel cased string
-$.camel = function (stringOriginal) {
-	var string=$.ucfirstall.call(stringOriginal.replace(regex_underscore,' ').replace(regex_dash,' '));
-	return (string.charAt(0).toLowerCase() + string.substr(1)).replace(regex_space_global, '');
-};
-
-//Returns the kebab cased string
-$.kebab = function (stringOriginal) {
-	return stringOriginal.toLowerCase().replace(regex_underscore,' ').replace(regex_space_global, '-');
-};
-
-//Returns the snake cased string
-$.snake = function (stringOriginal) {
-	return stringOriginal.toLowerCase().replace(regex_dash,' ').replace(regex_space_global, '_');
-};
-
-//returns the trunced version of the string
-$.truncate = function (stringOriginal,amount) {
-	var string=stringOriginal,
-		length=string.length;
-	if(length>amount){
-		return string.slice(0,amount);
-	}
-	return string;
-};
-
-//returns the trunced version of the string starting from the right
-$.truncateLeft = function (stringOriginal,amount) {
-	var string=stringOriginal,
-		length=string.length;
-	if(length>amount){
-		return string.substr(amount,length);
-	}
-	return string;
-};
-
-//returns the trunced version of the string
-$.truncateWord = function (stringOriginal,amount) {
-	var string=stringOriginal,
-		length=string.length;
-	if(length>amount){
-		var stringLength=0;
-		var newString='';
-		var words=string.split(' ');
-		var wordsLength=words.length;
-		var item;
-		var possibleNew;
-		for(var i=0; i < wordsLength; i++ ){
-			item=words[i]+' ';
-			possibleNew=item.length+stringLength;
-			if(possibleNew<amount){
-				stringLength=possibleNew;
-				newString=newString+item;
-			}else{
-				break;
-			}
-		}
-		return newString.trim();
-	}
-	return string;
-};
-
-//repeat
-$.repeat = function (stringOriginal,amount) {
-	if(!amount){
-		return '';
-	}
-	if(amount==1){
-		return stringOriginal;
-	}
-	var string=stringOriginal,
-		temp=string;
-	for(var i=1; i < amount; i++){
-		if(i>0){
-			var temp=temp+string;
-		}
-	}
-	return temp;
-};
+var ucFirstChar = (string) => {
+        return toUpperCaseCall(charAtCall(string, 0));
+    },
+    addRest = (string) => {
+        return substrCall(string, 1);
+    },
+    ucFirst = $.ucFirst = function(string) {
+        return ucFirstChar(string) + addRest(string);
+    },
+    ucFirstAll = $.ucFirstAll = function(string) {
+        return joinArray(eachArray(splitCall(string, spaceCharacter), (item) => {
+            return ucFirst(item);
+        }),' ');
+    },
+    //uppercase first letter lower case the rest
+    ucFirstOnly = $.ucFirstOnly = function(string) {
+        return ucFirstChar(item) + toLowerCaseCall(addRest(item));
+    },
+    //uppercase first letter lower case the rest all
+    ucFirstOnlyAll = $.ucFirstOnlyAll = function(string) {
+        return joinArray(eachArray(splitCall(string, spaceCharacter), (item) => {
+            return ucFirstOnly(item);
+        }), ' ');
+    },
+    //Returns the camel cased string
+    camelCase = $.camel = (string) => {
+        string = ucFirstAll(
+            stringReplaceCall(
+                stringReplaceCall(string, regexUnderscore, spaceCharacter),
+                regexDash, spaceCharacter)
+        );
+        return toLowerCaseCall(charAtCall(string, 0)) + stringReplaceCall(substrCall(string, 1), regexSpaceglobal, emptyString);
+    },
+    setStringCase = (string, caseLetter) => {
+        return stringReplaceCall(stringReplaceCall(toLowerCaseCall(string), regexUnderscore, spaceCharacter), regexSpaceglobal, caseLetter);
+    },
+    //Returns the kebab cased string
+    kebabCase = $.kebab = (string) => {
+        return setStringCase(string, dashString);
+    },
+    //Returns the snake cased string
+    snakeCase = $.snake = (string) => {
+        return setStringCase(string, dashString);
+    },
+    //returns the trunced version of the string
+    truncate = $.truncate = (string, amount) => {
+        if (getLength(string) > amount) {
+            string = stringSliceCall(string, 0, amount);
+        }
+        return string;
+    },
+    //returns the trunced version of the string starting from the right
+    truncateLeft = $.truncateLeft = (string, amount) => {
+        var length = getLength(string);
+        if (length > amount) {
+            string = substrCall(string, amount, length);
+        }
+        return string;
+    },
+    //returns the trunced version of the string
+    truncateWord = $.truncateWord = (string, amount) => {
+        var cut = indexOfObject(string, ' ', amount);
+        if (amount != -1) {
+            string = substringCall(string, 0, amount);
+        }
+        return string;
+    };

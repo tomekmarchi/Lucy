@@ -1,16 +1,23 @@
-var _each = function(object,funct,fn){
-	if(_isArray(object)){
-		var returned=_each_array(object,funct);
-	}else if(isPlainObject(object)){
-		var returned=_each_object(object,funct);
-	}else if(isNumber(object)){
-		var returned=_each_number(object, funct, fn);
-	}else if(_isNodeList(object) || _isHTMLCollection(object)){
-		var returned=_each_array(_toArray(object),funct);
-	}else{
-		var returned=_each_object(object,funct);
-	}
-	return returned;
+var each = function(object, funct, fn) {
+    var returned;
+    if (!hasValue(object)) {
+        returned = () =>{};
+    } else if (isArray(object)) {
+        returned = eachArray;
+    } else if (isPlainObject(object) || isFunction(object)) {
+        returned = eachObject;
+    } else if (isNumber(object)) {
+        returned = eachNumber;
+    } else {
+		if(fn){
+			returned = eachProperty;
+		}else if (object.forEach) {
+            returned = forEach;
+        }else{
+			returned = eachObject;
+		}
+    }
+    return returned(object, funct, fn);
 };
 
-$.each=_each;
+$.each = each;

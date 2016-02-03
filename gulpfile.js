@@ -1,94 +1,98 @@
-(function () {
-	'use strict';
-	var gulp = require('gulp'),
-		babel = require('gulp-babel'),
-		beautify = require('gulp-beautify'),
-		uglify = require('gulp-uglify'),
-		notify = require('gulp-notify'),
-		concat = require('gulp-concat'),
-		gulpif = require('gulp-if');
+(function() {
+    'use strict';
+    var gulp = require('gulp'),
+        beautify = require('gulp-beautify'),
+        uglify = require('gulp-uglify'),
+        notify = require('gulp-notify'),
+        concat = require('gulp-concat'),
+        gulpif = require('gulp-if'),
+        babel = require('gulp-babel'),
+        //file locations in order
+        locations = [
+            'build/start/credits.js',
+            'build/start/start.js',
 
+			'build/modules/namespace.js',
+            'build/modules/shared/*.js',
+			'build/modules/helpers/*.js',
 
-	//file locations
-	var locations = [
-	//begin
-	//comment info
-	'build/start/credits.js',
-	//seaf function open
-	'build/start/start.js',
-	//shared vars across seaf
-	'build/shared/vars/*.js',
-	'build/shared/modules/*.js',
-	'build/shared/modules/**/*.js',
-	//namespace
-	'build/namespace.js',
-	//array prototype
-	'build/modules/array/array.js',
-	//array prototype modules
-	'build/modules/array/modules/*.js',
-	//string prototype
-	'build/modules/string/string.js',
-	//string prototype modules
-	'build/modules/string/modules/*.js',
-	//object prototype
-	'build/modules/object/object.js',
-	//object prototype
-	'build/modules/object/modules/*.js',
-	//function prototype
-	'build/modules/function/functions.js',
-	//function prototype modules
-	'build/modules/function/modules/*.js',
-	//number prototype
-	'build/modules/number/number.js',
-	//number prototype modules
-	'build/modules/number/modules/*.js',
-	//for acid specific modules
-	'build/modules/acid/*.js',
-	//modules that deal with native objects
-	'build/modules/native/*.js',
-	//get system info
-	'build/end/info.js',
-	//seaf function close
-	'build/end/end.js'],
-	locations_length=locations.length;
-	//compile the acid library
-	function compile_acid() {
-		return gulp.src(locations)
-		//compile source
-		.pipe(concat('lucy.js'))
-		.pipe(babel({
-			blacklist: ["strict"],
-			compact: false
-		})).pipe(notify(() => {
-			return 'lucy Babeled';
-		}))
-		//make it fabulous
-		.pipe(beautify({
-			indent_size: 4,
-			indent_char: '	',
-			indent_with_tabs: true
-		}))
-		//make it dirty and min it
-		.pipe(gulp.dest('compiled'))
-		.pipe(uglify({
-			compress: true,
-			join_vars: true
-		}))
-		.pipe(concat('lucy_min.js'))
-		//we done bois
-		.pipe(gulp.dest('compiled')).pipe(notify(function(){
-			return 'lucy COMPILED';
-		}));
-	}
-	//compile acid
-	gulp.task('scripts', function () {
-		return compile_acid();
-	});
-	//start livereload
-	gulp.task('default', ['scripts'], function () {
-		//watch files then compile and notify lr
-		gulp.watch(locations, function (event) {
-			compile_acid(event);
-		});
-	});
+            'build/end/info.js',
+			'build/modules/events/*.js',
+
+            'build/modules/string/*.js',
+            'build/modules/string/modules/*.js',
+
+            'build/modules/array/*.js',
+            'build/modules/array/modules/*.js',
+
+            'build/modules/object/*.js',
+            'build/modules/object/modules/*.js',
+
+        	'build/modules/function/*.js',
+            'build/modules/function/modules/*.js',
+
+            'build/modules/number/*.js',
+            'build/modules/number/modules/*.js',
+
+            'build/modules/native/*.js',
+
+            'build/end/loadcore.js',
+
+            'build/end/documentReady.js',
+
+            'build/end/end.js'
+        ],
+        locations_length = locations.length,
+        //compile the acid library
+        compile_acid = () => {
+            gulp.src(locations)
+                //compile source
+                .pipe(concat('lucy.js'))
+                .pipe(babel({
+                    blacklist: ["strict"],
+                    compact: true
+                })).pipe(notify(() => {
+                    return 'Lucy Babeled';
+                }))
+				.pipe(beautify({
+					indent_size: 1,
+					indent_with_tabs: true
+				}))
+                //make it fabulous
+                .pipe(gulp.dest('compiled')).pipe(notify(function() {
+                    return 'lucy Beautified Saved';
+                })).pipe(concat('lucy_min.js')).pipe(uglify({
+				    sequences: true,
+				    properties: true,
+				    dead_code: true,
+				    drop_debugger: true,
+				    comparisons: true,
+				    conditionals: true,
+				    evaluate: true,
+				    booleans: true,
+				    loops: true,
+				    unused: true,
+				    hoist_funs: true,
+				    if_return: true,
+				    join_vars: true,
+				    cascade: true,
+					screw_ie8 : true
+                })).pipe(notify(() => {
+                    return 'Lucy Uglified';
+                })).pipe(gulp.dest('compiled')).pipe(notify(() => {
+                    return 'Lucy Minified Saved';
+                }));
+
+        };
+    //compile acid
+    gulp.task('scripts', () => {
+        return compile_acid();
+    });
+    //start livereload
+    gulp.task('default', ['scripts'], () => {
+        //watch files then compile and notify lr
+        gulp.watch(locations, (event) => {
+            compile_acid(event);
+        });
+    });
 })();
