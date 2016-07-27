@@ -36,8 +36,6 @@
 
             'build/modules/native/*.js',
 
-            'build/end/loadcore.js',
-
             'build/end/documentReady.js',
 
             'build/end/end.js'
@@ -49,7 +47,7 @@
                 //compile source
                 .pipe(concat('lucy.js'))
                 .pipe(babel({
-                    blacklist: ["strict"],
+					blacklist: ["strict"],
                     compact: true
                 })).pipe(notify(() => {
                     return 'Lucy Babeled';

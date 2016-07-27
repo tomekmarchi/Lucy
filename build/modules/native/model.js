@@ -1,65 +1,45 @@
-var modelMethod = (modelName, object, bool) => {
-        if (hasValue(object)) {
-            var model = modelMethod[modelName] = object;
-            if (isFunction(model)) {
-                model = model.bind(model);
-            } else if (isPlainObject(model)) {
-                eachObject(model, (item, key) => {
-                    if (isFunction(item)) {
-                        model[key] = item.bind(model);
-                    }
-                });
-            }
-            model.modelName = modelName;
-            return model;
-        } else if (hasDot(modelName)) {
-            return find(modelName, modelMethod);
-        }
-        return modelMethod[modelName];
-    },
-    buildArgumentsMethod = (item) => {
-        if (isString(item)) {
-            item = find(item, $);
-        }
-        return item;
-    },
-    requireMethod = (() => {
-		if (hasImport) {
-			return importScripts;
-		} else if (hasRequire) {
-			return require;
+var modelMethod = $.model = (modelName, object) => {
+		if (hasValue(object)) {
+			modelMethod[modelName] = assignDeep(isFunction(object) ? bindTo(object, object) : bindAll(object, object, true), {
+				_: {
+					name: modelName
+				}
+			});
 		}
-    })(),
-    buildArgumentsRequireMethod = (item) => {
-        if (isString(item)) {
-            item = requireMethod(item);
-        }
-        return item;
-    },
-    define = (data) => {
-        var funct = data.invoke,
-            modelName = data.name,
-            argsRequire = data.require,
-            args = eachArray(data.import, buildArgumentsMethod),
-            wrapFunct = function() {
-                var freshArgs;
-                if (getLength(arguments)) {
-                    freshArgs = toArray(args);
-                    pushApply(freshArgs, arguments);
-                } else {
-                    freshArgs = args;
-                }
-                return funct.apply(wrapFunct, freshArgs);
-            }.bind(wrapFunct);
-        if (modelName) {
-            modelMethod[modelName] = wrapFunct;
-        }
-        if (argsRequire) {
-            pushApply(args, eachArray(argsRequire, buildArgumentsRequireMethod));
-        }
+		return find(modelName, modelMethod);
+	},
+	buildArgumentsMethod = (item) => {
+		return isString(item) ? find(item, $) || find(item, modelMethod) : item;
+	},
+	requireMethod = (hasImport) ? importScripts : require,
+	buildArgumentsRequireMethod = (item) => {
+		return requireMethod(item);
+	},
+	define = $.define = (data, otherData) => {
+		if (otherData) {
+			if (isFunction(otherData)) {
+				otherData = {
+					invoke: otherData
+				};
+			}
+			otherData.name = data;
+			data = otherData;
+		}
+		var modelName = data.name,
+			wrapFunct = bindTo(function () {
+				var freshArgs = (data.import) ? mapArray(data.import, buildArgumentsMethod) : [],
+					argsRequire = data.require;
+				if (argsRequire) {
+					pushApply(freshArgs, mapArray(isString(argsRequire) ? splitCall(argsRequire, ',') : argsRequire, buildArgumentsRequireMethod));
+				}
+				if (getLength(arguments)) {
+					pushApply(freshArgs, arguments);
+				}
+				return apply(data.invoke, wrapFunct, freshArgs);
+			}, wrapFunct);
+		if (modelName) {
+			modelMethod[modelName] = wrapFunct;
+		}
 
-        return wrapFunct;
-    };
-
-$.model = modelMethod;
-$.define = define;
+		return wrapFunct;
+	};

@@ -1,5 +1,4 @@
 //acid platform information
-$.acid = {
-	name: 'LucyJS',
-	version: 1
+$.info = {
+	version: 2
 };
