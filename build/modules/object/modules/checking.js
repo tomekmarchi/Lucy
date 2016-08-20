@@ -55,7 +55,12 @@ var objectStringGenerate = function (name) {
 		return !getLength(obj);
 	},
 	isEmpty = $.isEmpty = function (obj) {
-		return hasValue(obj) ? (isPlainObject(obj)) ? !objectSize(obj) : !isLength(obj) : False;
+		if(isString(obj) || isArray(obj)){
+			return isLength(obj)
+		}else if(isPlainObject(obj)){
+			return !objectSize(obj);
+		}
+		return !hasValue(obj);
 	},
 	regexGenerator = (regexType) => {
 		return (item) => {
@@ -65,6 +70,9 @@ var objectStringGenerate = function (name) {
 	isFileCSS = $.isFileCSS = regexGenerator(isCSSRegex),
 	isFileJSON = $.isFileJSON = regexGenerator(isJSONRegex),
 	isFileJS = $.isFileJS = regexGenerator(isJSRegex),
+	extension = $.extension = (string) =>{
+		return stringMatchCall(string,/\.([0-9a-z]+)/);
+	},
 	hasDot = $.hasDot = regexGenerator(hasDotRegex),
 	getModelRootName = $.getModelRootName = function (string) {
 		return splitCall(string, dotString)[0];

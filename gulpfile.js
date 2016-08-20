@@ -41,6 +41,23 @@
             'build/end/end.js'
         ],
         locations_length = locations.length,
+		uglifyCondig = {
+			sequences: true,
+			properties: true,
+			dead_code: true,
+			drop_debugger: true,
+			comparisons: true,
+			conditionals: true,
+			evaluate: true,
+			booleans: true,
+			loops: true,
+			unused: true,
+			hoist_funs: true,
+			if_return: true,
+			join_vars: true,
+			cascade: true,
+			screw_ie8 : true
+		},
         //compile the acid library
         compile_acid = () => {
             gulp.src(locations)
@@ -59,23 +76,7 @@
                 //make it fabulous
                 .pipe(gulp.dest('compiled')).pipe(notify(function() {
                     return 'lucy Beautified Saved';
-                })).pipe(concat('lucy_min.js')).pipe(uglify({
-				    sequences: true,
-				    properties: true,
-				    dead_code: true,
-				    drop_debugger: true,
-				    comparisons: true,
-				    conditionals: true,
-				    evaluate: true,
-				    booleans: true,
-				    loops: true,
-				    unused: true,
-				    hoist_funs: true,
-				    if_return: true,
-				    join_vars: true,
-				    cascade: true,
-					screw_ie8 : true
-                })).pipe(notify(() => {
+                })).pipe(concat('lucy_min.js')).pipe(uglify(uglifyCondig)).pipe(notify(() => {
                     return 'Lucy Uglified';
                 })).pipe(gulp.dest('compiled')).pipe(notify(() => {
                     return 'Lucy Minified Saved';

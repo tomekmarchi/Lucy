@@ -2,10 +2,9 @@
 //Flattens a nested array. Pass level to flatten up to a depth;
 var flatten = $.flatten = (array, level) => {
 		for (var i = 0; i < (level || 1); i++) {
-			array = arrayReduce(array, (previousValue, currentValue, index, array) => {
+			array = array.reduce((previousValue, currentValue, index, array) => {
 				return concatArray(previousValue, (level) ?
-					(isArray(currentValue)) ? currentValue : [currentValue] :
-					(isArray(currentValue)) ? flatten(currentValue) : currentValue);
+					ensureArray(currentValue) : (isArray(currentValue)) ? flatten(currentValue) : currentValue);
 			}, []);
 		}
 		return array;
@@ -13,7 +12,7 @@ var flatten = $.flatten = (array, level) => {
 	//cache for function that removes Falsey values from array or object
 	compact = $.compact = (array) => {
 		return filter(array, (item) => {
-			return item;
+			return isString(item) && !getLength(item)? undefinedNative : item;
 		});
 	},
 	arraySortToObject = (func, array, object) => {

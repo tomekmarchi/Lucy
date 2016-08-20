@@ -1,8 +1,13 @@
 //make a promise
-var promiseMethods = $.promises = {},
-	promiseMethod = $.promise = function (arry, name, callback, calls) {
+var contracts = $.contracts = {},
+	contract = $.contract = (arry, name, callback) =>{
+		if(!callback && !isArray(arry)){
+			contracts[name][arry] = 1;
+			contracts[name]();
+			return;
+		}
 		var arrayLength = getLength(arry);
-		var fn = promiseMethods[name] = function () {
+		var fn = contracts[name] = function () {
 			var go = 0;
 			eachArray(arry, (item) => {
 				if (fn[item] === 1) {
@@ -12,14 +17,9 @@ var promiseMethods = $.promises = {},
 			//if amount of promises made were same as needed then launch callback
 			if (go === arrayLength) {
 				asyncMethod(callback);
-				promiseMethods[name] = null;
+				contracts[name] = null;
 				return True;
 			}
 			return False;
 		};
-	},
-	//promised
-	promisedMethod = $.promised = function (self, fn) {
-        promiseMethods[fn][self] = 1;
-		promiseMethods[fn]();
 	};
