@@ -16,8 +16,6 @@ var arrayNative = Array,
 	numberNative = Number,
 	regExp = RegExp,
 	parseIntNative = parseInt,
-	consoleNative = console,
-	consoleNative = consoleNative.log.bind(consoleNative),
 	/*
 
 		Prototypes

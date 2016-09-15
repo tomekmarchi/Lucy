@@ -10,18 +10,21 @@
  * @github https://github.com/tomekmarchi/ACID
  * @email tomekmarchi@gmail.com
  */
-var lucy = function lucy(global) {
+
+var lucy = function(global) {
 	"use strict";
-	var $ = function $(string, object) {
+
+	var $ = (string, object) => {
 			return find(string, object || modelMethod);
 		},
 		hasRequire = typeof require !== 'undefined',
 		hasImport = typeof importScripts !== 'undefined';
+
 	/*
 
-	Native objects
+		Native objects
 
-*/
+	*/
 	var arrayNative = Array,
 		objectNative = Object,
 		functionNative = Function,
@@ -35,13 +38,11 @@ var lucy = function lucy(global) {
 		numberNative = Number,
 		regExp = RegExp,
 		parseIntNative = parseInt,
-		consoleNative = console,
-		consoleNative = consoleNative.log.bind(consoleNative),
 		/*
 
-		Prototypes
+			Prototypes
 
-	*/
+		*/
 		prototypeString = 'prototype',
 		objectPrototype = objectNative[prototypeString],
 		arrayPrototype = arrayNative[prototypeString],
@@ -49,12 +50,12 @@ var lucy = function lucy(global) {
 		functionPrototype = functionNative[prototypeString],
 		regExpPrototype = regExp[prototypeString],
 		/*
-		Array.prototype Functions
-	*/
+			Array.prototype Functions
+		*/
 		toArray = $.toArray = arrayNative.from.bind(arrayNative),
 		/*
-		   	Object Functions
-		   */
+    	Object Functions
+    */
 		objectKeys = $.keys = objectNative.keys,
 		objectIs = $.is = objectNative.is,
 		objectAssign = $.assign = objectNative.assign,
@@ -62,15 +63,16 @@ var lucy = function lucy(global) {
 		defineProperty = $.defineProperty = objectNative.defineProperty,
 		getOwnPropertyNames = $.getOwnPropertyNames = objectNative.getOwnPropertyNames,
 		/*
-		Boolean
-	*/
+			Boolean
+		*/
 		False = false,
 		True = true,
 		/*
-		JSON
-	*/
+			JSON
+		*/
 		stringify = json.stringify,
 		jsonParse = json.parse;
+
 	var classTest = /^.[\w_-]+$/,
 		tagTest = /^[A-Za-z]+$/,
 		regexSpace = /\s/,
@@ -91,6 +93,7 @@ var lucy = function lucy(global) {
 		decimalCheck = /\.|\+/,
 		fileExtension = /\.([0-9a-z]+)/,
 		slashRegex = /\//g;
+
 	var dotString = '.',
 		emptyString = '',
 		slashString = '/',
@@ -100,14 +103,15 @@ var lucy = function lucy(global) {
 		andString = '&',
 		poundString = '#',
 		spaceCharacter = ' ';
-	var getLength = $.getLength = function(item) {
+
+	var getLength = $.getLength = (item) => {
 			return item.length;
 		},
-		indexOfCall = function indexOfCall(string, index) {
+		indexOfCall = (string, index) => {
 			return string.indexOf(index);
 		},
-		ensureArray = $.ensureArray = function(object) {
-			return isArray(object) ? object : [object];
+		ensureArray = $.ensureArray = (object) => {
+			return (isArray(object)) ? object : [object];
 		},
 		ifInvoke = $.ifInvoke = function() {
 			var args = toArray(arguments),
@@ -115,12 +119,12 @@ var lucy = function lucy(global) {
 			return isFunction(method) ? apply(method, args) : undefinedNative;
 		},
 		ifNotEqual = $.ifNotEqual = function(root, property, equalThis) {
-			return property ? (root[property] = root[property] || equalThis, root[property]) : root;
+			return property ? ((root[property] = root[property] || equalThis), root[property]) : root;
 		},
 		/*
-		String related
-	*/
-		generatePrototype = function generatePrototype(funct) {
+			String related
+		*/
+		generatePrototype = (funct) => {
 			return functionPrototype.call.bind(funct);
 		},
 		substringCall = generatePrototype(stringPrototype.substring),
@@ -134,44 +138,44 @@ var lucy = function lucy(global) {
 		stringMatchCall = generatePrototype(stringPrototype.match),
 		stringReplaceCall = generatePrototype(stringPrototype.replace),
 		/*
-		Regex Helpers
-	*/
+			Regex Helpers
+		*/
 		testRegex = generatePrototype(regExpPrototype.test),
 		/*
-		Array Helpers
-	*/
+			Array Helpers
+		*/
 		concatArray = generatePrototype(arrayPrototype.concat),
 		popArray = generatePrototype(arrayPrototype.pop),
 		pushArray = generatePrototype(arrayPrototype.push),
-		pushApply = $.pushApply = function(array, arrayToPush) {
+		pushApply = $.pushApply = (array, arrayToPush) => {
 			return apply(arrayPrototype.push, array, arrayToPush);
 		},
 		arraySliceCall = generatePrototype(arrayPrototype.slice),
 		spliceArray = generatePrototype(arrayPrototype.splice),
 		shiftArray = generatePrototype(arrayPrototype.shift),
 		unShiftArray = generatePrototype(arrayPrototype.unshift),
-		unShiftApply = $.unShiftApply = function(array, arrayToPush) {
+		unShiftApply = $.unShiftApply = (array, arrayToPush) => {
 			return apply(arrayPrototype.unshift, array, arrayToPush);
 		},
 		joinArray = generatePrototype(arrayPrototype.join),
 		/*
-		Object Helpers
-	*/
-		toStringCall = function toStringCall(item) {
+			Object Helpers
+		*/
+		toStringCall = (item) => {
 			return item.toString();
 		},
 		/*
-		Function calls
-	*/
+			Function calls
+		*/
 		bindTo = $.bindTo = generatePrototype(functionPrototype.bind),
-		call = $.callFn = function(method, bindTo, arg) {
+		call = $.callFn = (method, bindTo, arg) => {
 			if (!arg) {
 				arg = bindTo;
 				bindTo = method;
 			}
 			return method.call(bindTo, arg);
 		},
-		apply = $.applyFn = function(method, bindTo, args) {
+		apply = $.applyFn = (method, bindTo, args) => {
 			if (!args) {
 				args = bindTo;
 				bindTo = method;
@@ -190,60 +194,80 @@ var lucy = function lucy(global) {
 			}
 			return result;
 		},
-		uuidRemove = uuid.remove = function(id) {
+		uuidRemove = uuid.remove = (id) => {
 			uuidClosed[id] = null;
 			pushArray(uuidFree, id);
-		}; //acid platform information
+		};
+
+	//acid platform information
 	$.info = {
 		version: 2
 	};
+
 	var eventAdd = $.eventAdd = function(obj, name, func, capture) {
 			obj.addEventListener(name, func, capture);
 			return obj;
-		}, //remove event
+		},
+		//remove event
 		eventRemove = $.eventRemove = function(obj, name, func, capture) {
 			obj.removeEventListener(name, func, capture);
 			return obj;
-		}; //get characters in a range in a string
-	var insertInRange = $.insertInRange = function(text, start, end, insert) {
+		};
+
+
+	//get characters in a range in a string
+	var insertInRange = $.insertInRange = (text, start, end, insert) => {
 			return stringSliceCall(text, 0, start) + insert + stringSliceCall(text, end, getLength(text));
-		}, //start index from right of string
+		},
+		//start index from right of string
 		rightString = $.rightString = function(text, a) {
 			return text[getLength(text) - 1 - a];
 		},
-		chunkString = $.chunkString = function(string, size) {
+		chunkString = $.chunkString = (string, size) => {
 			return stringMatchCall(string, new regExp('(.|[\r\n]){1,' + size + '}', 'g'));
-		}; //replace all items in an array with a string
-	var replaceWithList = $.replaceWithList = function(string, array, toReplace) {
+		};
+
+	//replace all items in an array with a string
+	var replaceWithList = $.replaceWithList = (string, array, toReplace) => {
 		return stringReplaceCall(string, new regExp('\\b' + joinArray(array, '|') + '\\b', 'gi'), toReplace);
-	}; //raw URL encode
-	var rawURLDecode = $.rawURLDecode = function(string) {
+	};
+
+	//raw URL encode
+	var rawURLDecode = $.rawURLDecode = (string) => {
 			return decodeURIComponent(stringReplaceCall(string, rawURLDecodeRegex, function() {
 				return '%25';
 			}));
-		}, //html entities
-		createHtmlEntities = $.htmlEntities = function(string) {
+		},
+		//html entities
+		createHtmlEntities = $.htmlEntities = (string) => {
 			string = stringReplaceCall(string, andRegex, '&amp;');
 			string = stringReplaceCall(string, lessThanRegex, '&lt;');
 			string = stringReplaceCall(string, moreThanRegex, '&gt;');
 			string = stringReplaceCall(string, doubleQuoteRegex, '&quot;');
 			return stringReplaceCall(string, slashRegex, '&quot;');
 		},
-		sanitize = $.sanitize = function(string) {
+		sanitize = $.sanitize = (string) => {
 			return createHtmlEntities(rawURLDecode(string));
-		}, //decode URI Component
-		duc = $.duc = decodeURIComponent, //encode URI Component
-		euc = $.euc = encodeURIComponent; //tokenize split by groups of characters that are not whitespace
+		},
+		//decode URI Component
+		duc = $.duc = decodeURIComponent,
+		//encode URI Component
+		euc = $.euc = encodeURIComponent;
+
+	//tokenize split by groups of characters that are not whitespace
 	$.tokenize = function(string) {
 		return stringMatchCall(string, /\S+/g) || [];
-	}; //match by alphanumeric+underscore
+	};
+	//match by alphanumeric+underscore
 	$.words = function(string) {
 		return stringMatchCall(string, /\w+/g) || [];
-	}; //uppercase first letter for all
-	var ucFirstChar = function ucFirstChar(string) {
+	};
+
+	//uppercase first letter for all
+	var ucFirstChar = (string) => {
 			return toUpperCaseCall(charAtCall(string, 0));
 		},
-		addRest = $.restString = function(string, num) {
+		addRest = $.restString = (string, num) => {
 			return substrCall(string, num || 1);
 		},
 		ucFirst = $.ucFirst = function(string) {
@@ -253,49 +277,63 @@ var lucy = function lucy(global) {
 			return joinArray(mapArray(splitCall(string, spaceCharacter), function(item) {
 				return ucFirst(item);
 			}), ' ');
-		}, //uppercase first letter lower case the rest
+		},
+		//uppercase first letter lower case the rest
 		ucFirstOnly = $.ucFirstOnly = function(string) {
-			return ucFirstChar(item) + toLowerCaseCall(addRest(item));
-		}, //uppercase first letter lower case the rest all
+			return ucFirstChar(string) + toLowerCaseCall(addRest(string));
+		},
+		//uppercase first letter lower case the rest all
 		ucFirstOnlyAll = $.ucFirstOnlyAll = function(string) {
 			return joinArray(mapArray(splitCall(string, spaceCharacter), function(item) {
 				return ucFirstOnly(item);
 			}), ' ');
-		}, //Returns the camel cased string
-		camelCase = $.camel = function(string) {
-			string = ucFirstAll(stringReplaceCall(stringReplaceCall(string, regexUnderscore, spaceCharacter), regexDash, spaceCharacter));
+		},
+		//Returns the camel cased string
+		camelCase = $.camel = (string) => {
+			string = ucFirstAll(
+				stringReplaceCall(
+					stringReplaceCall(string, regexUnderscore, spaceCharacter),
+					regexDash, spaceCharacter)
+			);
 			return toLowerCaseCall(charAtCall(string, 0)) + stringReplaceCall(substrCall(string, 1), regexSpaceglobal, emptyString);
 		},
-		setStringCase = function setStringCase(string, caseLetter) {
+		setStringCase = (string, caseLetter) => {
 			return stringReplaceCall(stringReplaceCall(toLowerCaseCall(string), regexUnderscore, spaceCharacter), regexSpaceglobal, caseLetter);
-		}, //Returns the kebab cased string
-		kebabCase = $.kebab = function(string) {
+		},
+		//Returns the kebab cased string
+		kebabCase = $.kebab = (string) => {
 			return setStringCase(string, dashString);
-		}, //Returns the snake cased string
-		snakeCase = $.snake = function(string) {
+		},
+		//Returns the snake cased string
+		snakeCase = $.snake = (string) => {
 			return setStringCase(string, dashString);
-		}, //returns the trunced version of the string
-		truncate = $.truncate = function(string, amount) {
+		},
+		//returns the trunced version of the string
+		truncate = $.truncate = (string, amount) => {
 			if (getLength(string) > amount) {
 				string = stringSliceCall(string, 0, amount);
 			}
 			return string;
-		}, //returns the trunced version of the string starting from the right
-		truncateLeft = $.truncateLeft = function(string, amount) {
+		},
+		//returns the trunced version of the string starting from the right
+		truncateLeft = $.truncateLeft = (string, amount) => {
 			var length = getLength(string);
 			if (length > amount) {
 				string = substrCall(string, amount, length);
 			}
 			return string;
-		}, //returns the trunced version of the string
-		truncateWord = $.truncateWord = function(string, amount) {
-			var cut = indexOfObject(string, ' ', amount);
+		},
+		//returns the trunced version of the string
+		truncateWord = $.truncateWord = (string, amount) => {
+			var cut = indexOfCall(string, ' ', amount);
 			if (amount != -1) {
 				string = substringCall(string, 0, amount);
 			}
 			return string;
-		}; //add paramaters to a URL
-	var addParam = $.addParam = function(url, newItem) {
+		};
+
+	//add paramaters to a URL
+	var addParam = $.addParam = (url, newItem) => {
 		if (getLength(url) && has(url, questionMarkString)) {
 			if (arrayLastItem(url) === questionMarkString) {
 				url = url + newItem;
@@ -306,35 +344,40 @@ var lucy = function lucy(global) {
 			url = questionMarkString + newItem;
 		}
 		return url;
-	}; //shared functions
+	};
+
+	//shared functions
 	//Flattens a nested array. Pass level to flatten up to a depth;
-	var flatten = $.flatten = function(array, level) {
+	var flatten = $.flatten = (array, level) => {
 			for (var i = 0; i < (level || 1); i++) {
-				array = array.reduce(function(previousValue, currentValue, index, array) {
-					return concatArray(previousValue, level ? ensureArray(currentValue) : isArray(currentValue) ? flatten(currentValue) : currentValue);
+				array = array.reduce((previousValue, currentValue, index, array) => {
+					return concatArray(previousValue, (level) ?
+						ensureArray(currentValue) : (isArray(currentValue)) ? flatten(currentValue) : currentValue);
 				}, []);
 			}
 			return array;
-		}, //cache for function that removes Falsey values from array or object
-		compact = $.compact = function(array) {
-			return filter(array, function(item) {
+		},
+		//cache for function that removes Falsey values from array or object
+		compact = $.compact = (array) => {
+			return filter(array, (item) => {
 				return isString(item) && !getLength(item) ? undefinedNative : item;
 			});
 		},
-		arraySortToObject = function arraySortToObject(func, array, object) {
+		arraySortToObject = (func, array, object) => {
 			var object = object || {};
-			eachArray(array, function(item, key) {
+			eachArray(array, (item, key) => {
 				func(item, key, object);
 			});
 			return object;
-		}; //Creates an array of elements split into groups the length of size. If collection can't be split evenly, the final chunk will be the remaining elements.
-	var arrayChunk = $.chunk = function(array) {
-		var size = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
-		var index = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
-		return filterArray(newArray(ceilmethod(getLength(array) / size)), function(item, i) {
-			return chunkSlice(array, index, index += size);
+		};
+
+	//Creates an array of elements split into groups the length of size. If collection can't be split evenly, the final chunk will be the remaining elements.
+	var arrayChunk = $.chunk = (array, size = 1, index = 0) => {
+		return filterArray(new arrayNative(ceilMethod(getLength(array) / size)), (item, i) => {
+			return chunkSlice(array, index, (index += size));
 		});
 	};
+
 	/**
 	 * Removes all elements from the array.
 	 *
@@ -350,6 +393,7 @@ var lucy = function lucy(global) {
 		array.length = 0;
 		return array;
 	};
+
 	/**
 	 * Creates a shallow copy of the array.
 	 *
@@ -362,11 +406,13 @@ var lucy = function lucy(global) {
 	 * console.log(b, b === a);
 	 * // -> [1, 2, 3] False
 	 */
-	var cloneArray = $.cloneArray = arraySliceCall; //Sorts a list into groups and returns a count for the number of objects in each group.
+	var cloneArray = $.cloneArray = arraySliceCall;
+
+	//Sorts a list into groups and returns a count for the number of objects in each group.
 	$.countBy = function(array, funct) {
 		var object = {},
 			result;
-		mapObject(array, function(item) {
+		mapObject(array, (item) => {
 			result = funct(item);
 			if (!object[result]) {
 				object[result] = 0;
@@ -375,16 +421,19 @@ var lucy = function lucy(global) {
 		});
 		return object;
 	};
+
 	/*
 
-$.countBy([4.3, 6.1, 6.4],function(numb) {
-  return Math.floor(numb);
-});
+	$.countBy([4.3, 6.1, 6.4],function(numb) {
+	  return Math.floor(numb);
+	});
 
-//{ '4': 1, '6': 2 }
+	//{ '4': 1, '6': 2 }
 
 
-*/ //create an array from a range
+	*/
+
+	//create an array from a range
 	var createRange = $.createRange = function(start, stop, increment) {
 		var array = [];
 		increment = increment || 1;
@@ -393,33 +442,43 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			start = start + increment;
 		}
 		return array;
-	}; //create an array from a range
+	};
+
+	//create an array from a range
 	$.createRangeTo = function(start, stop, increment) {
 		return createRange(start, stop + (increment || 1), increment);
-	}; //Creates an array excluding all values of the provided arrays using SameValueZero for equality comparisons.
+	};
+
+	//Creates an array excluding all values of the provided arrays using SameValueZero for equality comparisons.
 	var arrayDifference = $.difference = function(array, compare) {
-		return filterArray(array, function(item) {
+		return filterArray(array, (item) => {
 			if (!has(item, compare)) {
 				return item;
 			}
 		});
-	}; //Removes elements from array corresponding to the given indexes and returns an array of the removed elements. Indexes may be specified as an array of indexes or as individual arguments.
+	};
+
+	//Removes elements from array corresponding to the given indexes and returns an array of the removed elements. Indexes may be specified as an array of indexes or as individual arguments.
 	var drop = $.drop = function(array, amount, length) {
 		return spliceArray(array, amount, length || getLength(array));
-	}; //Removes elements from array corresponding to the given indexes (from right) and returns an array of the removed elements. Indexes may be specified as an array of indexes or as individual arguments.
+	};
+
+	//Removes elements from array corresponding to the given indexes (from right) and returns an array of the removed elements. Indexes may be specified as an array of indexes or as individual arguments.
 	$.dropRight = function(array, amount) {
 		return drop(array, 0, getLength(array) - amount);
 	};
+
 	/*
-	Each Methods
-	Array
-		each,eachwhileFalse,eachWhile,whileLength,eachRight
-	Object
-		Each
-	Number
-		Each
-*/ //loop through an array of items
-	var safeModeCall = function safeModeCall(safeMode) {
+		Each Methods
+		Array
+			each,eachwhileFalse,eachWhile,whileLength,eachRight
+		Object
+			Each
+		Number
+			Each
+	*/
+	//loop through an array of items
+	var safeModeCall = (safeMode) => {
 			if (safeMode) {
 				if (safeMode.halt) {
 					return False;
@@ -429,7 +488,7 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 				}
 			}
 		},
-		whileGenerator = function whileGenerator(mainFunc, optBool) {
+		whileGenerator = (mainFunc, optBool) => {
 			return function(array, fn, includeLastResult) {
 				return mainFunc(array, function(item, index, array, length, results, safeMode) {
 					if (!safeMode) {
@@ -445,15 +504,15 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 						return result;
 					}
 				}, True);
-			};
+			}
 		},
-		generateMap = function generateMap(method) {
+		generateMap = (method) => {
 			return function(array, fn, safeMode) {
 				var results = [],
 					returned;
 				eachArray(array, function(item, index, array, length, safe) {
 					returned = fn(item, index, array, length, results, safe);
-					hasValue(returned) ? results[index] = returned : False;
+					(hasValue(returned) ? results[index] = returned : False)
 				}, safeMode);
 				return results;
 			};
@@ -463,35 +522,39 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 				returned;
 			eachArray(array, function(item, index, array, length, safe) {
 				returned = fn(item, index, array, length, results, safe);
-				hasValue(returned) ? pushArray(results, returned) : False;
+				(hasValue(returned) ? pushArray(results, returned) : False)
 			}, safeMode);
 			return results;
-		}, //loop while the count is less than the length of the array
-		whileLength = $.mapWhileLength = function(array, fn) { //an array of results will be returned
+		},
+		//loop while the count is less than the length of the array
+		whileLength = $.mapWhileLength = function(array, fn) {
+			//an array of results will be returned
 			var results = [],
 				length = getLength(array),
 				index = 0;
 			while (length) {
-				results[i] = fn(array[index], index, array, length, results);
+				results[index] = fn(array[index], index, array, length, results);
 				length = getLength(array);
 				index++;
 			}
 			return results;
-		}, //loop through based on number
+		},
+		//loop through based on number
 		mapNumber = $.mapNumber = function(start, end, fn) {
 			if (!fn) {
 				var fn = end,
 					end = start,
 					start = 0;
 			}
-			for (var results = [], returned; start < end; start++) { //call function get result
+			for (var results = [], returned; start < end; start++) {
+				//call function get result
 				returned = fn(start, end, results);
-				hasValue(returned) ? pushArray(results, returned) : False;
+				(hasValue(returned) ? pushArray(results, returned) : False)
 			}
 			return results;
 		},
 		eachArrayRight = $.eachArrayRight = function(array, fn, safeMode) {
-			safeMode = safeMode ? {} : safeMode;
+			safeMode = (safeMode) ? {} : safeMode;
 			for (var safeModeResult, length = getLength(array), i = length - 1; i >= 0; i--) {
 				safeModeResult = safeModeCall(safeMode);
 				if (safeModeResult) {
@@ -503,7 +566,7 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			}
 		},
 		eachArray = $.eachArray = function(array, fn, safeMode) {
-			safeMode = safeMode ? {} : safeMode;
+			safeMode = (safeMode) ? {} : safeMode;
 			for (var safeModeResult, length = getLength(array), i = 0; i < length; i++) {
 				safeModeResult = safeModeCall(safeMode);
 				if (safeModeResult) {
@@ -515,12 +578,18 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			}
 		},
 		mapArray = $.mapArray = generateMap(eachArray),
-		mapArrayRight = $.mapArrayRight = generateMap(eachArrayRight), //loop while the returned result is False
-		eachWhileFalse = $.eachWhileFalse = whileGenerator(eachArray, True), //each while the check function is True
-		eachWhile = $.eachWhile = whileGenerator(eachArray, False), //loop while the returned result is False
-		whileFalse = $.mapWhileFalse = whileGenerator(mapArray, True), //loop through array backwards aka from the right while true
-		mapArrayRightWhile = $.mapArrayRightWhile = whileGenerator(mapArrayRight, False), //each while the check function is True
+		mapArrayRight = $.mapArrayRight = generateMap(eachArrayRight),
+		//loop while the returned result is False
+		eachWhileFalse = $.eachWhileFalse = whileGenerator(eachArray, True),
+		//each while the check function is True
+		eachWhile = $.eachWhile = whileGenerator(eachArray, False),
+		//loop while the returned result is False
+		whileFalse = $.mapWhileFalse = whileGenerator(mapArray, True),
+		//loop through array backwards aka from the right while true
+		mapArrayRightWhile = $.mapArrayRightWhile = whileGenerator(mapArrayRight, False),
+		//each while the check function is True
 		mapWhile = $.mapWhile = whileGenerator(mapArray, False);
+
 	/*
 	   Determines if the arrays are equal by doing a shallow comparison of their elements using strict equality.
 	*/
@@ -531,17 +600,19 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 		} else if (array === item) {
 			result = True;
 		} else {
-			eachArray(array, function(item, index, length, safe) {
-				if (array[i] !== item[i]) {
+			eachArray(array, (item, index, length, safe) => {
+				if (array[index] !== item[index]) {
 					safe.halt = true;
 					result = False;
 				}
 			}, true);
 		}
 		return result;
-	}; //Returns the first element of an array. Passing num will return the first n elements of the array.
+	};
+
+	//Returns the first element of an array. Passing num will return the first n elements of the array.
 	var firstItem = $.first = function(array, num) {
-		return num ? sliceArray(array, 0, num) : array[0];
+		return (num) ? arraySliceCall(array, 0, num) : array[0];
 	};
 
 	function returnFlow(method) {
@@ -551,38 +622,47 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			return function wrapped() {
 				var args = toArray(arguments),
 					value = [];
-				method(funcs, function(item) {
+				method(funcs, (item) => {
 					value[0] = apply(item, wrapped, value[0] ? value : args);
 				});
 				return value[0];
 			};
 		};
-	} //Returns the composition of a list of functions, where each function consumes the return value of the function that follows. In math terms, composing the functions f(), g(), and h() produces f(g(h())).
-	$.flow = returnFlow(eachArray), //Returns the composition of a list of functions, where each function consumes the return value of the function that follows. In math terms, composing the functions f(), g(), and h() produces f(g(h())).
-		$.flowRight = returnFlow(eachArrayRight); //Splits a collection into sets, grouped by the result of running each value through iteratee.
+	}
+	//Returns the composition of a list of functions, where each function consumes the return value of the function that follows. In math terms, composing the functions f(), g(), and h() produces f(g(h())).
+	$.flow = returnFlow(eachArray),
+		//Returns the composition of a list of functions, where each function consumes the return value of the function that follows. In math terms, composing the functions f(), g(), and h() produces f(g(h())).
+		$.flowRight = returnFlow(eachArrayRight);
+
+	//Splits a collection into sets, grouped by the result of running each value through iteratee.
 	$.groupBy = function(array, funct) {
-		return arraySortToObject = (function(item, index, object) {
-			var results = funct(item);
+		return arraySortToObject = ((item, index, object) => {
+			let results = funct(item);
 			if (!object[results]) {
 				object[results] = [];
 			}
 			pushArray(object[results], item);
 		}, array);
-	}; //Given a list, and an iteratee function that returns a key for each element in the list (or a property name), returns an object with an index of each item. Just like groupBy, but for when you know your keys are unique.
+	};
+
+	//Given a list, and an iteratee function that returns a key for each element in the list (or a property name), returns an object with an index of each item. Just like groupBy, but for when you know your keys are unique.
 	$.indexBy = function(array, key) {
-		return arraySortToObject = (function(item, key, object) {
+		return arraySortToObject = ((item, key, object) => {
 			object[item[key]] = item;
 		}, array);
 	};
-	var generateArrayRange = function generateArrayRange(method) {
-			return function(array) {
+
+	var generateArrayRange = (method) => {
+			return (array) => {
 				array = cloneArray(array);
 				method(array);
 				return array;
 			};
 		},
 		arrayInitial = $.initial = generateArrayRange(popArray),
-		arrayRest = $.rest = generateArrayRange(shiftArray); //Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
+		arrayRest = $.rest = generateArrayRange(shiftArray);
+
+	//Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
 	/**
 	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
 	 * of the array and the input array(s).
@@ -600,9 +680,9 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 	 */
 	$.intersect = function() {
 		var yes, args = arguments;
-		return filterArray(args[0], function(item) {
+		return filterArray(args[0], (item) => {
 			yes = true;
-			eachArray(args, function(otherItem) {
+			eachArray(args, (otherItem) => {
 				if (!has(otherItem, item)) {
 					yes = false;
 				}
@@ -611,19 +691,26 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 				return item;
 			}
 		});
-	}; //Calls the method named by methodName on each value in the list. Any extra arguments passed to invoke will be forwarded on to the method invocation.
+	};
+
+	//Calls the method named by methodName on each value in the list. Any extra arguments passed to invoke will be forwarded on to the method invocation.
 	$.invoke = function(array, method, args) {
-		return mapArray(array, function(item) {
+		return mapArray(array, (item) => {
 			return apply(item[method], item, args);
 		});
-	}; //get largest number from array
-	$.largest = function(array) {
+	};
+
+	//get largest number from array
+	$.largest = (array) => {
 		return apply(mathNativeMax, mathNative, array);
-	}; //Returns the last element of an array. Passing n will return the last n elements of the array.
+	};
+
+	//Returns the last element of an array. Passing n will return the last n elements of the array.
 	var arrayLastItem = $.last = function(array, indexFrom) {
 		var length = getLength(array);
-		return indexFrom ? sliceArray(array, length - indexFrom, length) : array[length - 1];
+		return (indexFrom) ? arraySliceCall(array, length - indexFrom, length) : array[length - 1];
 	};
+
 	/**
 	 * Sorts an array in place using a numerical comparison algorithm
 	 * (sorts numbers from lowest to highest) and returns the array.
@@ -639,25 +726,32 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 	 */
 	$.numSort = function(array) {
 		return array.sort(numericalCompare);
-	}; //Converts arrays into objects.
+	};
+
+	//Converts arrays into objects.
 	$.object = function(values, keys) {
-		return arraySortToObject(function(item, index, object) {
+		return arraySortToObject((item, index, object) => {
 			object[keys[index]] = item;
 		}, values);
-	}; //Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
-	$.partition = function(array, funct) {
+	};
+
+	//Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
+	$.partition = (array, funct) => {
 		var temp = [];
-		return [filterArray(array, function(item, index) {
+		return [filterArray(array, (item, index) => {
 			return funct(item) ? item : pushArray(temp, item) && undefinedNative;
 		}), temp];
-	}; //Pluck an attribute from each object in an array.
+	};
+
+	//Pluck an attribute from each object in an array.
 	var pluck = $.pluck = function(array, pluckThis) {
-		return mapArray(array, function(item, index) {
-			return isArray(pluckThis) ? arraySortToObject(function(pluckItem, pluckKey, object) {
+		return mapArray(array, (item, index) => {
+			return isArray(pluckThis) ? arraySortToObject((pluckItem, pluckKey, object) => {
 				object[pluckItem] = item[pluckItem];
 			}, pluckThis) : item[pluckThis];
 		});
 	};
+
 	/**
 	 * Sorts an array in place using a reverse numerical comparison algorithm
 	 * (sorts numbers from highest to lowest) and returns the array.
@@ -696,39 +790,48 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 	 * // -> [4]
 	 */
 	$.remove = function(array, args) {
-		var isFN = isFunction(args),
-			args = ensureArray(args);
-		eachArray(array, function(item, index) {
-			if (isFN ? args(item) : has(args, item)) {
+		var isFN = isFunction(args);
+		args = ensureArray(args);
+		eachArray(array, (item, index) => {
+			if ((isFN) ? args(item) : has(args, item)) {
 				spliceArray(array, index, 1);
 			}
 		});
 		return array;
-	}; //start from end array using a as index
+	};
+
+	//start from end array using a as index
 	$.right = function(array, a) {
 		return array[getLength(array) - 1 - a];
-	}; //Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
+	};
+
+	//Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
 	$.sample = function(array, setAmount) {
 		if (setAmount) {
 			var temp = toArray(array);
-			return mapWhile(temp, function(item, index, length) {
+			return mapWhile(temp, (item, index, length) => {
 				return spliceArray(temp, roundMethod(randomMethod() * (length - 1)), 1)[0];
 			});
 		}
-		return array[roundMethod(randomMethod() * getLength(array))];
-	}; //shuffle an array and return a new array
+		return array[roundMethod(randomMethod() * (getLength(array)))];
+	};
+
+	//shuffle an array and return a new array
 	$.shuffle = function(array) {
 		var temp = toArray(array);
-		return whileLength(temp, function() {
+		return whileLength(temp, () => {
 			return spliceArray(temp, randomMethod(randomMethod() * (getLength(temp) - 1)), 1)[0];
 		});
-	}; //get smallest number from array
+	};
+
+	//get smallest number from array
 	$.smallest = function(item) {
 		return apply(mathNative.min, mathNative, item);
-	}; //Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
+	};
+	//Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
 	$.sortedIndex = function(array, n) {
 		var min = 0;
-		eachArray(array, function(item, index) {
+		eachArray(array, (item, index) => {
 			if (n > item) {
 				min = index;
 			}
@@ -738,118 +841,142 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 		}
 		return min;
 	};
+
 	/**
 	 * Adds all values in an array
 	 * @param      {Array}   Array of numbers or numbers as string.
 	 * @param      {Number}   Starting number
 	 * @return     {Number} returns the sum of the array
 	 */
-	var sumOf = $.sumOf = function(array) {
-		var result = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-		each(array, function(item, key) {
-			result = item ? result + (isString(item) ? numberNative(item) : item) : result;
+	var sumOf = $.sumOf = function(array, result = 0) {
+		each(array, (item, key) => {
+			result = (item) ? result + (isString(item) ? numberNative(item) : item) : result;
 		});
 		return result;
-	}; //Creates a slice of array with n elements taken from the beginning.
+	};
+
+	//Creates a slice of array with n elements taken from the beginning.
 	$.take = function(array, amount) {
 		return arraySliceCall(array, 0, amount);
-	}; //Creates a slice of array with n elements taken from the end.
+	};
+
+	//Creates a slice of array with n elements taken from the end.
 	$.takeRight = function(array, amount) {
 		return spliceArray(array, getLength(array) - amount, amount);
-	}; //Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
+	};
+
+	//Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
 	$.union = function() {
 		var result = [];
-		eachArray(arguments, function(array) {
-			eachArray(array, function(item) {
+
+		eachArray(arguments, (array) => {
+			eachArray(array, (item) => {
 				if (has(result, item)) {
 					pushArray(result, item);
 				}
 			});
 		});
+
 		return result;
 	};
-	var chunkSlice = function chunkSlice(array, start, end) {
-			return mapArray(newArray(mathNative.min(end, getLength(array)) - start), function() {
-				return array[start + i];
+
+	var chunkSlice = (array, start, end) => {
+			return mapArray(new arrayNative(mathNative.min(end, getLength(array)) - start), (item, index) => {
+				return array[start + index];
 			});
 		},
-		numericalCompare = function numericalCompare(a, b) {
+		numericalCompare = (a, b) => {
 			return a - b;
 		},
-		numericalCompareReverse = function numericalCompareReverse(a, b) {
+		numericalCompareReverse = (a, b) => {
 			return b - a;
 		},
-		xorBase = function xorBase(a, b) {
-			return mapArray(concatArray(a, b), function(item) {
-				if (!has(b, item) && indexOfCall(result, item) < 0) {
+		xorBase = (a, b) => {
+			return mapArray(concatArray(a, b), (item, index, array) => {
+				if (!has(b, item) && indexOfCall(array, item) < 0) {
 					return item;
 				}
 			});
 		},
-		onlyUnique = function onlyUnique(value, index, self) {
+		onlyUnique = (value, index, self) => {
 			return self.indexOf(value) === index;
 		},
-		uniqueArray = $.uniq = function(array, isSorted) {
-			return isSorted ? mapArray(array, function(item, index) {
+		uniqueArray = $.uniq = (array, isSorted) => {
+			return (isSorted) ? mapArray(array, (item, index) => {
 				if (item !== array[index - 1]) {
 					return item;
 				}
 			}) : array.filter(onlyUnique);
-		}; //Returns a copy of the array with all instances of the values removed.
+		};
+
+	//Returns a copy of the array with all instances of the values removed.
 	$.without = function(array, args) {
-		var isFN = isFunction(args),
-			args = ensureArray(args);
-		return mapArray(array, function(item, index) {
-			if (isFN ? args(item) : has(args, item)) {
+		var isFN = isFunction(args);
+		args = ensureArray(args);
+		return mapArray(array, (item, index) => {
+			if ((isFN) ? args(item) : has(args, item)) {
 				return item;
 			}
 		});
-	}; //Creates an array that is the symmetric difference of the provided arrays. See Wikipedia for more details.
+	};
+
+	//Creates an array that is the symmetric difference of the provided arrays. See Wikipedia for more details.
 	$.xor = function(arrayOG) {
 		var numArgs = getLength(arguments),
 			result;
+
 		if (!numArgs) {
 			return uniqueArray(arrayOG);
 		}
+
 		result = xorBase(arrayOG, arguments[0]);
-		eachArray(arguments, function(item) {
+
+		eachArray(arguments, (item) => {
 			result = xorBase(result, item);
 		});
+
 		return result;
-	}; //Merges together the values of each of the arrays with the values at the corresponding position.
+	};
+
+	//Merges together the values of each of the arrays with the values at the corresponding position.
 	$.zip = function() {
 		var args = arguments;
 		return mapArray(args[0], function(arraySet) {
-			return mapArray(args, function(arraySet) {
-				return shiftArray(arraySet);
-			});
-		});
-	}; //unzip the array of zipped arrays [["fred",30,True],["barney",40,False]]
-	$.unZip = function(array) {
-		return mapArray(array[0], function(item) {
-			return mapArray(array, function(arraySet) {
+			return mapArray(args, (arraySet) => {
 				return shiftArray(arraySet);
 			});
 		});
 	};
-	var assignDeep = $.assignDeep = function(object, otherObject, mergeArrays) {
-		eachObject(otherObject, function(item, key) {
-			isPlainObject(item) && isPlainObject(object[key]) ? assignDeep(object[key], item, mergeArrays) : mergeArrays && isArray(item) && isArray(object[key]) ? pushApply(object[key], item) : object[key] = item;
+	//unzip the array of zipped arrays [["fred",30,True],["barney",40,False]]
+	$.unZip = function(array) {
+		return mapArray(array[0], (item) => {
+			return mapArray(array, (arraySet) => {
+				return shiftArray(arraySet);
+			});
+		});
+	};
+
+
+	var assignDeep = $.assignDeep = (object, otherObject, mergeArrays) => {
+		eachObject(otherObject, (item, key) => {
+			(isPlainObject(item) && isPlainObject(object[key]) ? assignDeep(object[key], item, mergeArrays) : mergeArrays && isArray(item) && isArray(object[key]) ? pushApply(object[key], item) : object[key] = item);
 		});
 		return object;
 	};
+
 	/*
-			This is for object checking is or isnot
-			*/ //checking
-	var objectStringGenerate = function objectStringGenerate(name) {
-			return '[object ' + name + ']';
+				This is for object checking is or isnot
+				*/
+	//checking
+	var objectStringGenerate = function(name) {
+			return `[object ${name}]`;
 		},
-		isSameObjectGenerator = function isSameObjectGenerator(type) {
-			return function(obj) {
-				return hasValue(obj) ? toString.call(obj) === type : False;
-			};
+		isSameObjectGenerator = (type) => {
+			return (obj) => {
+				return (hasValue(obj)) ? toStringCall(obj) === type : False;
+			}
 		},
-		isDecimal = $.isDecimal = function() {
+		isDecimal = $.isDecimal = function(string) {
 			return stringMatchCall(toStringCall(string), decimalCheck);
 		},
 		hasValue = $.hasValue = function(item) {
@@ -865,7 +992,7 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			var args = toArray(arguments),
 				result = true,
 				method = shiftArray(args);
-			eachArray(args, function(item, index, array, length, safe) {
+			eachArray(args, (item, index, array, length, safe) => {
 				result = method(item);
 				if (!result) {
 					safe.halt = True;
@@ -874,42 +1001,42 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			return result;
 		},
 		isArray = $.isArray = arrayNative.isArray,
-		isConstructor = $.isConstructor = function(constructor) {
-			return function(obj) {
-				return hasValue(obj) ? obj.constructor === constructor : False;
+		isConstructor = $.isConstructor = (constructor) => {
+			return (obj) => {
+				return (hasValue(obj)) ? obj.constructor === constructor : False;
 			};
 		},
 		isString = $.isString = isConstructor(stringNative),
 		isNumber = $.isNumber = isConstructor(numberNative),
 		isPlainObject = $.isPlainObject = function(obj) {
-			return hasValue(obj) ? stringSliceCall(toStringCall(obj.constructor).trim(), 9, 16) === 'Object(' : False;
+			return (hasValue(obj)) ? stringSliceCall(toStringCall(obj.constructor).trim(), 9, 16) === 'Object(' : False;
 		},
 		isFunction = $.isFunction = function(obj) {
-			return hasValue(obj) ? obj instanceof functionNative : False;
+			return (hasValue(obj)) ? obj instanceof functionNative : False;
 		},
-		has = $.has = function(string, search) {
-			return isArray(search) ? apply(string.includes, string, search) : string.includes(search);
+		has = $.has = (string, search) => {
+			return (isArray(search)) ? apply(string.includes, string, search) : string.includes(search);
 		},
 		isLength = $.isLength = function(obj) {
 			return !getLength(obj);
 		},
 		isEmpty = $.isEmpty = function(obj) {
 			if (isString(obj) || isArray(obj)) {
-				return isLength(obj);
+				return isLength(obj)
 			} else if (isPlainObject(obj)) {
 				return !objectSize(obj);
 			}
 			return !hasValue(obj);
 		},
-		regexGenerator = function regexGenerator(regexType) {
-			return function(item) {
-				return hasValue(item) ? regexType.test(item) : False;
+		regexGenerator = (regexType) => {
+			return (item) => {
+				return (hasValue(item)) ? regexType.test(item) : False;
 			};
 		},
 		isFileCSS = $.isFileCSS = regexGenerator(isCSSRegex),
 		isFileJSON = $.isFileJSON = regexGenerator(isJSONRegex),
 		isFileJS = $.isFileJS = regexGenerator(isJSRegex),
-		extension = $.extension = function(string) {
+		extension = $.extension = (string) => {
 			return stringMatchCall(string, /\.([0-9a-z]+)/);
 		},
 		hasDot = $.hasDot = regexGenerator(hasDotRegex),
@@ -922,23 +1049,26 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 		getModelName = $.getModelName = function(string) {
 			return find(arrayLastItem(splitCall(string, slashString)).replace(/\.js$/, ''), modelMethod);
 		};
-	$.compactKeys = function(object) {
+
+	$.compactKeys = (object) => {
 		var keys = [];
-		each(object, function(item, key) {
+		each(object, (item, key) => {
 			if (item) {
 				pushArray(keys, key);
 			}
 		});
 		return keys;
-	}; //loop through an object
-	var mapObject = $.mapObject = function(object, fn) {
+	};
+
+	//loop through an object
+	var mapObject = $.mapObject = (object, fn) => {
 			var results = {};
 			eachObject(object, function(item, key) {
 				results[key] = apply(fn, arguments);
 			});
 			return results;
 		},
-		filterObject = $.filterObject = function(object, fn) {
+		filterObject = $.filterObject = (object, fn) => {
 			var results = {},
 				result;
 			eachObject(object, function(item, key) {
@@ -949,97 +1079,118 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			});
 			return results;
 		},
-		eachObject = $.eachObject = function(object, fn) {
-			eachArray(objectKeys(object), function(key, index, array, len) {
+		eachObject = $.eachObject = (object, fn) => {
+			eachArray(objectKeys(object), (key, index, array, len) => {
 				fn(object[key], key, object, len);
 			});
 		},
-		forEach = $.forEach = function(array, funct, optional) {
+		forEach = $.forEach = (array, funct, optional) => {
 			array.forEach(funct, optional);
-			return results;
+			return array;
 		},
-		mapProperty = $.mapProperty = function(array, funct) {
+		mapProperty = $.mapProperty = (array, funct) => {
 			var object = {};
-			eachArray(getOwnPropertyNames(array), function(item, key, length) {
+			eachArray(getOwnPropertyNames(array), (item, key, length) => {
 				object[item] = funct(array[item], item, array, length, object);
 			});
 			return object;
 		},
-		forIn = $.forIn = function(object, fn) {
+		forIn = $.forIn = (object, fn) => {
 			var results = {};
 			for (var key in object) {
 				results[key] = fn(object[key], key, object, results);
 			}
 			return results;
 		};
+
 	/*
-	Returns a copy of the object where the keys have become the values and the values the keys. For this to work, all of your object's values should be unique and string serializable.
-*/
-	var invert = $.invert = function(thisObject, object) {
+		Returns a copy of the object where the keys have become the values and the values the keys. For this to work, all of your object's values should be unique and string serializable.
+	*/
+	var invert = $.invert = (thisObject, object) => {
 		object = object || {};
-		eachObject(originalObject, function(item, key) {
+		eachObject(thisObject, (item, key) => {
 			object[item] = key;
 		});
 		return object;
 	};
+
+	$.isPropsEqual = function(object, compareTo, props) {
+		var result;
+		eachWhile(props, (item) => {
+			result = object[item] === compareTo[item];
+			return result;
+		});
+		return result;
+	};
+
 	/*
-	Return a copy of the object, filtered to omit the blacklisted keys (or array of keys). Alternatively accepts a predicate indicating which keys to omit.
-*/
-	var omit = $.omit = function(originalObject, array) {
-		return filterObject(originalObject, function(item, key) {
+		Return a copy of the object, filtered to omit the blacklisted keys (or array of keys). Alternatively accepts a predicate indicating which keys to omit.
+	*/
+	var omit = $.omit = (originalObject, array) => {
+		return filterObject(originalObject, (item, key) => {
 			if (!has(array, key)) {
 				return item;
 			}
 		});
 	};
+
 	/*
-	pick specific properties, listed in an array, from an object and a new object is returned with those specfic properties.
-*/
-	var pick = $.pick = function(array, originalObject, newObject) {
-		return arraySortToObject(function(item, key, object) {
+		pick specific properties, listed in an array, from an object and a new object is returned with those specfic properties.
+	*/
+	var pick = $.pick = (array, originalObject, newObject) => {
+		return arraySortToObject((item, key, object) => {
 			object[item] = originalObject[item];
 		}, array, newObject);
 	};
+
 	/*
-	Return the number of values in the list.
-*/
-	var objectSize = $.size = function(object) {
+		Return the number of values in the list.
+	*/
+	var objectSize = $.size = (object) => {
 		return getLength(objectKeys(object));
-	}; //copy an object ES6 + ES5
+	};
+
+	//copy an object ES6 + ES5
 	$.stringify = stringify;
+
 	$.zipObject = function(keys, values, object) {
-		return arraySortToObject(function(item, index, object) {
+		return arraySortToObject((item, index, object) => {
 			object[item] = values[index];
 		}, keys, object);
 	};
 	$.unZipObject = function(object) {
 		var keys = [],
 			values = [];
-		eachObject(object, function(item, key) {
+		eachObject(object, (item, key) => {
 			pushArray(keys, key);
 			pushArray(values, item);
 		});
 		return [keys, values];
-	}; //Creates a function that accepts up to n arguments ignoring any additional arguments. The 2nd argument will be binded if none the initial new function will be.
+	};
+
+
+	//Creates a function that accepts up to n arguments ignoring any additional arguments. The 2nd argument will be binded if none the initial new function will be.
 	$.ary = function(funct, amount, bind) {
 		return function() {
 			return apply(funct, bind || funct, toArray(arguments).splice(0, amount));
 		};
 	};
+
 	/*
-	Replace mode will overwrite the original plainObject or Array
-*/
-	var bindAll = $.bindAll = function(bindThese, withThis, replaceMode) {
-		return replaceMode ? (each(bindThese, function(item, key) {
+		Replace mode will overwrite the original plainObject or Array
+	*/
+	var bindAll = $.bindAll = (bindThese, withThis, replaceMode) => {
+		return replaceMode ? (each(bindThese, (item, key) => {
 			if (isFunction(item)) {
 				bindThese[key] = bindTo(item, withThis);
 			}
-		}), bindThese) : map(bindThese, function(item) {
+		}), bindThese) : map(bindThese, (item) => {
 			return isFunction(item) ? bindTo(item, withThis) : item;
 		});
 	};
-	var addChain = function addChain(chain, addToChain) {
-		each(addToChain, function(item, key) {
+
+	let addChain = (chain, addToChain) => {
+		each(addToChain, (item, key) => {
 			chain.methods[key] = function() {
 				var args = toArray(arguments);
 				unShiftArray(args, chain.value);
@@ -1050,16 +1201,16 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 		return chain;
 	};
 	$.chain = function(methods) {
-		var chain = function chain(value) {
+		var chain = (value) => {
 			chain.value = value;
 			return chain.methods;
 		};
 		objectAssign(chain, {
 			methods: {},
-			add: function add(addToChain) {
+			add: (addToChain) => {
 				return addChain(chain, addToChain);
 			},
-			done: function done() {
+			done: () => {
 				var value = chain.value;
 				chain.value = null;
 				return value;
@@ -1068,72 +1219,80 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 		chain.add(methods);
 		return chain;
 	};
+
 	$.curry = function(funts) {
 		var argsLength = getLength(funts),
 			args = [],
-			curry = function curry() {
-				eachArray(arguments, function(item) {
+			curry = function() {
+				eachArray(arguments, (item) => {
 					pushArray(args, item);
 				});
 				return curry;
 			};
-		curry.result = function() {
+		curry.result = () => {
 			var results = apply(funts, curry, args);
 			args = [];
 			return results;
 		};
 		return curry;
 	};
+
 	/*
 
-	var curried=function(a,b,c){
-		return [a,b,c];
-	}.curry();
+		var curried=function(a,b,c){
+			return [a,b,c];
+		}.curry();
 
-	curried(1)(2)(3);
-	// → [1, 2, 3]
+		curried(1)(2)(3);
+		// → [1, 2, 3]
 
-	curried(1, 2)(3);
-	// → [1, 2, 3]
+		curried(1, 2)(3);
+		// → [1, 2, 3]
 
-	curried(1, 2, 3);
-	// → [1, 2, 3]
+		curried(1, 2, 3);
+		// → [1, 2, 3]
 
-*/
+	*/
+
 	$.curryRight = function(funts) {
 		var argsLength = getLength(funts),
 			args = [],
-			curry = function curry() {
-				eachArray(arguments, function(item) {
+			curry = function() {
+				eachArray(arguments, (item) => {
 					unShiftArray(args, item);
 				});
 				return curry;
 			};
-		curry.result = function() {
+		curry.result = () => {
 			var results = apply(funts, curry, args);
 			args = [];
 			return results;
 		};
 		return curry;
 	};
+
 	/*
 
-	curried(1)(2)(3);
-	// → [1, 2, 3]
+		curried(1)(2)(3);
+		// → [1, 2, 3]
 
-	curried(1, 2)(3);
-	// → [1, 2, 3]
+		curried(1, 2)(3);
+		// → [1, 2, 3]
 
-	curried(1, 2, 3);
-	// → [1, 2, 3]
+		curried(1, 2, 3);
+		// → [1, 2, 3]
 
-*/ //Creates a function that negates the result of the predicate func. The func predicate is invoked with the this binding and arguments of the created function.
-	$.negate = function(func) {
+	*/
+
+	//Creates a function that negates the result of the predicate func. The func predicate is invoked with the this binding and arguments of the created function.
+	$.negate = (func) => {
 		return function() {
 			return apply(func, func, toArray(arguments)) ? False : True;
 		};
-	}; //Creates a function that is restricted to execute func once. Repeat calls to the function will return the value of the first call. The func is executed with the this binding of the created function.
-	$.once = function(fn) {
+	};
+
+	//Creates a function that is restricted to execute func once. Repeat calls to the function will return the value of the first call. The func is executed with the this binding of the created function.
+	$.once = (fn) => {
 		var value;
 		return function named() {
 			if (!value) {
@@ -1141,63 +1300,84 @@ $.countBy([4.3, 6.1, 6.4],function(numb) {
 			}
 			return value;
 		};
-	}; //Creates a function that executes func, with the this binding and arguments of the created function, only after being called n times.
-	var afterFn = $.after = function(amount, fn) {
+	};
+
+	//Creates a function that executes func, with the this binding and arguments of the created function, only after being called n times.
+	var afterFn = $.after = (amount, fn) => {
 		return function named() {
 			if (--amount < 0) {
 				return apply(fn, named, arguments);
 			}
 		};
-	}; //Creates a function that executes func, with the this binding and arguments of the created function, only before being called n times.
-	var beforeFn = $.before = function(amount, fn) {
+	};
+
+	//Creates a function that executes func, with the this binding and arguments of the created function, only before being called n times.
+	var beforeFn = $.before = (amount, fn) => {
 		return function named() {
 			if (--amount > 0) {
 				return apply(fn, named, arguments);
 			}
 		};
-	}; //Creates a function that executes func, with the this binding and arguments of the created function, only after or equal to being called n times.
-	$.onAfter = function(amount, fn) {
+	};
+
+	//Creates a function that executes func, with the this binding and arguments of the created function, only after or equal to being called n times.
+	$.onAfter = (amount, fn) => {
 		return afterFn(amount - 1, fn);
-	}; //Creates a function that executes func, with the this binding and arguments of the created function, only before or equal to being called n times.
-	$.onBefore = function(amount, fn) {
+	};
+
+	//Creates a function that executes func, with the this binding and arguments of the created function, only before or equal to being called n times.
+	$.onBefore = (amount, fn) => {
 		return beforeFn(amount + 1, fn);
-	}; //Creates a function that invokes func with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
-	$.reArg = function(funct, list) {
-		return function() {
-			return apply(funct, eachArray(arguments, function(item, index) {
-				pushArray(args, order[list[index]]);
+	};
+
+	//Creates a function that invokes func with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
+	$.reArg = (funct, list) => {
+		return function named() {
+			var args = arguments;
+			return apply(funct, named, mapArray(list, function(item, index) {
+				return args[item];
 			}));
 		};
 	};
+
 	/*
 
-var rearg=(function(a, b, c) {
-  return [a, b, c];
-},[1,2,0]);
+	var rearg=(function(a, b, c) {
+	  return [a, b, c];
+	},[1,2,0]);
 
-rearg(1,2,3);
--> [2, 3, 1]
+	rearg(1,2,3);
+	-> [2, 3, 1]
 
 
-*/ //Launch functions in sync
+	*/
+
+	//Launch functions in sync
 	$.inSync = function(functions) {
-		return mapArray(functions, function(functionObject) {
+		return mapArray(functions, (functionObject) => {
 			return functionObject();
 		});
 	};
+
 	/*
-	This is for async promises & timer functions
-*/ //haspromises
-	var promiseAsync = Promise.resolve(), //async function call
-		asyncMethod = promiseAsync.then.bind(promiseAsync), //timeing
+		This is for async promises & timer functions
+	*/
+	//haspromises
+	var promiseAsync = Promise.resolve(),
+		//async function call
+		asyncMethod = promiseAsync.then.bind(promiseAsync),
+		//timeing
 		clearTimer = clearTimeout,
 		timerMethod = $.timer = function(fn, time) {
 			return setTimeout(fn, time);
 		},
 		intervalMethod = $.interval = function(fn, time) {
 			return setInterval(fn, time);
-		}; //debounce function
-	$.debounce = function(original, time) {
+		};
+
+
+	//debounce function
+	$.debounce = (original, time) => {
 		var timeout = False;
 
 		function fn() {
@@ -1210,6 +1390,7 @@ rearg(1,2,3);
 				timeout = False;
 			}, time);
 		}
+
 		fn.clear = function() {
 			if (timeout) {
 				clearTimeout(timeout);
@@ -1217,7 +1398,9 @@ rearg(1,2,3);
 			}
 		};
 		return fn;
-	}; //throttle function
+	};
+
+	//throttle function
 	$.throttle = function(func, time) {
 		var timeout = False,
 			shouldThrottle;
@@ -1236,7 +1419,7 @@ rearg(1,2,3);
 				timeout = False;
 			}, time);
 		}
-		fn.clear = function() {
+		fn.clear = () => {
 			clearTimer(timeout);
 			timeout = False;
 		};
@@ -1244,97 +1427,123 @@ rearg(1,2,3);
 	};
 
 	function generateClear(method, clearMethod) {
-		return function() {
-			mapNumber(0, method(function() {}, 1000), function(index) {
+		return () => {
+			mapNumber(0, method(() => {}, 1000), (index) => {
 				clearMethod(index);
 			});
 		};
 	}
+
 	$.clearTimers = generateClear(timerMethod, clearTimer);
 	$.clearIntervals = generateClear(intervalMethod, clearInterval);
+
+
 	$.inAsync = function(fns) {
 		eachArray(ensureArray(fns), asyncMethod);
 	};
-	var returnWraped = function returnWraped(method, flipTrue) {
+
+	var returnWraped = (method, flipTrue) => {
 		return function() {
 			var functs = [];
 
 			function wrapped() {
 				var args = toArray(arguments);
-				return mapArray(functs, function(item) {
+				return mapArray(functs, (item) => {
 					return apply(item, wrapped, args);
 				});
 			}
 			objectAssign(wrapped, {
 				list: functs,
-				add: function add() {
+				add: function() {
 					var args = flatten(toArray(arguments));
-					method(functs, flipTrue ? args.reverse() : args);
-				}
+					method(functs, (flipTrue) ? args.reverse() : args);
+				},
 			});
 			wrapped.add(toArray(arguments));
 			return wrapped;
 		};
 	};
 	var wrapCall = $.wrap = returnWraped(pushApply),
-		wrapBefore = $.wrapBefore = returnWraped(unShiftApply, true); //is number zero
+		wrapBefore = $.wrapBefore = returnWraped(unShiftApply, true);
+
+	//is number zero
 	$.isZero = function(item) {
 		return item === 0;
-	}; //is strict equal to
+	};
+	//is strict equal to
 	$.isNumberEqual = function(item, num) {
 		return item === num;
-	}; //is In range of two numbers
+	};
+	//is In range of two numbers
 	$.isNumberInRange = function(num, start, end) {
 		if (isUndefined(end)) {
-			var end = start,
-				start = 0;
+			end = start;
+			start = 0;
 		}
 		return num > start && num < end;
-	}; //cache math functions
+	};
+
+	//cache math functions
 	var floorMethod = mathNative.floor,
 		randomMethod = mathNative.random,
 		mathNativeMax = mathNative.max,
 		ceilMethod = mathNative.ceil,
 		roundMethod = mathNative.round;
-	$.math = mathNative; //add this and value
+
+	$.math = mathNative;
+
+	//add this and value
 	$.add = function(number, value) {
 		return number + value;
-	}; //minus this and value
+	};
+	//minus this and value
 	$.minus = function(number, value) {
 		return number - value;
-	}; //divide this and value
+	};
+	//divide this and value
 	$.divide = function(number, value) {
 		return number / value;
-	}; //multiply this and value
+	};
+	//multiply this and value
 	$.multiply = function(number, value) {
 		return number * value;
-	}; //The modulo function is the integer remainder of dividing this by value
+	};
+	//The modulo function is the integer remainder of dividing this by value
 	$.remainder = function(number, value) {
 		return number % value;
-	}; //add 1
+	};
+	//add 1
 	$.increment = function(number) {
 		return number + 1;
-	}; //minus 1
+	};
+	//minus 1
 	$.deduct = function(number) {
 		return number - 1;
-	}; //Returns a random number between min (inclusive) and max (exclusive)
+	};
+	//Returns a random number between min (inclusive) and max (exclusive)
 	$.randomArbitrary = function(number, min) {
 		min = min || 0;
 		return randomMethod() * (number - min) + min;
-	}; // Returns a random integer between min (included) and max (excluded)
+	};
+	// Returns a random integer between min (included) and max (excluded)
 	var randomInt = $.randomInt = function(number, min) {
 		min = min || 0;
 		return floorMethod(randomMethod() * (number - min)) + min;
 	};
+
 	var appState = $.appState = {};
-	var cacheMethod = $.cache = function(key, value) {
-		return !key ? cacheMethod : hasValue(value) ? cacheMethod[key] = value : cacheMethod[key];
-	}; //toggle a cache item with two values
-	$.cacheToggle = function(key, a, b) {
-		cacheMethod[key] === a ? cacheMethod[key] = b : cacheMethod[key] = a;
+
+	var cacheMethod = $.cache = (key, value) => {
+		return (!key) ? cacheMethod : (hasValue(value)) ? cacheMethod[key] = value : cacheMethod[key];
 	};
-	var generateCheckLoops = function generateCheckLoops(first, second) {
-			return function(object, funct, optional, rawProp) {
+
+	//toggle a cache item with two values
+	$.cacheToggle = (key, a, b) => {
+		((cacheMethod[key] === a) ? cacheMethod[key] = b : cacheMethod[key] = a);
+	};
+
+	var generateCheckLoops = (first, second) => {
+			return (object, funct, optional, rawProp) => {
 				var returned;
 				if (!hasValue(object)) {
 					return;
@@ -1360,34 +1569,40 @@ rearg(1,2,3);
 		map = $.map = generateCheckLoops(mapArray, mapObject),
 		each = $.each = generateCheckLoops(eachArray, eachObject),
 		filter = $.filter = generateCheckLoops(filterArray, filterObject);
+
 	/*
 
-	Navigate down an object's chain via a string.
+		Navigate down an object's chain via a string.
 
-*/
-	var find = $.get = function(name, obj) {
+	*/
+	var find = $.get = (name, obj) => {
 		obj = obj || $;
-		eachWhile(splitCall(arrayLastItem(splitCall(name, slashString)), dotString), function(item, index) {
+		eachWhile(splitCall(arrayLastItem(splitCall(name, slashString)), dotString), (item, index) => {
 			obj = obj[item];
 			return hasValue(obj) ? True : False;
 		});
 		return obj;
-	}; //for inline JS object notion.
-	var inlineJson = $.iJson = function(str) {
+	};
+
+	//for inline JS object notion.
+	var inlineJson = $.iJson = (str) => {
 		try {
-			return new functionNative('"use strict";return ' + str + ';')();
+			return new functionNative(`"use strict";return ${str};`)();
 		} catch (e) {
 			return False;
 		}
-	}; //convert from json string to json object cache it to use across lib
-	var jsonWithCatch = $.jsonParse = function(str) {
+	};
+
+	//convert from json string to json object cache it to use across lib
+	var jsonWithCatch = $.jsonParse = (str) => {
 		try {
 			return jsonParse(str);
 		} catch (e) {
 			return False;
 		}
 	};
-	var modelMethod = $.model = function(modelName, object) {
+
+	var modelMethod = $.model = (modelName, object) => {
 			if (hasValue(object)) {
 				modelMethod[modelName] = assignDeep(isFunction(object) ? bindTo(object, object) : bindAll(object, object, true), {
 					_: {
@@ -1397,14 +1612,14 @@ rearg(1,2,3);
 			}
 			return find(modelName, modelMethod);
 		},
-		buildArgumentsMethod = function buildArgumentsMethod(item) {
+		buildArgumentsMethod = (item) => {
 			return isString(item) ? find(item, $) || find(item, modelMethod) : item;
 		},
-		requireMethod = hasImport ? importScripts : require,
-		buildArgumentsRequireMethod = function buildArgumentsRequireMethod(item) {
+		requireMethod = (hasImport) ? importScripts : require,
+		buildArgumentsRequireMethod = (item) => {
 			return requireMethod(item);
 		},
-		define = $.define = function(data, otherData) {
+		define = $.define = (data, otherData) => {
 			if (otherData) {
 				if (isFunction(otherData)) {
 					otherData = {
@@ -1416,7 +1631,7 @@ rearg(1,2,3);
 			}
 			var modelName = data.name,
 				wrapFunct = bindTo(function() {
-					var freshArgs = data['import'] ? mapArray(data['import'], buildArgumentsMethod) : [],
+					var freshArgs = (data.import) ? mapArray(data.import, buildArgumentsMethod) : [],
 						argsRequire = data.require;
 					if (argsRequire) {
 						pushApply(freshArgs, mapArray(isString(argsRequire) ? splitCall(argsRequire, ',') : argsRequire, buildArgumentsRequireMethod));
@@ -1429,13 +1644,17 @@ rearg(1,2,3);
 			if (modelName) {
 				modelMethod[modelName] = wrapFunct;
 			}
+
 			return wrapFunct;
 		};
-	var promise = $.promise = function(callback) {
+
+	var promise = $.promise = (callback) => {
 		return new Promise(callback);
-	}; //make a promise
+	};
+
+	//make a promise
 	var contracts = $.contracts = {},
-		contract = $.contract = function(arry, name, callback) {
+		contract = $.contract = (arry, name, callback) => {
 			if (!callback && !isArray(arry)) {
 				contracts[name][arry] = 1;
 				contracts[name]();
@@ -1444,11 +1663,12 @@ rearg(1,2,3);
 			var arrayLength = getLength(arry);
 			var fn = contracts[name] = function() {
 				var go = 0;
-				eachArray(arry, function(item) {
+				eachArray(arry, (item) => {
 					if (fn[item] === 1) {
 						go = go + 1;
 					}
-				}); //if amount of promises made were same as needed then launch callback
+				});
+				//if amount of promises made were same as needed then launch callback
 				if (go === arrayLength) {
 					asyncMethod(callback);
 					contracts[name] = null;
@@ -1457,15 +1677,18 @@ rearg(1,2,3);
 				return False;
 			};
 		};
+
 	$.toggle = function(value, a, b) {
-		return value === a ? b : a;
+		return (value === a) ? b : a;
 	};
+
 	/*
-	Object checking methods
-*/
+		Object checking methods
+	*/
 	eachArray(['RegExp', 'Arguments', 'Boolean', 'Date', 'Error', 'Map', 'Object', 'Set', 'WeakMap', 'ArrayBuffer', 'Float32Array', 'Float64Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array'], function(item) {
-		$['is' + item] = isSameObjectGenerator(objectStringGenerate(item));
+		$[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
 	});
+
 	return $;
 };
 (function() {

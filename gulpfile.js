@@ -2,10 +2,8 @@
     'use strict';
     var gulp = require('gulp'),
         beautify = require('gulp-beautify'),
-        uglify = require('gulp-uglify'),
         notify = require('gulp-notify'),
         concat = require('gulp-concat'),
-        gulpif = require('gulp-if'),
         babel = require('gulp-babel'),
         //file locations in order
         locations = [
@@ -41,34 +39,11 @@
             'build/end/end.js'
         ],
         locations_length = locations.length,
-		uglifyCondig = {
-			sequences: true,
-			properties: true,
-			dead_code: true,
-			drop_debugger: true,
-			comparisons: true,
-			conditionals: true,
-			evaluate: true,
-			booleans: true,
-			loops: true,
-			unused: true,
-			hoist_funs: true,
-			if_return: true,
-			join_vars: true,
-			cascade: true,
-			screw_ie8 : true
-		},
         //compile the acid library
         compile_acid = () => {
             gulp.src(locations)
                 //compile source
                 .pipe(concat('lucy.js'))
-                .pipe(babel({
-					blacklist: ["strict"],
-                    compact: true
-                })).pipe(notify(() => {
-                    return 'Lucy Babeled';
-                }))
 				.pipe(beautify({
 					indent_size: 1,
 					indent_with_tabs: true
@@ -76,9 +51,19 @@
                 //make it fabulous
                 .pipe(gulp.dest('compiled')).pipe(notify(function() {
                     return 'lucy Beautified Saved';
-                })).pipe(concat('lucy_min.js')).pipe(uglify(uglifyCondig)).pipe(notify(() => {
-                    return 'Lucy Uglified';
-                })).pipe(gulp.dest('compiled')).pipe(notify(() => {
+                })).pipe(concat('lucyMin.js')).pipe(babel({
+					"plugins": [
+						["transform-strict-mode", {
+							"strict": false
+						}]
+					],
+					"presets": ["babili"],
+					comments: false,
+					highlightCode:false,
+					ast:false,
+					compact: true,
+					minified:true
+				})).pipe(gulp.dest('compiled')).pipe(notify(() => {
                     return 'Lucy Minified Saved';
                 }));
 
