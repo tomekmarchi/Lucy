@@ -34,6 +34,8 @@
 
             'build/modules/native/*.js',
 
+			'build/modules/utils/*.js',
+
             'build/end/documentReady.js',
 
             'build/end/end.js'
@@ -63,7 +65,11 @@
 					ast:false,
 					compact: true,
 					minified:true
-				})).pipe(gulp.dest('compiled')).pipe(notify(() => {
+				}))
+				.pipe(gulp.dest('compiled'))
+				.pipe(concat('index.js'))
+				.pipe(gulp.dest('npm'))
+				.pipe(notify(() => {
                     return 'Lucy Minified Saved';
                 }));
 
