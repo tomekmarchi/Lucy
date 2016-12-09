@@ -1,2 +1,2 @@
-var lucy=function (global) {
+var lucy=function () {
 	"use strict";

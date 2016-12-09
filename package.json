@@ -1,6 +1,6 @@
 {
 	"name": "Lucy",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "Utility library for Node, WebWorkers & ServiceWorkers.",
     "keywords": [
         "acid",
