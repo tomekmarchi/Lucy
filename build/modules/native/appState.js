@@ -1,1 +1,0 @@
-var appState = $.appState = {};

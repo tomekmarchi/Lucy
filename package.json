@@ -1,25 +1,41 @@
 {
-	"name": "Lucy",
-	"version": "1.0.8",
-	"description": "Utility library for Node, WebWorkers & ServiceWorkers.",
-    "keywords": [
-        "acid",
-        "utility",
-        "library"
-    ],
-	"license": "MIT",
-    "main": "index.js",
-    "maintainers": [{
-        "email": "tomekmarchi@gmail.com",
-        "name": "Tomek Marchi"
-    }],
-    "devDependencies": {
-        "babel-preset-babili": "0.0.2",
-        "babel-preset-es2015": "^6.14.0",
-        "gulp": "^3.9.1",
-        "gulp-babel": "^6.1.2",
-        "gulp-beautify": "^2.0.0",
-        "gulp-concat": "^2.6.0",
-        "gulp-notify": "^2.2.0"
+  "name": "Lucy",
+  "version": "2.0.0",
+  "description": "Utility library for Node, WebWorkers & ServiceWorkers.",
+  "keywords": [
+    "Lucy",
+    "acid",
+    "utility",
+    "cwa"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "tomekmarchi@gmail.com",
+      "name": "Tomek Marchi"
     }
+  ],
+  "devDependencies": {
+    "Lucy": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-plugin-minify-empty-function": "*",
+    "babel-preset-babili": "*",
+    "babel-preset-es2015": "*",
+    "body-parser": "*",
+    "connect-livereload": "*",
+    "esdoc": "*",
+    "eslint": "*",
+    "express": "*",
+    "gulp": "*",
+    "gulp-babel": "*",
+    "gulp-beautify": "*",
+    "gulp-concat": "*",
+    "gulp-esdoc": "*",
+    "gulp-gzip": "*",
+    "gulp-notify": "*",
+    "rollup": "*",
+    "tiny-lr": "*"
+  }
 }
