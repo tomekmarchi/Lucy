@@ -1211,29 +1211,29 @@
     return mappedObject;
   };
   assign(acid$1, {
-    mapObject,
-    filterObject,
     eachObject,
-    mapProperty,
+    filterObject,
     forIn,
+    mapObject,
+    mapProperty,
   });
 
   const forEachWrap = (object, funct) => {
     return object.forEach(funct);
   };
-  const generateCheckLoops = (first, second) => {
+  const generateCheckLoops = (arrayLoop, objectLoop) => {
     return (object, funct) => {
       let returned;
       if (!hasValue(object)) {
         return;
       } else if (isArray(object)) {
-        returned = first;
+        returned = arrayLoop;
       } else if (isPlainObject(object) || isFunction(object)) {
-        returned = second;
+        returned = objectLoop;
       } else if (object.forEach) {
         returned = forEachWrap;
       } else {
-        returned = second;
+        returned = objectLoop;
       }
       return returned(object, funct);
     };
@@ -1242,9 +1242,9 @@
   const each = generateCheckLoops(eachArray, eachObject);
   const filter = generateCheckLoops(filterArray, filterObject);
   assign(acid$1, {
-    map,
     each,
-    filter
+    filter,
+    map
   });
 
   const bindAll = (bindThese, withThis) => {
@@ -1817,7 +1817,7 @@
   const regexCloseBracket = /]/g;
   const emptyString = '';
   const toPath = (string) => {
-    return string.replace(regexCloseBracket, emptyString).split(regexToPath);
+    return (string || emptyString).replace(regexCloseBracket, emptyString).split(regexToPath);
   };
   assign(acid$1, {
     toPath,

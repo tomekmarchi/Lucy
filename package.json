@@ -3,19 +3,28 @@
   "version": "2.0.0",
   "description": "Utility library for Node, WebWorkers & ServiceWorkers.",
   "keywords": [
-    "Lucy",
-    "acid",
+    "Acid",
     "utility",
-    "cwa"
+    "Lucy",
+    "cwa",
+    "LSD",
+    "self constructing"
   ],
   "license": "MIT",
   "main": "index.js",
-  "maintainers": [
+  "maintainers": [{
+      "email": "tommarchi@protonmail.com",
+      "name": "Tom Marchi"
+    },
     {
-      "email": "tomekmarchi@gmail.com",
-      "name": "Tomek Marchi"
+      "email": "erickdelgado@protonmail.com",
+      "name": "Erick Delgado"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomekmarchi/Lucy.git"
+  },
   "devDependencies": {
     "Lucy": "*",
     "babel-core": "*",
@@ -25,17 +34,16 @@
     "babel-preset-es2015": "*",
     "body-parser": "*",
     "connect-livereload": "*",
-    "esdoc": "*",
     "eslint": "*",
     "express": "*",
     "gulp": "*",
     "gulp-babel": "*",
     "gulp-beautify": "*",
     "gulp-concat": "*",
-    "gulp-esdoc": "*",
     "gulp-gzip": "*",
     "gulp-notify": "*",
     "rollup": "*",
     "tiny-lr": "*"
-  }
+  },
+  "dependencies": {}
 }

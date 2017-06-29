@@ -4,7 +4,7 @@ const regexToPath = /\.|\[/;
 const regexCloseBracket = /]/g;
 const emptyString = '';
 export const toPath = (string) => {
-  return string.replace(regexCloseBracket, emptyString).split(regexToPath);
+  return (string || emptyString).replace(regexCloseBracket, emptyString).split(regexToPath);
 };
 assign(acid, {
   toPath,
