@@ -62,8 +62,28 @@ const whileGenerator = (optBool) => {
   };
 };
 // loop through based on number
-
-
+const times = (startArg, endArg, fnArg) => {
+  const start = (fnArg) ? startArg : 0;
+  const end = (fnArg) ? endArg : startArg;
+  const fn = fnArg || endArg;
+  for (let position = start; position < end; position++) {
+    fn(position, start, end);
+  }
+};
+const timesMap = (startArg, endArg, fnArg) => {
+  const start = (fnArg) ? startArg : 0;
+  const end = (fnArg) ? endArg : startArg;
+  const fn = fnArg || endArg;
+  const results = [];
+  let result;
+  times(start, end, (position) => {
+    result = fn(position, results, start, end);
+    if (hasValue(result)) {
+      results.push(result);
+    }
+  });
+  return results;
+};
 const eachArrayRight = (array, fn) => {
   const arrayLength = array.length;
   for (let index = arrayLength - 1; index >= 0; index--) {
@@ -96,10 +116,33 @@ const filterArray = (array, fn) => {
   });
   return results;
 };
-
+const mapWhile = (array, fn) => {
+  const arrayLength = array.length;
+  const results = [];
+  let returned;
+  for (let index = 0; index < arrayLength; index++) {
+    returned = fn(array[index], index, array, arrayLength);
+    if (!returned) {
+      break;
+    }
+    results[index] = returned;
+  }
+  return results;
+};
 const mapArray = generateMap(eachArray);
-
+const mapArrayRight = generateMap(eachArrayRight);
 const eachWhile = whileGenerator(true);
+assign(acid$1, {
+  eachArray,
+  eachArrayRight,
+  eachWhile,
+  filterArray,
+  mapArray,
+  mapArrayRight,
+  mapWhile,
+  times,
+  timesMap,
+});
 
 const objectStringGenerate = (objectName) => {
   return `[object ${objectName}]`;
@@ -175,21 +218,22 @@ eachArray(nativeObjectNames, (item) => {
   acid$1[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
 });
 assign(acid$1, {
-  isFileCSS,
-  isFileJSON,
-  isFileJS,
   getFileExtension,
-  isEmpty,
-  hasLength,
   has,
-  isFunction,
-  isPlainObject,
-  isUndefined,
-  isNull,
+  hasLength,
   hasValue,
+  isArray,
   isDecimal,
-  isString,
+  isEmpty,
+  isFileCSS,
+  isFileJS,
+  isFileJSON,
+  isFunction,
+  isNull,
   isNumber,
+  isPlainObject,
+  isString,
+  isUndefined,
 });
 
 const ensureArray = (object) => {
@@ -698,8 +742,7 @@ assign(acid$1, {
 const eachAsync = async (array, funct) => {
   const arrayLength = array.length;
   for (let index = 0; index < arrayLength; index++) {
-    const item = array[index];
-    await funct(item, index, arrayLength);
+    await funct(array[index], index, arrayLength);
   }
 };
 assign(acid$1, {
@@ -728,11 +771,10 @@ assign(acid$1, {
 
 const mapAsync = async (array, funct) => {
   const results = [];
-  const arrayLength = array.length;
-  for (let index = 0; index < arrayLength; index++) {
-    const item = array[index];
+  await eachAsync(array, async (item, index, arrayLength) => {
     results[index] = await funct(item, index, arrayLength);
-  }
+  });
+  return results;
 };
 assign(acid$1, {
   mapAsync,
@@ -772,15 +814,14 @@ assign(acid$1, {
 
 const filterAsync = async (array, funct) => {
   const results = [];
-  const arrayLength = array.length;
   let result;
-  for (let index = 0; index < arrayLength; index++) {
-    const item = array[index];
+  await eachAsync(array, async (item, index, arrayLength) => {
     result = await funct(item, index, arrayLength);
     if (hasValue(result)) {
-      results.push(await funct(item, index, arrayLength));
+      results.push(result);
     }
-  }
+  });
+  return results;
 };
 assign(acid$1, {
   filterAsync,
@@ -1800,8 +1841,8 @@ assign(acid$1, {
 });
 
 const ifNotEqual = (rootObject, property, equalThis) => {
-  if (property) {
-    rootObject[property] = rootObject[property] || equalThis;
+  if (property && !hasValue(rootObject[property])) {
+    rootObject[property] = equalThis;
     return rootObject[property];
   }
   return rootObject;
@@ -1813,8 +1854,8 @@ assign(acid$1, {
 const regexToPath = /\.|\[/;
 const regexCloseBracket = /]/g;
 const emptyString = '';
-const toPath = (string) => {
-  return (string || emptyString).replace(regexCloseBracket, emptyString).split(regexToPath);
+const toPath = (string = emptyString) => {
+  return string.replace(regexCloseBracket, emptyString).split(regexToPath);
 };
 assign(acid$1, {
   toPath,
@@ -1887,8 +1928,8 @@ assign(acid$1, {
   promise
 });
 
-const toggle = (value, a, b) => {
-  return (value === a) ? b : a;
+const toggle = (value, on, off) => {
+  return (value === on) ? off : on;
 };
 assign(acid$1, {
   toggle
