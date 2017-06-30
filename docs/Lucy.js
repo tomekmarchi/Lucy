@@ -1710,7 +1710,7 @@
     return text.slice(0, start) + insert + text.slice(end, text.length);
   };
   const rightString = (text, a) => {
-    return [text.length - 1 - a];
+    return text[text.length - 1 - a];
   };
   const chunkString = (string, size) => {
     return string.match(new RegExp(`(.|[\r\n]){1, ${size}}`, 'g'));
@@ -1741,7 +1741,6 @@
   const lessThanRegex = /</g;
   const moreThanRegex = />/g;
   const doubleQuoteRegex = /"/g;
-  const forwardSlashRegex = /\//g;
   const rawURLDecode = (string) => {
     return decodeURIComponent(string.replace(rawURLDecodeRegex, () => {
       return '%25';
@@ -1752,8 +1751,7 @@
     string = string.replace(andRegex, '&amp;');
     string = string.replace(lessThanRegex, '&lt;');
     string = string.replace(moreThanRegex, '&gt;');
-    string = string.replace(doubleQuoteRegex, '&quot;');
-    return string.replace(forwardSlashRegex, '&quot;');
+    return string.replace(doubleQuoteRegex, '&quot;');
   };
   const sanitize = (string) => {
     return createHtmlEntities(rawURLDecode(string));
