@@ -19,6 +19,19 @@ const rangeDown = (start, end, incrementArg) => {
   }
   return rangeArray;
 };
+/**
+  *
+  *
+  * @type {Function} range
+  * @param {Number} start - Value which determines the start of the range.
+  * @param {Number} end - Value which determines the end of the range.
+  * @param {Number} increment - Value which determines the rate of incrementation.
+  * @returns {Array}
+  *
+  * @example
+  * range([1,'B', Cat, false, null, 0 , '', undefined, NaN]);
+  * // => [1, 'B', Cat]
+*/
 export const range = (start, end, increment = 1) => {
   if (start < end) {
     return rangeUp(start, end, increment);
@@ -26,6 +39,19 @@ export const range = (start, end, increment = 1) => {
     return rangeDown(start, end, increment);
   }
 };
+/**
+  *
+  *
+  * @type {Function} rangeRight
+  * @param {Number} start - Value which determines the start of the range.
+  * @param {Number} end - Value which determines the end of the range.
+  * @param {Number} increment - Value which determines the rate of incrementation.
+  * @returns {Array}
+  *
+  * @example
+  * rangeRight([1,'B', Cat, false, null, 0 , '', undefined, NaN]);
+  * // => [1, 'B', Cat]
+*/
 export const rangeRight = (start, end, increment = 1) => {
   return rangeDown(end, start, increment);
 };

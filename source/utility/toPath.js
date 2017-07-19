@@ -4,7 +4,16 @@ const regexToPath = /\.|\[/;
 const regexCloseBracket = /]/g;
 const emptyString = '';
 /**
-toPath replaces a closed bracket with an empty string and splits on an opening bracket and periods.
+  * Breaks up string into object chain list.
+  *
+  * @function toPath
+  * @type {Function}
+  * @param {string} string - String to be broken up.
+  * @returns {Array} - Array used to go through object chain.
+  * 
+  * @example
+  * toPath('post.like[2]');
+  * // => ['post', 'like', '2']
 */
 export const toPath = (string) => {
   return string.replace(regexCloseBracket, emptyString).split(regexToPath);

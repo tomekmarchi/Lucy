@@ -1,34 +1,41 @@
 import acid from '../namespace/index';
-import { eachWhile } from '../array/each';
+import { whileArray } from '../array/each';
 import { isMatchArray } from '../array/isMatch';
 import { assign, keys } from '../internal/object';
 import { isArray, isPlainObject } from '../internal/is';
-/*
-	Performs a deep comparison between object and source to determine if object contains equivalent property values.
-*/
+/**
+   * Performs a deep comparison between two objects.
+   *
+   * @function isEqual
+   * @type {Function}
+   * @param {Object} source - Source object.
+   * @param {Object} compareObject - Object to compare to source.
+   * @returns {boolean} Returns the true or false.
+   *
+   * @example
+   * isEqual({a: [1,2,3]}, {a: [1,2,3]});
+   * // => true
+ */
 export const isEqual = (object, compareObject) => {
-  let result = false;
   if (object === compareObject) {
-    result = true;
+    return true;
   } else if (object.toString() === compareObject.toString()) {
     if (isPlainObject(object)) {
       const sourceProperties = keys(object);
       if (isMatchArray(sourceProperties, keys(compareObject))) {
-        eachWhile(sourceProperties, (key) => {
-          result = isEqual(object[key], compareObject[key]);
-          return result;
+        return whileArray(sourceProperties, (key) => {
+          return isEqual(object[key], compareObject[key]);
         });
       }
     } else if (isArray(object)) {
       if (object.length === compareObject.length) {
-        eachWhile(object, (item, index) => {
-          result = isEqual(item, compareObject[index]);
-          return result;
+        return whileArray(object, (item, index) => {
+          return isEqual(item, compareObject[index]);
         });
       }
     }
   }
-  return result;
+  return false;
 };
 assign(acid, {
   isEqual,

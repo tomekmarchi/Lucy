@@ -1,6 +1,4 @@
-import './assignDeep';
 import './hasKeys';
-import './isEqual';
 import './pick';
 import './compactKeys';
 import './isMatch';

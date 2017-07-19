@@ -1,4 +1,5 @@
 import acid from './namespace/index';
+import './internal/index';
 import './array/index';
 import './collection/index';
 import './function/index';

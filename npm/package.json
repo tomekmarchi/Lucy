@@ -1,33 +1,63 @@
 {
   "name": "Lucy",
   "version": "2.0.0",
-  "description": "Utility library for Node, WebWorkers & ServiceWorkers.",
+  "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers.",
+  "bugs": {
+    "url": "https://github.com/tomekmarchi/Lucy/issues"
+  },
+  "homepage": "https://acidjs.com",
+  "directories": {
+    "doc": "docs",
+    "source": "source",
+    "build": "build",
+    "test": "tests"
+  },
+  "readme": "README.md",
   "keywords": [
-    "acid",
+    "Acid",
     "utility",
-    "library"
+    "Lucy",
+    "CWA",
+    "self constructing"
   ],
   "license": "MIT",
   "main": "index.js",
   "maintainers": [
     {
-      "email": "tomekmarchi@gmail.com",
-      "name": "Tomek Marchi"
+      "email": "tommarchi@protonmail.com",
+      "name": "Tom Marchi"
+    },
+    {
+      "email": "erickdelgado@protonmail.com",
+      "name": "Erick Delgado"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomekmarchi/Lucy.git"
+  },
   "devDependencies": {
-    "esdoc": "*",
-    "eslint": "*",
+    "Lucy": "*",
     "babel-core": "*",
     "babel-eslint": "*",
     "babel-plugin-minify-empty-function": "*",
-    "babel-preset-babili": "*",
+    "babel-preset-babili": "^1.0.0",
     "babel-preset-es2015": "*",
-    "gulp": "*",
-    "gulp-babel": "*",
-    "gulp-beautify": "*",
-    "gulp-concat": "*",
-    "gulp-notify": "*",
-    "rollup": "*"
+    "body-parser": "*",
+    "connect-livereload": "*",
+    "docredux": "^1.0.2",
+    "esformatter": "*",
+    "eslint": "^4.2.0",
+    "eslint-plugin-jsdoc": "*",
+    "express": "*",
+    "node-watch": "*",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babili": "*",
+    "tiny-lr": "*",
+    "vinyl-fs": "*"
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "node index.js"
   }
 }

@@ -1,95 +1,130 @@
 import acid from '../namespace/index';
 import { assign } from '../internal/object';
-import { eachArray, filterArray, mapArray } from '../array/each';
-import { eachObject, filterObject, mapObject } from '../object/each';
+import { compactMapArray, eachArray, filterArray, mapArray, whileArray } from '../array/each';
+import { compactMapObject, eachObject, filterObject, mapObject, whileObject } from '../object/each';
 import { hasValue, isArray, isFunction, isPlainObject } from '../internal/is';
-/**
-   * forEachWrap is a wrapped version of the forEach function
-*/
-const forEachWrap = (object, funct) => {
-  return object.forEach(funct);
+const forEachWrap = (object, callback) => {
+  return object.forEach(callback);
 };
-/**
-  * generateCheckLoops parses the argument it is given and checks too see if it is an array, or object.
-*/
 const generateCheckLoops = (arrayLoop, objectLoop) => {
-  return (object, funct) => {
+  return (callingObject, iteratee, results) => {
     let returned;
-    if (!hasValue(object)) {
+    if (!hasValue(callingObject)) {
       return;
-    } else if (isArray(object)) {
+    } else if (isArray(callingObject)) {
       returned = arrayLoop;
-    } else if (isPlainObject(object) || isFunction(object)) {
+    } else if (isPlainObject(callingObject) || isFunction(callingObject)) {
       returned = objectLoop;
-    } else if (object.forEach) {
+    } else if (callingObject.forEach) {
       returned = forEachWrap;
     } else {
       returned = objectLoop;
     }
-    return returned(object, funct);
+    return returned(callingObject, iteratee, results);
   };
 };
 /**
-map takes an array or an object. If an array is given, an array will be mapped. If an object is given, an object will be mapped.
-*
-*
-* @property {mapArray}  - Takes an array to be mapped.
-* @property {mapObject}  -Takes an object to be mapped.
- * @example
-Taking an array
-const example = ['foo', 'bar'];
-map(example);
-Taking an object
-const example = {
-foo: bar,
-bar: foo,
-};
-map(example);*/
-export const map = generateCheckLoops(mapArray, mapObject);
-/** each takes an array or an object. If an array is given, an array will have an operation performed on each item in the array. If an object is given, an object will have an operation performed on each property of the object.
-* @property {eachArray}  - Takes two arguments: an array, and a function that will be performed on each item in the array.
-* @property {eachObject}  -Takes two arguments: an object and a function that will be performed on each key and or value property of that object.
-* @example
-Taking an array
-const example = ['foo', 'bar'];
-const fooFunction = () => {
-  console.log()
-};
-each(example, fooFunction);
-Taking an object
-const example = {
-foo: bar,
-bar: foo,
-};
-const fooFunction = () => {
-  console.log()
-};
-each(example, fooFunction);
+  * Iterates through the given object while the iteratee returns true.
+  *
+  * @function eachWhile
+  * @type {Function}
+  * @param {Object|Array|Function} callingObject - Object that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+  * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+  *
+  * @example
+  * eachWhile({a: false, b: true, c: true}, (item) => {
+  *   return item;
+  *  });
+  * // => false
+*/
+export const eachWhile = generateCheckLoops(whileArray, whileObject);
+/**
+  * Iterates through the given object.
+  *
+  * @function each
+  * @type {Function}
+  * @param {Array|Object|Function} callingObject - Object that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+  * @returns {Array|Object|Function} The originally given object.
+  *
+  * @example
+  * each([1, 2, 3], (item) => {
+  *   console.log(item);
+  * });
+  * // => [1, 2, 3]
+  * each({a: 1, b: 2, c: 3}, (item) => {
+  *   console.log(item);
+  * });
+  * // => {a: 1, b: 2, c: 3}
 */
 export const each = generateCheckLoops(eachArray, eachObject);
 /**
-filter takes an array or an object. If it is given an array, it will run a function on each item on the array. If it is given an object, it will run a function on each key and or value of an object
-@property {filterArray} - Takes two arguments: an array, and a function
-@property {filterObject} - Takes two arguments: an object, and a function
-@example
-Taking an array
-const example = ['foo', 'bar'];
-const fooFunction = () => {
-  console.log()
-};
-filter(example, fooFunction);
-Taking an object
-const example = {
-foo: bar,
-bar: foo,
-};
-const fooFunction = () => {
-  console.log()
-};
-filter(example, fooFunction);
+  * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
+  *
+  * @function filter
+  * @type {Function}
+  * @param {Array|Object|Function} callingObject - Object that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+  * @returns {Array|Object|Function} - A new object of the same calling object's type.
+  *
+  * @example
+  * filter([false, true, true], (item) => {
+  *   return item;
+  * });
+  * // => [true, true]
+  * filter({a: false, b: true, c: true}, (item) => {
+  *   return true;
+  * });
+  * // => {b: true, c: true}
 */
 export const filter = generateCheckLoops(filterArray, filterObject);
+/**
+  * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
+  *
+  * @function map
+  * @category Utility
+  * @type {Function}
+  * @param {Array|Object|Function} callingObject - Object that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+  * @returns {Array|Object|Function} A new object of the same calling object's type.
+  *
+  * @example
+  * map([1, 2, 3], (item) => {
+  *   return item * 2;
+  * });
+  * // => [2, 4, 6]
+  * map({a: 1, b: 2, c: 3}, (item) => {
+  *   return item * 2;
+  * });
+  * // => {a: 2, b: 4, c: 6}
+*/
+export const map = generateCheckLoops(mapArray, mapObject);
+/**
+  * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+  *
+  * @function compactMap
+  * @type {Function}
+  * @param {Array|Object|Function} callingObject - Object that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+  * @returns {Array|Object|Function} A new object of the same calling object's type.
+  *
+  * @example
+  * compactMap([0, 2, 3], (item) => {
+  *   return item * 2;
+  * });
+  * // => [4, 6]
+  * compactMap({a: 0, b: 2, c: 3}, (item) => {
+  *   return item * 2;
+  * });
+  * // => {b: 4, c: 6}
+*/
+export const compactMap = generateCheckLoops(compactMapArray, compactMapObject);
 assign(acid, {
+  compactMap,
   each,
   filter,
   map

@@ -1,7 +1,16 @@
 import acid from '../namespace/index';
 import { assign } from '../internal/object';
 /**
-promise is a wrapper around a constructor
+  * A wrapper around the promise constructor.
+  *
+  * @function promise
+  * @type {Function}
+  * @param {Function} callback - Function to be called back.
+  * @returns {Object} - A constructor with a callback function.
+  *
+  * @example
+  * promise((a) => {});
+  * // => promise((a) => {})
 */
 export const promise = (callback) => {
   return new Promise(callback);

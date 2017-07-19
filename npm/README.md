@@ -1,22 +1,21 @@
-What is Lucy?
-=======
-Lucy is a stripped down version of Acid used as a utility library for outside the browser. It's geared towards Node, WebWorkers, & ServiceWorkers.
-
 What is Acid?
 =======
-Acidjs is a utility library for building CWAs (Conscious Web Apps). Conscious web apps are the next generation of single page web apps. CWA's have several advantages over modern SPAs, scalability for large apps, real-time, fine grained self-construction. Think of a bridge being formed in front of you while walking across but instead of the entire step being formed little bits of it come exactly when you need it. Acid embraces a highly modular philosophy that results in a complete separation of concerns.
+Acid is a utility library for building CWAs (Conscious Web Apps). CWAs build themselves based on realtime application demands. Think of a bridge formed in front of you while walking across. Instead of the entire step formed little bits of it come when needed. Acid embraces a modular philosophy that results in a complete separation of concerns.
 
-What is the Acid Stack?
-=======
-Currently the following reactive libraries fit very will with Acid: Ractive, Polymer. Acid plays very well with Ractive as it embraces a clean API, separation of concerns & has dynamic components/partials. Ractive also has resets for Templates and partials allowing it to work very well with real-time HTML & CSS updates. A reactive library that allows HTML strings and even separation for CSS has massive advantages with the Acid methodology and codebase.
+_CWA's have advantages over modern SPAs_
+ - Scalability for large apps
+ - Real-time
+ - Fine grained self-construction
+ - Less code
+ - Faster development
+ - Streaming apps
 
-Default Stack - Node , RethinkDB, Lucy, Acid, Ractive, Menrvah (Coming soon CWA framework from)
+##### Methods
+All methods are available from the root object $
 
-
-Strings,Objects & Arrays
------------------------
-All methods for Strings, Objects, & Arrays are available from the root object typically $ and ACID as a fallback.
-
-Model, Define & Module
------------------------
-In Acid everything is a model (Simple plain objects). Models can be "define" which are compiled models for immediately available objects. Models can also be "modules" which are asynchronously compiled models with built-in import capabilities. Modules can have various files,models and JS objects that are loaded on the fly and compiled into the final model.
+- CWA Stack
+	- Node
+	- RethinkDB
+	- Lucy
+	- Acid
+	- Sentivate (Coming soon)

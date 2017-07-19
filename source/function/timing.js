@@ -1,65 +1,137 @@
 import acid from '../namespace/index';
 import { assign } from '../internal/object';
-import { times } from '../array/each';
-export const timer = (fn, time) => {
-  return setTimeout(fn, time);
+import { times } from '../array/times';
+/**
+  * Timer wrapper.
+  *
+  * @function timer
+  * @type {Function}
+  * @param {Function} callable - The function to be invoked.
+  * @param {number} time - The time in milliseconds.
+  * @returns {Object} Returns setTimeout ID.
+  *
+  * @example
+  * timer(() => {}, 100);
+  * // => 0
+*/
+export const timer = (callable, time) => {
+  return setTimeout(callable, time);
 };
-export const interval = (fn, time) => {
-  return setInterval(fn, time);
+/**
+  * Interval wrapper.
+  *
+  * @function interval
+  * @type {Function}
+  * @param {Function} callable - The function to be invoked.
+  * @param {number} time - The time in milliseconds.
+  * @returns {Object} Returns setInterval ID.
+  *
+  * @example
+  * interval(() => {}, 100);
+  * // => 0
+*/
+export const interval = (callable, time) => {
+  return setInterval(callable, time);
 };
-const generateClear = (method, clearMethod) => {
-  return (max) => {
-    times(0, method(() => {}, max || 1000), (index) => {
+const generateClear = (callable, clearMethod) => {
+  return () => {
+    times(0, callable(() => {}, 0), (index) => {
       clearMethod(index);
     });
   };
 };
+/**
+  * Clear all active timers.
+  *
+  * @function clearTimers
+  * @returns {undefined} Returns undefined.
+  *
+  * @example
+  * clearTimers();
+  * // => undefined
+*/
 export const clearTimers = generateClear(timer, clearTimeout);
+/**
+  * Clear all active intervals.
+  *
+  * @function clearIntervals
+  * @returns {undefined} Returns undefined.
+  *
+  * @example
+  * clearIntervals();
+  * // => undefined
+*/
 export const clearIntervals = generateClear(interval, clearInterval);
-export const debounce = (original, time) => {
+/**
+  * Creates a debounced function that delays invoking callable until after wait milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
+  *
+  * @function debounce
+  * @type {Function}
+  * @param {Function} callable - The function to be invoked.
+  * @param {number} time - The time in milliseconds.
+  * @returns {Function} The debounced function.
+  *
+  * @example
+  * const debounced = debounce(() => { console.log('debounced'); }, 0);
+  * // => debounced();
+*/
+export const debounce = (callable, time) => {
   let timeout = false;
-  const fn = (...args) => {
+  const debounced = (...args) => {
     if (timeout !== false) {
       clearTimeout(timeout);
     }
     timeout = timer(() => {
-      original(...args);
+      callable(...args);
       timeout = false;
     }, time);
   };
-  fn.clear = () => {
+  debounced.clear = () => {
     if (timeout) {
       clearTimeout(timeout);
       timeout = false;
     }
   };
-  return fn;
+  return debounced;
 };
-export const throttle = (func, time) => {
+/**
+  * Creates a throttled function that only invokes callable at most once per every wait milliseconds. The throttle function has a clear method to cancel the timer.
+  *
+  * @function throttle
+  * @type {Function}
+  * @param {Function} callable - The function to be invoked.
+  * @param {number} time - The time in milliseconds.
+  * @returns {Function} The throttled function.
+  *
+  * @example
+  * const throttled = throttle(() => { console.log('debounced'); }, 0);
+  * // => throttled();
+*/
+export const throttle = (callable, time) => {
   let timeout = false;
   let shouldThrottle;
-  const fn = (...args) => {
+  const throttled = (...args) => {
     if (timeout) {
       shouldThrottle = true;
       return;
     }
-    func(...args);
+    callable(...args);
     timeout = timer(() => {
       if (shouldThrottle) {
-        func(...args);
+        callable(...args);
       }
       timeout = false;
     }, time);
   };
-  fn.clear = () => {
+  throttled.clear = () => {
     clearTimeout(timeout);
     timeout = false;
   };
-  return fn;
+  return throttled;
 };
 assign(acid, {
-  interval,
-  timer,
   debounce,
+  interval,
   throttle,
+  timer,
 });

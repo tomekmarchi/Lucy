@@ -1,8 +1,3 @@
-Lucy
-=======
-Lucy is a utility library for building CWAs (Conscious Web Apps) in Node, WebWorkers, & ServiceWorkers.
-Lucy is a stripped down version of Acid for outside the browser.
-
 What is Acid?
 =======
 Acid is a utility library for building CWAs (Conscious Web Apps). CWAs build themselves based on realtime application demands. Think of a bridge formed in front of you while walking across. Instead of the entire step formed little bits of it come when needed. Acid embraces a modular philosophy that results in a complete separation of concerns.
@@ -15,8 +10,8 @@ _CWA's have advantages over modern SPAs_
  - Faster development
  - Streaming apps
 
-##### Code Examples
-  const lucy = require('Lucy');
+##### Methods
+All methods are available from the root object $
 
 - CWA Stack
 	- Node

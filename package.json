@@ -1,18 +1,29 @@
 {
   "name": "Lucy",
   "version": "2.0.0",
-  "description": "Utility library for Node, WebWorkers & ServiceWorkers.",
+  "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers.",
+  "bugs": {
+    "url": "https://github.com/tomekmarchi/Lucy/issues"
+  },
+  "homepage": "https://acidjs.com",
+  "directories": {
+    "doc": "docs",
+    "source": "source",
+    "build": "build",
+    "test": "tests"
+  },
+  "readme": "README.md",
   "keywords": [
     "Acid",
     "utility",
     "Lucy",
-    "cwa",
-    "LSD",
+    "CWA",
     "self constructing"
   ],
   "license": "MIT",
   "main": "index.js",
-  "maintainers": [{
+  "maintainers": [
+    {
       "email": "tommarchi@protonmail.com",
       "name": "Tom Marchi"
     },
@@ -30,20 +41,23 @@
     "babel-core": "*",
     "babel-eslint": "*",
     "babel-plugin-minify-empty-function": "*",
-    "babel-preset-babili": "*",
+    "babel-preset-babili": "^1.0.0",
     "babel-preset-es2015": "*",
     "body-parser": "*",
     "connect-livereload": "*",
-    "eslint": "*",
+    "docredux": "^1.0.2",
+    "esformatter": "*",
+    "eslint": "^4.2.0",
+    "eslint-plugin-jsdoc": "*",
     "express": "*",
-    "gulp": "*",
-    "gulp-babel": "*",
-    "gulp-beautify": "*",
-    "gulp-concat": "*",
-    "gulp-gzip": "*",
-    "gulp-notify": "*",
-    "rollup": "*",
-    "tiny-lr": "*"
+    "node-watch": "*",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babili": "*",
+    "tiny-lr": "*",
+    "vinyl-fs": "*"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "build": "node index.js"
+  }
 }
