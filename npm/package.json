@@ -1,6 +1,6 @@
 {
   "name": "Lucy",
-  "version": "2.0.0",
+  "version": "2.0.12",
   "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers.",
   "bugs": {
     "url": "https://github.com/tomekmarchi/Lucy/issues"

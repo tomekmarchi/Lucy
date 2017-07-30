@@ -620,7 +620,7 @@
    * hasDot('test.js');
    * // => true
   */
-
+  const hasDot = regexGenerator(/\./);
   const getExtensionRegex = /\.([0-9a-z]+)/;
   /**
    * Return the file extension.
@@ -832,6 +832,7 @@
   assign($, {
     getFileExtension,
     has,
+    hasDot,
     hasLength,
     hasValue,
     isArray,
@@ -2181,8 +2182,8 @@
     * // => undefined
   */
   const times = (startIndex, endIndex, iteratee) => {
-    const start = (startIndex) ? startIndex : 0;
-    const end = (startIndex) ? endIndex : startIndex;
+    const start = (iteratee) ? startIndex : 0;
+    const end = (iteratee) ? endIndex : startIndex;
     const iterateeMethod = iteratee || endIndex;
     for (let position = start; position < end; position++) {
       iterateeMethod(position, start, end);
@@ -2464,7 +2465,7 @@
     * @returns {Array} - An array of plucked values.
     *
     * @example
-    * pluck([{lucy: 'Ants moving around on the walls.'}, {lucy: 'In the sky with diamonds.'}], ['a','b']);
+    * pluck([{lucy: 'Ants moving around on the walls.'}, {lucy: 'In the sky with diamonds.'}], ['lucy']);
     * // => ['Ants moving around on the walls.', 'In the sky with diamonds.']
   */
   const pluck = (collection, pluckThis) => {
@@ -3625,7 +3626,7 @@
   const compactKeys = (object) => {
     const keys$$1 = [];
     eachObject(object, (item, key) => {
-      if (hasValue(item)) {
+      if (item) {
         keys$$1.push(key);
       }
     });
