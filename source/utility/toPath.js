@@ -8,9 +8,10 @@ const emptyString = '';
   *
   * @function toPath
   * @type {Function}
+  * @category utility
   * @param {string} string - String to be broken up.
   * @returns {Array} - Array used to go through object chain.
-  * 
+  *
   * @example
   * toPath('post.like[2]');
   * // => ['post', 'like', '2']

@@ -6,6 +6,7 @@ const mathNativeMax = Math.max;
   *
   * @function largest
   * @type {Function}
+  * @category array
   * @param {Array} array - Array from which largest number is taken.
   * @returns {number} The largest number.
   *

@@ -10,12 +10,13 @@ const uidClosed = {};
   * @function uid
   * @category utility
   * @type {Function}
+  * @category utility
   * @returns {number} - Returns a unique id.
   *
   * @example
   * uid();
   * // => 0
-  *
+  * @example
   * uid();
   * // => 1
 */
@@ -40,13 +41,13 @@ export const uid = () => {
   * @example
   * uid();
   * // => 0
-  *
+  * @example
   * uid();
   * // => 1
-  *
+  * @example
   * uid.free(0);
   * // => undefined
-  *
+  * @example
   * uid();
   * // => 0
 */

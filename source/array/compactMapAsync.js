@@ -7,6 +7,7 @@ import { hasValue } from '../internal/is';
   *
   * @function compactMapAsync
   * @type {Function}
+  * @category array
   * @async
   * @param {Array} array - Array to be compacted.
   * @param {Function} iteratee - Iteratee to be performed on array.
@@ -20,7 +21,7 @@ export const compactMapAsync = async (array, iteratee) => {
   const results = [];
   let result;
   await eachAsync(array, async (item, index, arrayLength) => {
-    result = await iteratee(item, index, arrayLength);
+    result = await iteratee(item, index, results, arrayLength);
     if (hasValue(result)) {
       results.push(result);
     }

@@ -5,6 +5,7 @@ import { assign } from '../internal/object';
   *
   * @function last
   * @type {Function}
+  * @category array
   * @param {Array} array - Array to have items extracted from.
   * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
   * @returns {Array} Items from the array.
@@ -12,7 +13,7 @@ import { assign } from '../internal/object';
   * @example
   * last([1, 2, 3, 4, 5] , 2);
   * // => [5, 4]
-  *
+  * @example
   * last([1, 2, 3, 4, 5]);
   * // => 5
 */

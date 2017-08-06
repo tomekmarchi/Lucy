@@ -7,6 +7,7 @@ const spaceFirstLetter = / (.)/g;
   *
   * @function upperCase
   * @type {Function}
+  * @category string
   * @param {string} string - String to be converted into upper case.
   * @returns {string} - Converted string in upper case.
   *

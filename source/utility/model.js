@@ -7,6 +7,7 @@ import { hasValue } from '../internal/is';
   *
   * @function model
   * @type {Function}
+  * @category utility
   * @param {string} modelName - Name of the model.
   * @property {Object} - The model object.
   * @returns {*} Returns the associated model.
@@ -14,7 +15,7 @@ import { hasValue } from '../internal/is';
   * @example
   * model('test', {a: 1});
   * // => {a: 1}
-  *
+  * @example
   * model('test');
   * // => {a: 1}
 */

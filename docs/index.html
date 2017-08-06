@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>Lucy 2.0.15 | Documentation</title>
+  <title>Lucy 2.0.16 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>Lucy</h3>
-          <div class='mb1'><code>2.0.15</code></div>
+          <div class='mb1'><code>2.0.16</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -6628,9 +6628,10 @@ Functions are given the supplied object, index, the calling array, and the array
     
       
       <pre class='p1 overflow-auto round fill-light'>ensureArray(<span class="hljs-string">'Hello'</span>);
-<span class="hljs-comment">// =&gt; ['Hello']</span>
-
-ensureArray({<span class="hljs-attr">a</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">b</span>:<span class="hljs-number">2</span>})
+<span class="hljs-comment">// =&gt; ['Hello']</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ensureArray({<span class="hljs-attr">a</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">b</span>:<span class="hljs-number">2</span>})
 <span class="hljs-comment">// =&gt; [{a:1, b:2}]</span></pre>
     
   
@@ -6801,7 +6802,7 @@ ensureArray({<span class="hljs-attr">a</span>:<span class="hljs-number">1</span>
     
       
       <pre class='p1 overflow-auto round fill-light'>flattenDeep([<span class="hljs-number">1</span>, [<span class="hljs-number">2</span>, [<span class="hljs-number">3</span>, [<span class="hljs-number">4</span>]], <span class="hljs-number">5</span>]]);
-<span class="hljs-comment">// =&gt; [1, 2, 3, 4, 5]</span></pre>
+ <span class="hljs-comment">// =&gt; [1, 2, 3, 4, 5]</span></pre>
     
   
 
@@ -6886,9 +6887,10 @@ ensureArray({<span class="hljs-attr">a</span>:<span class="hljs-number">1</span>
     
       
       <pre class='p1 overflow-auto round fill-light'>remove([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>], <span class="hljs-number">1</span>);
-<span class="hljs-comment">// =&gt; [2, 3, 3, 4, 3, 5]</span>
-
-remove([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>], <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
+<span class="hljs-comment">// =&gt; [2, 3, 3, 4, 3, 5]</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>remove([<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>], <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
 <span class="hljs-comment">// =&gt; [5]</span></pre>
     
   
@@ -8801,9 +8803,10 @@ of the array and the input array(s).</p>
     
       
       <pre class='p1 overflow-auto round fill-light'>intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]);
-<span class="hljs-comment">// =&gt; [2, 3]</span>
-
-intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">101</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>]);
+<span class="hljs-comment">// =&gt; [2, 3]</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">101</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>]);
 <span class="hljs-comment">// =&gt; [1, 2]</span></pre>
     
   
@@ -8926,7 +8929,7 @@ intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span
   <p>Checks for differences between arrays, then creates an array based on those differences.</p>
 
 
-  <div class='pre p1 fill-light mt0'>difference(array: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, compare: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
+  <div class='pre p1 fill-light mt0'>difference(array: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, compares: ...any, compare: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
   
   
 
@@ -8946,6 +8949,14 @@ intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span
             <span class='code bold'>array</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>
 	    Source array.
 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>compares</span> <code class='quiet'>(...any)</code>
+	    
           </div>
           
         </div>
@@ -8980,7 +8991,7 @@ intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'>difference([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]);
+      <pre class='p1 overflow-auto round fill-light'>compact([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]);
 <span class="hljs-comment">// =&gt; [3]</span></pre>
     
   
@@ -9579,8 +9590,7 @@ intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span
       <pre class='p1 overflow-auto round fill-light'>eachAsync([<span class="hljs-number">3</span>,<span class="hljs-number">4</span>], <span class="hljs-keyword">async</span> (item, index) =&gt;{
  <span class="hljs-built_in">console</span>.log(item, index);
 });
-<span class="hljs-comment">// 3 0</span>
-<span class="hljs-comment">// 4 1</span></pre>
+<span class="hljs-comment">// =&gt; {3:0, 4:1}</span></pre>
     
   
 
@@ -9667,8 +9677,7 @@ intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span
       <pre class='p1 overflow-auto round fill-light'>eachAsyncRight([<span class="hljs-number">3</span>,<span class="hljs-number">4</span>], <span class="hljs-keyword">async</span> (item, index) =&gt;{
  <span class="hljs-built_in">console</span>.log(item, index);
 });
-<span class="hljs-comment">// 4 1</span>
-<span class="hljs-comment">// 3 0</span></pre>
+<span class="hljs-comment">// {3:0, 4:1}</span></pre>
     
   
 
@@ -9754,9 +9763,10 @@ intersect([<span class="hljs-number">1</span>, <span class="hljs-number">2</span
     
       
       <pre class='p1 overflow-auto round fill-light'>last([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>] , <span class="hljs-number">2</span>);
-<span class="hljs-comment">// =&gt; [5, 4]</span>
-
-last([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);
+<span class="hljs-comment">// =&gt; [5, 4]</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>last([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);
 <span class="hljs-comment">// =&gt; 5</span></pre>
     
   
@@ -11172,9 +11182,10 @@ last([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <s
     
       
       <pre class='p1 overflow-auto round fill-light'>first([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]);
-<span class="hljs-comment">// =&gt; [1]</span>
-
-first([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-number">2</span>);
+<span class="hljs-comment">// =&gt; [1]</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>first([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-number">2</span>);
 <span class="hljs-comment">// =&gt; [1, 2, 3]</span></pre>
     
   
@@ -16313,9 +16324,10 @@ isNumberInRange(<span class="hljs-number">1</span>, <span class="hljs-number">-1
     
       
       <pre class='p1 overflow-auto round fill-light'>hasKeys({<span class="hljs-attr">Lucy</span>: <span class="hljs-string">'Ringo'</span>, <span class="hljs-attr">John</span>: <span class="hljs-string">'Malkovich'</span>, <span class="hljs-attr">Thor</span>: <span class="hljs-string">'Bobo'</span>}, [<span class="hljs-string">'Lucy'</span>,<span class="hljs-string">'Thor'</span>]);
-<span class="hljs-comment">// =&gt; true</span>
-
-hasKeys({<span class="hljs-attr">Lucy</span>: <span class="hljs-string">'Ringo'</span>, <span class="hljs-attr">John</span>: <span class="hljs-string">'Malkovich'</span>, <span class="hljs-attr">Thor</span>: <span class="hljs-string">'Bobo'</span>}, [<span class="hljs-string">'Lucy'</span>,<span class="hljs-string">'Tom'</span>]);
+<span class="hljs-comment">// =&gt; true</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>hasKeys({<span class="hljs-attr">Lucy</span>: <span class="hljs-string">'Ringo'</span>, <span class="hljs-attr">John</span>: <span class="hljs-string">'Malkovich'</span>, <span class="hljs-attr">Thor</span>: <span class="hljs-string">'Bobo'</span>}, [<span class="hljs-string">'Lucy'</span>,<span class="hljs-string">'Tom'</span>]);
 <span class="hljs-comment">// =&gt; false</span></pre>
     
   
@@ -19378,9 +19390,10 @@ restString(<span class="hljs-string">'restString'</span>, <span class="hljs-numb
     
       
       <pre class='p1 overflow-auto round fill-light'>uid();
-<span class="hljs-comment">// =&gt; 0</span>
-
-uid();
+<span class="hljs-comment">// =&gt; 0</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>uid();
 <span class="hljs-comment">// =&gt; 1</span></pre>
     
   
@@ -19450,15 +19463,18 @@ uid();
     
       
       <pre class='p1 overflow-auto round fill-light'>uid();
-<span class="hljs-comment">// =&gt; 0</span>
-
-uid();
-<span class="hljs-comment">// =&gt; 1</span>
-
-uid.free(<span class="hljs-number">0</span>);
-<span class="hljs-comment">// =&gt; undefined</span>
-
-uid();
+<span class="hljs-comment">// =&gt; 0</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>uid();
+<span class="hljs-comment">// =&gt; 1</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>uid.free(<span class="hljs-number">0</span>);
+<span class="hljs-comment">// =&gt; undefined</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>uid();
 <span class="hljs-comment">// =&gt; 0</span></pre>
     
   
@@ -19809,9 +19825,10 @@ uid();
     
       
       <pre class='p1 overflow-auto round fill-light'>model(<span class="hljs-string">'test'</span>, {<span class="hljs-attr">a</span>: <span class="hljs-number">1</span>});
-<span class="hljs-comment">// =&gt; {a: 1}</span>
-
-model(<span class="hljs-string">'test'</span>);
+<span class="hljs-comment">// =&gt; {a: 1}</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>model(<span class="hljs-string">'test'</span>);
 <span class="hljs-comment">// =&gt; {a: 1}</span></pre>
     
   
