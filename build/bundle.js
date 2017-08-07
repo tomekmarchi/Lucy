@@ -32,6 +32,7 @@
    * @example
    * superMethod($.get);
    * // => undefined
+   * @example
    * $('flow', $);
    * // => $.flow
    */
@@ -92,7 +93,7 @@
    * @returns {Object} A property descriptor of the given property if it exists on the object, undefined otherwise.
    *
    * @example
-   * getOwnPropertyDescriptor({ bar: 42 }, 'foo');
+   * getOwnPropertyDescriptor({ bar: 42 }, 'bar');
    * // => { configurable: true, enumerable: true, value: 42, writable: true }
   */
   const getOwnPropertyDescriptor = objectNative$1.getOwnPropertyDescriptor;
@@ -107,13 +108,13 @@
    * @returns {Object} The object that was passed to the function.
    *
    * @example
-   * const obj = {};
-   * defineProperty(obj, 'key', {
+   * defineProperty({}, 'key', {
    *  enumerable: false,
    *  configurable: false,
    *  writable: false,
    *  value: 'static'
-   * });
+   * }).key;
+   * // => 'static'
   */
   const defineProperty = objectNative$1.defineProperty;
   /**
@@ -1040,7 +1041,7 @@
     * @returns {Array} The array this method was called on.
     *
     * @example
-    * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);}));
+    * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
     * // => [2, 4]
   */
   const removeBy = (array, iteratee) => {
@@ -1671,7 +1672,7 @@
   const isMatchArray = (source, compareArray) => {
     if (compareArray.length === source.length) {
       return whileArray(source, (item, index) => {
-        return compareArray[index] !== item;
+        return compareArray[index] === item;
       });
     }
     return false;
@@ -2476,7 +2477,7 @@
     * @returns {Object} Returns the composed aggregate object.
     *
     * @example
-    * countBy([{a:1}, {a:3}], (item) => { return 'a';}));
+    * countBy([{a:1}, {a:3}], (item) => { return 'a';});
     * // => {a: 2}
   */
   const countBy = (collection, iteratee) => {
@@ -2676,10 +2677,9 @@
     * @returns {*} Returns the new curried function.
     *
     * @example
-    * const curried = curry((a, b, c) => {
+    * curry((a, b, c) => {
     *   return [a, b, c];
-    * });
-    * curried(1)(2)(3);
+    * })(1)(2)(3);
     * // => [1, 2, 3]
   */
   const curry = (callable, arity = callable.length) => {
@@ -2705,10 +2705,9 @@
     * @returns {*} Returns the new curried function.
     *
     * @example
-    * const curried = curryRight((a, b, c) => {
+    * curryRight((a, b, c) => {
     *   return [a, b, c];
-    * });
-    * curried(1)(2)(3);
+    * })(1)(2)(3);
     * // => [1, 2, 3]
   */
   const curryRight = (callable, arity = callable.length) => {
@@ -2738,12 +2737,17 @@
     * @param {Function} callable - The function to be called.
     * @returns {Function} Returns the new pass-thru function.
     *
+    * @test
+    * const onceOnly = once(3, (item) => { return item;});
+    * assert(onceOnly(5), 5);
+    * assert(onceOnly(2), 5);
+    *
     * @example
-    * const onceOnly = once(() => { return 1;});
-    * onceOnly();
-    * // => 1
-    * onceOnly();
-    * // => 1
+    * const onceOnly = once((item) => { return item;});
+    * onceOnly(5);
+    * // => 5
+    * onceOnly(1);
+    * // => 5
   */
   const once = (callable) => {
     let value;
@@ -2765,12 +2769,17 @@
     * @param {number} amount - The number of calls until method is invoked.
     * @returns {Function} Returns the new pass-thru function.
     *
+    * @test
+    * const onlyAfter = after(3, (item) => { return item;});
+    * assert(onlyAfter(1), undefined);
+    * assert(onlyAfter(2), 2);
+    *
     * @example
-    * const onlyAfter = after(1, () => { return 1;});
-    * onlyAfter();
+    * const onlyAfter = after(1, (item) => { return item;});
+    * onlyAfter(1);
     * // => undefined
-    * onlyAfter();
-    * // => 1
+    * onlyAfter(2);
+    * // => 2
   */
   const after = (callable, amount) => {
     let point = amount;
@@ -2797,6 +2806,12 @@
     * @param {Function} callable - The function to be called.
     * @param {number} amount - The number of calls before n.
     * @returns {Function} Returns the new pass-thru function.
+    *
+    * @test
+    * const onlyBefore = before(3, (item) => { return item;});
+    * assert(onlyBefore(1), 1);
+    * assert(onlyBefore(2), 2);
+    * assert(onlyBefore(3), 2);
     *
     * @example
     * const onlyBefore = before(3, () => { return 1;});
@@ -3082,8 +3097,8 @@
     *
     * @example
     * eachWhile({a: false, b: true, c: true}, (item) => {
-    *   return item;
-    *  });
+    *  return item;
+    * });
     * // => false
   */
   const eachWhile = generateCheckLoops(whileArray, whileObject);
@@ -3102,6 +3117,7 @@
     *   console.log(item);
     * });
     * // => [1, 2, 3]
+    * @example
     * each({a: 1, b: 2, c: 3}, (item) => {
     *   console.log(item);
     * });
@@ -3124,6 +3140,7 @@
     *   return item;
     * });
     * // => [true, true]
+    * @example
     * filter({a: false, b: true, c: true}, (item) => {
     *   return true;
     * });
@@ -3146,6 +3163,7 @@
     *   return item * 2;
     * });
     * // => [2, 4, 6]
+    * @example
     * map({a: 1, b: 2, c: 3}, (item) => {
     *   return item * 2;
     * });
@@ -3168,6 +3186,7 @@
     *   return item * 2;
     * });
     * // => [4, 6]
+    * @example
     * compactMap({a: 0, b: 2, c: 3}, (item) => {
     *   return item * 2;
     * });
@@ -3192,12 +3211,10 @@
     * @returns {Object|Function|Array} Returns the method invoked or undefined.
     *
     * @example
-    * const collection = bindAll([() => { return this;}], 'Lucy');
-    * collection[0]();
+    * bindAll([() => { return this;}], 'Lucy')[0]();
     * // => 'Lucy'
-    *
-    * const collection = bindAll({a() { return this;}}, 'Lucy');
-    * collection.a();
+    * @example
+    * bindAll({a() { return this;}}, 'Lucy').a();
     * // => 'Lucy'
   */
   const bindAll = (collection, bindThis) => {
@@ -3222,6 +3239,7 @@
     * @example
     * ifInvoke((...args) => { return args;}, 1, 2);
     * // => [1, 2]
+    * @example
     * ifInvoke(undefined, 1, 2);
     * // => undefined
   */
@@ -3305,10 +3323,10 @@
     * @returns {Function} Returns the new function.
     *
     * @example
-    * const overEveryThing = overEvery([Boolean, isFinite]);
-    * overEveryThing('1');
+    * overEvery([Boolean, isFinite])('1');
     * // => true
-    * overEveryThing(null);
+    * @example
+    * overEvery([Boolean, isFinite])(null);
     * // => false
   */
   const overEvery = (predicates) => {
@@ -3328,6 +3346,7 @@
     *
     * @function timer
     * @category function
+    * @ignoreTest
     * @type {Function}
     * @param {Function} callable - The function to be invoked.
     * @param {number} time - The time in milliseconds.
@@ -3345,6 +3364,7 @@
     *
     * @function interval
     * @category function
+    * @ignoreTest
     * @type {Function}
     * @param {Function} callable - The function to be invoked.
     * @param {number} time - The time in milliseconds.
@@ -3386,14 +3406,15 @@
     *
     * @function debounce
     * @category function
+    * @ignoreTest
     * @type {Function}
     * @param {Function} callable - The function to be invoked.
     * @param {number} time - The time in milliseconds.
     * @returns {Function} The debounced function.
     *
     * @example
-    * const debounced = debounce(() => { console.log('debounced'); }, 0);
-    * // => debounced();
+    * debounce(() => { console.log('debounced'); }, 0)();
+    * // 'debounced'
   */
   const debounce = (callable, time) => {
     let timeout = false;
@@ -3419,14 +3440,15 @@
     *
     * @function throttle
     * @category function
+    * @ignoreTest
     * @type {Function}
     * @param {Function} callable - The function to be invoked.
     * @param {number} time - The time in milliseconds.
     * @returns {Function} The throttled function.
     *
     * @example
-    * const throttled = throttle(() => { console.log('debounced'); }, 0);
-    * // => throttled();
+    * throttle(() => { console.log('throttle'); }, 0)();
+    * // 'throttle'
   */
   const throttle = (callable, time) => {
     let timeout = false;
@@ -3476,8 +3498,7 @@
     * @returns {*} Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
     *
     * @example
-    * const chained = chain({a(item) { return item;}});
-    * chained('Acid').a();
+    * chain({a(item) { return item;}})('Acid').a();
     * // => 'Acid'
   */
   const chain = (methods) => {
@@ -3584,10 +3605,9 @@
     * @returns {Function} Returns the new function.
     *
     * @example
-    * const reArged = reArg((a, b, c) => {
+    * reArg((a, b, c) => {
     *   return [a, b, c];
-    * }, [1,2,0]);
-    * reArged(1,2,3);
+    * }, [1,2,0])(1,2,3);
     * // => [2, 3, 1]
   */
   const reArg = (callable, indexes) => {
@@ -3612,8 +3632,7 @@
     * @returns {Function} The new function.
     *
     * @example
-    * const wrapped = wrap('Lucy', (firstName, lastName) => {console.log(`My name is ${firstName} ${lastName}.`);});
-    * wrapped('Diamonds');
+    * wrap('Lucy', (firstName, lastName) => {console.log(`My name is ${firstName} ${lastName}.`);})('Diamonds');
     * // => 'My name is Lucy Diamonds.'
   */
   const wrap = (value, wrapper) => {
@@ -3637,7 +3656,7 @@
     * @example
     * isZero(0);
     * // => true
-    *
+    * @example
     * isZero(1);
     * // => False
   */
@@ -3657,7 +3676,7 @@
     * @example
     * isNumberEqual(0, 0);
     * // => true
-    *
+    * @example
     * isNumberEqual(0, 1);
     * // => False
   */
@@ -3678,7 +3697,7 @@
     * @example
     * isNumberInRange(1, 0, 2);
     * // => True
-    *
+    * @example
     * isNumberInRange(1, -1, 0);
     * // => False
   */
@@ -3725,10 +3744,10 @@
     * @returns {boolean} - Returns true or false.
     *
     * @example
-    * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Tom']);
+    * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy', 'Tom']);
     * // => true
-    *
-    * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Other','Tom']);
+    * @example
+    * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Other', 'Tom']);
     * // => false
   */
   const hasAnyKeys = (object, properties) => {
@@ -3902,9 +3921,8 @@
     * @returns {Object} - A new object with the removed.
     *
     * @example
-    * omit({a:1, b:2, ['a']});
+    * omit({a:1, b:2}, ['a']);
     * // => {b:2}
-    *
   */
   const omit = (originalObject, array) => {
     return filterObject(originalObject, (item, key) => {
@@ -4026,7 +4044,7 @@
     * @example
     * rightString('rightString');
     * // => 'g'
-    *
+    * @example
     * rightString('rightString', 2);
     * // => 'n'
   */
@@ -4062,7 +4080,7 @@
     * @example
     * initialString('initialString');
     * // => 'initialStrin'
-    *
+    * @example
     * initialString('initialString', 2);
     * // => 'initialStri'
   */
@@ -4081,7 +4099,7 @@
     * @example
     * restString('restString');
     * // => 'estString'
-    *
+    * @example
     * restString('restString', 2);
     * // => 'stString'
   */
@@ -4151,7 +4169,7 @@
     *
     * @example
     * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
-    * // => '&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;'
+    * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
   */
   const htmlEntities = (string) => {
     return string.replace(andRegex, '&amp;')
@@ -4169,7 +4187,7 @@
     *
     * @example
     * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
-    * // => '&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;'
+    * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
   */
   const sanitize = (string) => {
     return htmlEntities(rawURLDecode(string));
@@ -4420,8 +4438,8 @@
     * @returns {Function} - Cached method.
     *
     * @example
-    * cacheNativeMethod(Array.prototype.push);
-    * // => function call() { [native code] }
+    * cacheNativeMethod(Array.prototype.push)([], 1);
+    * // => 1
   */
   function cacheNativeMethod(method) {
     return functionPrototype.call.bind(method);
@@ -4558,10 +4576,13 @@
     * @category utility
     * @returns {number} - Returns a unique id.
     *
+    * @test
+    * assert(uid(), 0);
+    * assert(uid(), 1);
+    *
     * @example
     * uid();
     * // => 0
-    * @example
     * uid();
     * // => 1
   */
@@ -4582,6 +4603,12 @@
     * @type {Function}
     * @param {number} id - Number to be freed.
     * @returns {undefined} - Nothing is returned.
+    *
+    * @test
+    * assert(uid(), 0);
+    * assert(uid(), 1);
+    * assert(uid().free(0), undefined);
+    * assert(uid(), 0);
     *
     * @example
     * uid();
@@ -4621,7 +4648,7 @@
     *     like: ['a','b','c']
     *   }
     * });
-    * // => c
+    * // => 'c'
   */
   const get = (propertyString, objectChain = $) => {
     let link = objectChain;
