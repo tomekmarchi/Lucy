@@ -1,11 +1,12 @@
 {
   "name": "Lucy",
-  "version": "2.0.17",
+  "company": "Arity",
+  "version": "2.0.62",
   "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers.",
   "bugs": {
-    "url": "https://github.com/tomekmarchi/Lucy/issues"
+    "url": "https://github.com/ArityLLCNJ/Lucy/issues"
   },
-  "homepage": "https://acidjs.com",
+  "homepage": "https://aritysoftware.com",
   "directories": {
     "doc": "docs",
     "source": "source",
@@ -20,7 +21,7 @@
     "CWA",
     "self constructing"
   ],
-  "license": "MIT",
+  "license": "ISC",
   "main": "index.js",
   "maintainers": [
     {
@@ -34,7 +35,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomekmarchi/Lucy.git"
+    "url": "git+https://github.com/ArityLLCNJ/Lucy.git"
   },
   "devDependencies": {
     "Lucy": "*",
@@ -47,16 +48,16 @@
     "connect-livereload": "*",
     "docredux": "^1.0.2",
     "esformatter": "*",
-    "eslint": "^4.2.0",
-    "eslint-plugin-jsdoc": "*",
-    "express": "*",
+    "eslint": "^4.4.1",
+    "eslint-plugin-jsdoc": "^3.1.2",
+    "express": "^4.15.4",
+    "nbome25": "^1.0.4",
     "node-watch": "*",
     "rollup": "^0.45.2",
     "rollup-plugin-babili": "*",
     "tiny-lr": "*",
     "vinyl-fs": "*"
   },
-  "dependencies": {},
   "scripts": {
     "build": "node index.js"
   }
