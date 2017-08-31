@@ -3496,6 +3496,14 @@
   const interval = (callable, time) => {
     return setInterval(callable, time);
   };
+  const generateClear = (callable, clearMethod) => {
+    return () => {
+      times(0, callable(() => {
+      }, 0), (index) => {
+        clearMethod(index);
+      });
+    };
+  };
   /**
     * Clear all active timers.
     *
@@ -3508,7 +3516,7 @@
     * clearTimers();
     * // => undefined
   */
-
+  const clearTimers = generateClear(timer, clearTimeout);
   /**
     * Clear all active intervals.
     *
@@ -3521,7 +3529,7 @@
     * clearIntervals();
     * // => undefined
   */
-
+  const clearIntervals = generateClear(interval, clearInterval);
   /**
     * Creates a debounced function that delays invoking callable until after wait milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
     *
@@ -3594,6 +3602,8 @@
     return throttled;
   };
   assign($, {
+    clearIntervals,
+    clearTimers,
     debounce,
     interval,
     throttle,
@@ -3933,7 +3943,7 @@
   });
 
   /**
-    * Extracts all key values from an object.
+    * Extracts all keys from an object whose values are not falsey. The values false, null, 0, "", undefined, and NaN are falsey.
     *
     * @function compactKeys
     * @category object
@@ -3944,17 +3954,17 @@
     * @test
     * (async () => {
     *   const results = compactKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: undefined, other: false, that: null});
-    *   return assert(results.includes('Lucy') && results.includes('John') && results.includes('other'), true);
+    *   return assert(results.includes('Lucy') && results.includes('John'), true);
     * });
     *
     * @example
     * compactKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: undefined, other: false, that: null});
-    * // => ['Lucy', 'John', 'other']
+    * // => ['Lucy', 'John']
   */
   const compactKeys = (object) => {
     const keys$$1 = [];
     eachObject(object, (item, key) => {
-      if (hasValue(item)) {
+      if (item) {
         keys$$1.push(key);
       }
     });
