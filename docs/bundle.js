@@ -632,7 +632,7 @@
    *
    * @function isFileCSS
    * @category utility
-   * @param {*} value - Object to be checked.
+   * @param {string} value - Object to be checked.
    * @returns {boolean} True or false.
    *
    * @example
@@ -645,7 +645,7 @@
    *
    * @function isFileJSON
    * @category utility
-   * @param {*} value - Object to be checked.
+   * @param {string} value - Object to be checked.
    * @returns {boolean} True or false.
    *
    * @example
@@ -658,7 +658,7 @@
    *
    * @function isFileJS
    * @category utility
-   * @param {*} value - Object to be checked.
+   * @param {string} value - Object to be checked.
    * @returns {boolean} True or false.
    *
    * @example
@@ -666,6 +666,19 @@
    * // => true
   */
   const isFileJS = regexGenerator(/\.js$/);
+  /**
+   * Checks if the string has a .html extension.
+   *
+   * @function isFileHTML
+   * @category utility
+   * @param {string} value - Object to be checked.
+   * @returns {boolean} True or false.
+   *
+   * @example
+   * isFileHTML('test.html');
+   * // => true
+  */
+  const isFileHTML = regexGenerator(/\.html$/);
   /**
    * Checks if the string has a '.'.
    *
@@ -935,6 +948,7 @@
     isDecimal,
     isEmpty,
     isFileCSS,
+    isFileHTML,
     isFileJS,
     isFileJSON,
     isFunction,
