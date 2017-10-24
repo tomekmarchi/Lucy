@@ -1078,6 +1078,7 @@
     * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
     *
     * @function remove
+    * @category array
     * @param {Array} array - Array to be mutated.
     * @param {...(string|Array)} removeThese - Items to remove from the array.
     * @returns {Array} The array this method was called on.
@@ -1105,6 +1106,7 @@
     * Removes items that pass the method's test. This mutates the given array. Clone the array if you desire to avoid mutation.
     *
     * @function removeBy
+    * @category array
     * @param {Array} array - Array to be mutated.
     * @param {Function} method - Function used to check object. Return true to remove the value.
     * @returns {Array} The array this method was called on.
@@ -1581,25 +1583,25 @@
     const increment = (incrementArg < 0) ? incrementArg * -1 : incrementArg;
     const rangeArray = [];
     let position = start;
-    while (position < end) {
+    while (position > end) {
       rangeArray.push(position);
       position -= increment;
     }
     return rangeArray;
   };
   /**
-    *
+    * Create a numbered list of integers.
     *
     * @type {Function} range
     * @category array
-    * @param {Number} start - Value which determines the start of the range.
-    * @param {Number} end - Value which determines the end of the range.
-    * @param {Number} increment - Value which determines the rate of incrementation.
-    * @returns {Array}
+    * @param {number} start - Value which determines the start of the range.
+    * @param {number} end - Value which determines the end of the range.
+    * @param {number} increment - Value used to step between integers.
+    * @returns {Array} An array of integers.
     *
     * @example
-    * range([1,'B', Cat, false, null, 0 , '', undefined, NaN]);
-    * // => [1, 'B', Cat]
+    * range(0, 30, 5);
+    * // => [0, 5, 10, 15, 20, 25]
   */
   const range = (start, end, increment = 1) => {
     if (start < end) {
@@ -1608,25 +1610,8 @@
       return rangeDown(start, end, increment);
     }
   };
-  /**
-    *
-    *
-    * @type {Function} rangeRight
-    * @param {Number} start - Value which determines the start of the range.
-    * @param {Number} end - Value which determines the end of the range.
-    * @param {Number} increment - Value which determines the rate of incrementation.
-    * @returns {Array}
-    *
-    * @example
-    * rangeRight([1,'B', Cat, false, null, 0 , '', undefined, NaN]);
-    * // => [1, 'B', Cat]
-  */
-  const rangeRight = (start, end, increment = 1) => {
-    return rangeDown(end, start, increment);
-  };
   assign($, {
-    range,
-    rangeRight
+    range
   });
 
   /**
@@ -1944,6 +1929,7 @@
     * Returns a shallow copy of the array up to an amount starting from the right.
     *
     * @function takeRight
+    * @category array
     * @type {Function}
     * @param {Array} array - The array to be evaluated.
     * @returns {Array} The aggregated array.
@@ -2341,7 +2327,7 @@
     * Iterates based on a start index and end index. Creates an array with the results of the iteratee on every element in the calling array. The loop ends when the start index is equal to the end index.
     *
     * @function timesMap
-    * @category utility
+    * @category array
     * @type {Function}
     * @param {number} startIndex - The number to start loop from.
     * @param {number} endIndex - The number to stop at the loop.
@@ -2746,7 +2732,7 @@
     *
     * @function findItem
     * @type {Function}
-    * @category array
+    * @category collection
     * @param {Array} collection - Collection to be checked for an item.
     * @param {number|string} id - The value to look for.
     * @param {string} [propertyName = 'id'] - The name of the property to compare.
@@ -2767,7 +2753,7 @@
     *
     * @function findIndex
     * @type {Function}
-    * @category array
+    * @category collection
     * @param {Array} collection - Collection to be checked for an item.
     * @param {number|string} id - The value to look for.
     * @param {string} [propertyName = 'id'] - The name of the property to compare.
@@ -2792,7 +2778,7 @@
      * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
      *
      * @function sortAlphabetical
-     * @category array
+     * @category collection
      * @type {Function}
      * @param {Array} array - Array to be sorted.
      * @returns {Array} The sorted array.
@@ -3125,7 +3111,7 @@
     * @type {Function}
     * @param {Object|Function} callingObject - Object that will be looped through.
     * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-    * @returns {Object|Function} The originally given object.
+    * @returns {Object|Function} Returns the calling object.
     *
     * @test
     * (async () => {
@@ -3152,6 +3138,7 @@
     * Iterates through the given object while the iteratee returns true.
     *
     * @function whileObject
+    * @category object
     * @type {Function}
     * @param {Object} callingObject - Object that will be looped through.
     * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
@@ -3178,6 +3165,7 @@
     * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
     *
     * @function filterObject
+    * @category object
     * @type {Function}
     * @param {Object|Function} callingObject - Object that will be looped through.
     * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
@@ -3202,7 +3190,7 @@
     * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
     *
     * @function mapObject
-    * @category utility
+    * @category object
     * @type {Function}
     * @param {Object|Function} callingObject - Object that will be looped through.
     * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
@@ -3225,6 +3213,7 @@
     * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
     *
     * @function compactMapObject
+    * @category object
     * @type {Function}
     * @param {Object|Function} callingObject - Object that will be looped through.
     * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
@@ -3747,9 +3736,9 @@
     * // 2
     * // => undefined
   */
-  const inSync = (collection, arg) => {
+  const inSync = (collection, value) => {
     return each(collection, (item) => {
-      item(arg);
+      item(value);
     });
   };
   /**
@@ -3776,9 +3765,9 @@
     * // 2
     * // => undefined
   */
-  const inAsync = async (collection, arg) => {
+  const inAsync = async (collection, value) => {
     return eachAsync(collection, async (item) => {
-      await item(arg);
+      await item(value);
     });
   };
   assign($, {
@@ -3954,6 +3943,7 @@
     * Checks to see if an object has any of the given property names.
     *
     * @function hasAnyKeys
+    * @category object
     * @type {Function}
     * @param {Object} object - Object from which keys are extracted.
     * @param {Array} properties - Array of object keys.
@@ -4136,6 +4126,7 @@
     * Returns a clone of the given object without the given properties.
     *
     * @function omit
+    * @category object
     * @type {Function}
     * @param {Object} originalObject - Object from which keys are extracted.
     * @param {Array} array - Array of object keys.
@@ -4152,6 +4143,112 @@
   };
   assign($, {
     omit
+  });
+
+  /**
+    * Asynchronously iterates through the given object.
+    *
+    * @function eachObjectAsync
+    * @category object
+    * @type {Function}
+    * @param {Object|Function} callingObject - Object that will be looped through.
+    * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+    * @returns {Object|Function} Returns the calling object.
+    *
+    * @test
+    * (async () => {
+    *   const tempList = {};
+    *   await eachObjectAsync({a: 1, b: 2, c: 3}, async (item, key) => {
+    *     tempList[key] = item;
+    *   });
+    *   return assert(tempList, {a: 1, b: 2, c: 3});
+    * });
+    *
+    * @example
+    * eachObjectAsync({a: 1, b: 2, c: 3}, (item) => {
+    *   console.log(item);
+    * });
+    * // => {a: 1, b: 2, c: 3}
+  */
+  const eachObjectAsync = async (thisObject, iteratee) => {
+    const objectKeys = keys(thisObject);
+    await eachAsync(objectKeys, (key, index, array, propertyCount) => {
+      return iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
+    });
+    return thisObject;
+  };
+  assign($, {
+    eachObjectAsync,
+  });
+
+  /**
+    * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
+    *
+    * @function mapObjectAsync
+    * @category object
+    * @type {Function}
+    * @param {Object|Function} callingObject - Object that will be looped through.
+    * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+    * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+    * @returns {Object|Function} An object of the same calling object's type.
+    *
+    * @test
+    * (async () => {
+    *   const tempList await mapObjectAsync({a: 1, b: 2, c: 3}, async (item, key) => {
+    *     return item;
+    *   });
+    *   return assert(tempList, {a: 1, b: 2, c: 3});
+    * });
+    *
+    * @example
+    * mapObjectAsync({a: 1, b: 2, c: 3}, (item) => {
+    *   return item * 2;
+    * });
+    * // => {a: 2, b: 4, c: 6}
+  */
+  const mapObjectAsync = async (object, iteratee, results = {}) => {
+    await eachObjectAsync(object, async (item, key, thisObject, propertyCount, objectKeys) => {
+      results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+    });
+    return results;
+  };
+  /**
+    * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+    *
+    * @function compactMapObjectAsync
+    * @category object
+    * @type {Function}
+    * @param {Object|Function} callingObject - Object that will be looped through.
+    * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+    * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+    * @returns {Object|Function} An object with mapped properties that are not null or undefined.
+    *
+    * @test
+    * (async () => {
+    *   const tempList await compactMapObjectAsync({a: 1, b: 2, c: 3}, async (item, key) => {
+    *     return item;
+    *   });
+    *   return assert(tempList, {a: 1, b: 2, c: 3});
+    * });
+    *
+    * @example
+    * compactMapObjectAsync({a: undefined, b: 2, c: 3}, (item) => {
+    *   return item;
+    * });
+    * // => {b: 2, c: 3}
+  */
+  const compactMapObjectAsync = async (object, iteratee, results = {}) => {
+    await eachObjectAsync(object, async (item, key, thisObject, propertyCount, objectKeys) => {
+      const result = await iteratee(item, key, results, propertyCount, objectKeys);
+      if (hasValue(result)) {
+        results[key] = result;
+      }
+    });
+    return results;
+  };
+  assign($, {
+    compactMapObjectAsync,
+    mapObjectAsync,
   });
 
   const normalizeCase = /[-_]/g;
@@ -4178,6 +4275,7 @@
     * Converts a string into Camel case format.
     *
     * @function camelCase
+    * @category string
     * @type {Function}
     * @param {string} string - String to be converted into Camel case.
     * @returns {string} - Converted string in Camel case.
@@ -4196,6 +4294,7 @@
     * Converts a string into Kebab case format.
     *
     * @function kebabCase
+    * @category string
     * @type {Function}
     * @param {string} string - String to be converted into Kebab case.
     * @returns {string} - Converted string in Kebab case.
@@ -4214,6 +4313,7 @@
     * Converts a string into snake case format.
     *
     * @function snakeCase
+    * @category string
     * @type {Function}
     * @param {string} string - String to be converted into snake case.
     * @returns {string} - Converted string in Snake case.
@@ -4257,6 +4357,7 @@
     * Plucks a letter using the index starting from the right.
     *
     * @function rightString
+    * @category string
     * @type {Function}
     * @param {string} string - String to extract the letter from.
     * @param {number} [index=1] - The starting position.
@@ -4276,6 +4377,7 @@
     * Splits up a string into chunks.
     *
     * @function chunkString
+    * @category string
     * @type {Function}
     * @param {string} string - String to chunked.
     * @param {number} [size] - The max string length per chunk.
@@ -4293,6 +4395,7 @@
     * Truncates everything before the index starting from the right.
     *
     * @function initialString
+    * @category string
     * @type {Function}
     * @param {string} string - String to extract the initial letters from.
     * @param {number} [index=1] - Starting point from the right.
@@ -4312,6 +4415,7 @@
     * Truncates everything after a index.
     *
     * @function restString
+    * @category string
     * @type {Function}
     * @param {string} string - String to extract the rest of the letters from.
     * @param {number} [index=1] - Starting point.
