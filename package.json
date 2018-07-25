@@ -1,8 +1,8 @@
 {
   "name": "Lucy",
   "company": "Arity",
-  "version": "2.0.69",
-  "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers.",
+  "version": "2.0.8",
+  "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers. Lucy is also the back-end utility library for the Universal Web. https://sentivate.com",
   "bugs": {
     "url": "https://github.com/ArityLLCNJ/Lucy/issues"
   },
@@ -38,26 +38,26 @@
     "url": "git+https://github.com/ArityLLCNJ/Lucy.git"
   },
   "devDependencies": {
-    "Lucy": "^2.0.62",
-    "babel-core": "*",
+    "babel-core": "^6.26.3",
     "babel-eslint": "*",
     "babel-plugin-minify-empty-function": "*",
     "babel-preset-babili": "^1.0.0",
     "babel-preset-es2015": "*",
-    "body-parser": "*",
+    "body-parser": "^1.18.3",
     "connect-livereload": "*",
-    "docredux": "^1.0.5",
+    "docredux": "^1.0.6",
     "esformatter": "*",
     "eslint": "^4.4.1",
-    "eslint-plugin-jsdoc": "^3.1.2",
-    "express": "^4.15.4",
-    "nbome25": "^1.0.4",
-    "node-watch": "*",
+    "express": "^4.16.3",
+    "node-watch": "^0.5.8",
     "rollup": "^0.45.2",
     "rollup-plugin-babili": "^3.1.1",
-    "tiny-lr": "*"
+    "testatron": "^1.0.2",
+    "tiny-lr": "^1.1.1"
   },
   "scripts": {
-    "build": "node index.js"
-  }
+    "build": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {}
 }

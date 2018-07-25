@@ -26,7 +26,7 @@ const $ = (...args) => {
  * superMethod($.get);
  * // => undefined
  * @example
- * $('flow', $);
+ * superMethod($.get) || $('flow');
  * // => $.flow
  */
 const superMethod = (callable) => {

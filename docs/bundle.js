@@ -33,7 +33,7 @@
    * superMethod($.get);
    * // => undefined
    * @example
-   * $('flow', $);
+   * superMethod($.get) || $('flow');
    * // => $.flow
    */
   const superMethod = (callable) => {
@@ -4194,7 +4194,7 @@
     *
     * @test
     * (async () => {
-    *   const tempList await mapObjectAsync({a: 1, b: 2, c: 3}, async (item, key) => {
+    *   const tempList = await mapObjectAsync({a: 1, b: 2, c: 3}, async (item) => {
     *     return item;
     *   });
     *   return assert(tempList, {a: 1, b: 2, c: 3});
@@ -4225,7 +4225,7 @@
     *
     * @test
     * (async () => {
-    *   const tempList await compactMapObjectAsync({a: 1, b: 2, c: 3}, async (item, key) => {
+    *   const tempList = await compactMapObjectAsync({a: 1, b: 2, c: 3}, async (item, key) => {
     *     return item;
     *   });
     *   return assert(tempList, {a: 1, b: 2, c: 3});

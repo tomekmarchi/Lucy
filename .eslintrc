@@ -16,9 +16,9 @@
     }
   },
   'rules': {
-    "object-curly-newline": ["error", { "minProperties": 1 }],
-    object-property-newline: "error",
-    no-return-await: 'error',
+    'object-curly-newline': ["error", { "minProperties": 1 }],
+    'object-property-newline': "error",
+    'no-return-await': 'error',
     'no-cond-assign': ['error', 'always'],
     'no-constant-condition': 'error',
     'no-control-regex': 'error',
@@ -44,7 +44,6 @@
     'no-unexpected-multiline': 'error',
     'no-unreachable': 'error',
     'use-isnan': 'error',
-    'valid-jsdoc': 'off',
     'valid-typeof': 'error',
     'accessor-pairs': 'error',
     'array-callback-return': 'error',
@@ -124,7 +123,6 @@
     'no-process-exit': 'error',
     'no-restricted-modules': 'off',
     'no-sync': 'off',
-
     'array-bracket-spacing': ['error', 'never'],
     'block-spacing': ['error', 'always'],
     'brace-style': "error",
@@ -176,7 +174,6 @@
     'operator-linebreak': ['error', 'after'],
     'padded-blocks': ['error', 'never'],
     'quote-props': 'off',
-    'require-jsdoc': 'off',
     'semi': ['error', 'always'],
     'semi-spacing': 'off',
     'sort-vars': 'error',

@@ -80,7 +80,6 @@ const build = async () => {
   console.log('NPM Started');
   copyFile('./build/index.js', './npm/index.js');
   copyFile('./LICENSE', './npm/LICENSE');
-  copyFile('./package.json', './npm/package.json');
   copyFile('./README.md', './npm/README.md');
   console.log('NPM Complete');
   console.log('Build Complete');
