@@ -1,9 +1,8 @@
-(function(global, factory) {
+(function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-      (global.$ = factory());
-}(this, (function() {
-  'use strict';
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.$ = factory());
+}(this, function () { 'use strict';
 
   let cacheSuper;
   /**
@@ -312,7 +311,7 @@
   const isPlainObject = (value) => {
     if (hasValue(value)) {
       return value.constructor.toString().trim()
-          .slice(9, 16) === 'Object(';
+        .slice(9, 16) === 'Object(';
     }
     return false;
   };
@@ -3548,8 +3547,7 @@
   };
   const generateClear = (callable, clearMethod) => {
     return () => {
-      times(0, callable(() => {
-      }, 0), (index) => {
+      times(0, callable(() => {}, 0), (index) => {
         clearMethod(index);
       });
     };
@@ -4013,13 +4011,13 @@
     * // => ['Lucy', 'John']
   */
   const compactKeys = (object) => {
-    const keys$$1 = [];
+    const keys = [];
     eachObject(object, (item, key) => {
       if (item) {
-        keys$$1.push(key);
+        keys.push(key);
       }
     });
-    return keys$$1;
+    return keys;
   };
   assign($, {
     compactKeys
@@ -4086,13 +4084,13 @@
     * // => [['a', 'b'], [1, 2]]
   */
   const unZipObject = (object) => {
-    const keys$$1 = [];
+    const keys = [];
     const values = [];
     eachObject(object, (item, key) => {
-      keys$$1.push(key);
+      keys.push(key);
       values.push(item);
     });
-    return [keys$$1, values];
+    return [keys, values];
   };
   assign($, {
     unZipObject,
@@ -4389,8 +4387,7 @@
     * // => ['ch', 'un', 'k']
   */
   const chunkString = (string, size) => {
-    return string.match(new RegExp(`(.|[
-]){1,${size}}`, 'g'));
+    return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
   };
   /**
     * Truncates everything before the index starting from the right.
@@ -5191,4 +5188,4 @@
 
   return $;
 
-})));
+}));

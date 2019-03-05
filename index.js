@@ -7,7 +7,6 @@ const buildDocs = () => {
 };
 const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel-minify');
-const esformatter = require('esformatter');
 const tinyLR = require('tiny-lr')();
 const liveReload = require('connect-livereload');
 const fs = require('fs');
@@ -32,15 +31,6 @@ const notifyLiveReload = (evt, filename) => {
     },
   });
 };
-const beautify = () => {
-  const code = fs.readFileSync('./build/bundle.js').toString();
-  const formattedCode = esformatter.format(code, {
-    indent: {
-      value: '  '
-    }
-  });
-  fs.writeFileSync('./build/bundle.js', formattedCode, 'utf8');
-};
 const copyFile = (start, end) => {
   fs.writeFileSync(end, fs.readFileSync(start).toString(), 'utf8');
 };
@@ -55,12 +45,11 @@ const build = async () => {
     name: '$',
     sourceMap: true
   });
-  beautify();
   const production = await rollup({
     input: './source/index.js',
     plugins: [
       babel({
-        banner: `/* Acid 2.0.0 */`,
+        banner: `/* LUCY by ARITY 2.2.1 - ARITY.COMPANY - SENTIVATE.COM */`,
         comments: false,
       })
     ]
@@ -81,6 +70,7 @@ const build = async () => {
   copyFile('./build/index.js', './npm/index.js');
   copyFile('./LICENSE', './npm/LICENSE');
   copyFile('./README.md', './npm/README.md');
+  copyFile('./build/index.js', './node_modules/Lucy/index.js');
   console.log('NPM Complete');
   console.log('Build Complete');
 };
