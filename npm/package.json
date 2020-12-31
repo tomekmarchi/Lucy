@@ -1,7 +1,7 @@
 {
 	"name": "Lucy",
 	"company": "Universal Web, Inc",
-	"version": "2.2.6",
+	"version": "2.2.7",
 	"description": "A modern, performant, robust, asynchronous, and compact utility library.",
 	"bugs": {
 		"url": "https://github.com/tomekmarchi/Lucy/issues"
@@ -42,7 +42,7 @@
 		"node-watch": "^0.7.1",
 		"rollup": "^2.35.1",
 		"rollup-plugin-terser": "^5.3.1",
-		"testatron": "^2.0.7",
+		"testatron": "^2.0.8",
 		"tiny-lr": "^2.0.0"
 	},
 	"scripts": {
