@@ -36,13 +36,13 @@
 		"babel-eslint": "*",
 		"body-parser": "*",
 		"connect-livereload": "*",
-		"docredux": "^2.0.7",
+		"docredux": "^2.0.9",
 		"eslint": "^7.16.0",
 		"express": "*",
 		"node-watch": "^0.7.1",
 		"rollup": "^2.35.1",
 		"rollup-plugin-terser": "^5.3.1",
-		"testatron": "*",
+		"testatron": "^2.0.8",
 		"tiny-lr": "*"
 	},
 	"scripts": {
