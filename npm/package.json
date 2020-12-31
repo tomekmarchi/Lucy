@@ -1,7 +1,7 @@
 {
 	"name": "Lucy",
 	"company": "Universal Web, Inc",
-	"version": "2.3.0",
+	"version": "2.3.1",
 	"description": "A modern, performant, robust, asynchronous, and compact utility library.",
 	"bugs": {
 		"url": "https://github.com/tomekmarchi/Lucy/issues"
