@@ -1,6 +1,10 @@
 import acid from '../namespace/index';
-import { assign } from '../internal/object';
-import { isString } from '../internal/is';
+import {
+	assign
+} from '../internal/object';
+import {
+	isString
+} from '../internal/is';
 /**
   * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
   *
@@ -15,10 +19,10 @@ import { isString } from '../internal/is';
   * // => [1, 'B', 'Cat']
 */
 export const compact = (array) => {
-  return array.filter((item) => {
-    return isString(item) && !item.length ? false : item;
-  });
+	return array.filter((item) => {
+		return isString(item) && !item.length ? false : item;
+	});
 };
 assign(acid, {
-  compact,
+	compact,
 });

@@ -1,5 +1,7 @@
 import acid from '../namespace/index';
-import { assign } from '../internal/object';
+import {
+	assign
+} from '../internal/object';
 /**
   * Clears the values out of an array.
   *
@@ -14,9 +16,9 @@ import { assign } from '../internal/object';
   * // => []
 */
 export const clear = (array) => {
-  array.length = 0;
-  return array;
+	array.length = 0;
+	return array;
 };
 assign(acid, {
-  clear,
+	clear,
 });

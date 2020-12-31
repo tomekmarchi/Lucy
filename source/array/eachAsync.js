@@ -1,5 +1,7 @@
 import acid from '../namespace/index';
-import { assign } from '../internal/object';
+import {
+	assign
+} from '../internal/object';
 /**
   * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
   *
@@ -28,11 +30,11 @@ import { assign } from '../internal/object';
   * // 4 1
 */
 export const eachAsync = async (callingArray, iteratee) => {
-  const arrayLength = callingArray.length;
-  for (let index = 0; index < arrayLength; index++) {
-    await iteratee(callingArray[index], index, callingArray, arrayLength);
-  }
-  return callingArray;
+	const arrayLength = callingArray.length;
+	for (let index = 0; index < arrayLength; index++) {
+		await iteratee(callingArray[index], index, callingArray, arrayLength);
+	}
+	return callingArray;
 };
 /**
   * Asynchronously Iterates through the given array in reverse. Each async function is awaited as to ensure synchronous order.
@@ -62,13 +64,13 @@ export const eachAsync = async (callingArray, iteratee) => {
   * // 3 1
 */
 export const eachAsyncRight = async (callingArray, iteratee) => {
-  const arrayLength = callingArray.length;
-  for (let index = arrayLength - 1; index >= 0; index--) {
-    await iteratee(callingArray[index], index, callingArray, arrayLength);
-  }
-  return callingArray;
+	const arrayLength = callingArray.length;
+	for (let index = arrayLength - 1; index >= 0; index--) {
+		await iteratee(callingArray[index], index, callingArray, arrayLength);
+	}
+	return callingArray;
 };
 assign(acid, {
-  eachAsync,
-  eachAsyncRight,
+	eachAsync,
+	eachAsyncRight,
 });

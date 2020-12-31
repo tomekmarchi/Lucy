@@ -1,7 +1,13 @@
 import acid from '../namespace/index';
-import { assign } from '../internal/object';
-import { compactMapArray } from './each';
-import { flattenDeep } from './flatten';
+import {
+	assign
+} from '../internal/object';
+import {
+	compactMapArray
+} from './each';
+import {
+	flattenDeep
+} from './flatten';
 /**
   * Checks for differences between arrays, then creates an array based on those differences.
   *
@@ -17,13 +23,13 @@ import { flattenDeep } from './flatten';
   * // => [3]
 */
 export const difference = (array, ...compares) => {
-  const compare = flattenDeep(compares);
-  return compactMapArray(array, (item) => {
-    if (!compare.includes(item)) {
-      return item;
-    }
-  });
+	const compare = flattenDeep(compares);
+	return compactMapArray(array, (item) => {
+		if (!compare.includes(item)) {
+			return item;
+		}
+	});
 };
 assign(acid, {
-  difference
+	difference
 });

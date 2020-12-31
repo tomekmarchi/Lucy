@@ -1,24 +1,17 @@
-What is Acid?
-=======
-Acid is a utility library for building CWAs (Conscious Web Apps). CWAs build themselves based on realtime application demands. Acid embraces a modular philosophy that results in a complete separation of concerns. Lucy has all of Acid's functions except browser based methods. Lucy is designed for worker and node use. [Documentation](https://acidjs.com)
-[Arity](https://aritysoftware.com)
+# What is Lucy?
 
-_CWA's have advantages over modern SPAs_
- - Scalability for large apps
- - Real-time
- - Fine grained self-construction
- - Less code
- - Faster development
- - Streaming apps
+Lucy is A modern, performant, compact, and async focused utility library.
+It's built to provide all the little utility functions developers typically need.
+All main objects have some utility function available to it.
+Lucy is designed to be everything you may need except DOM related operations that you'll find in Acid Lucy's older brother.
+Lucy is also the default utility library for the Universal Web & is used for building Universal Web Apps.
+UWA(Universal Web Apps) build themselves based on user actions and application state.  
+[Documentation](https://acidjs.com)  
+[Sentivate](https://sentivate.com)  
+[Universal Web](https://universalweb.io)
 
 ##### Methods
-All methods are available from the root object $
 
-- CWA Stack
-	- Node
-	- RethinkDB
-	- Lucy
-	- Acid
-	- Sentivate
+All methods are available from the root object \$
 
-Arity 2017
+© copyright 2021 [Universal Web, Inc](https://universalweb.io)

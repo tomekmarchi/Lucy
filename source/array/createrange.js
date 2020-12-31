@@ -1,23 +1,25 @@
 import acid from '../namespace/index';
-import { assign } from '../internal/object';
+import {
+	assign
+} from '../internal/object';
 const rangeUp = (start, end, increment) => {
-  const rangeArray = [];
-  let position = start;
-  while (position < end) {
-    rangeArray.push(position);
-    position += increment;
-  }
-  return rangeArray;
+	const rangeArray = [];
+	let position = start;
+	while (position < end) {
+		rangeArray.push(position);
+		position += increment;
+	}
+	return rangeArray;
 };
 const rangeDown = (start, end, incrementArg) => {
-  const increment = (incrementArg < 0) ? incrementArg * -1 : incrementArg;
-  const rangeArray = [];
-  let position = start;
-  while (position > end) {
-    rangeArray.push(position);
-    position -= increment;
-  }
-  return rangeArray;
+	const increment = (incrementArg < 0) ? incrementArg * -1 : incrementArg;
+	const rangeArray = [];
+	let position = start;
+	while (position > end) {
+		rangeArray.push(position);
+		position -= increment;
+	}
+	return rangeArray;
 };
 /**
   * Create a numbered list of integers.
@@ -34,12 +36,12 @@ const rangeDown = (start, end, incrementArg) => {
   * // => [0, 5, 10, 15, 20, 25]
 */
 export const range = (start, end, increment = 1) => {
-  if (start < end) {
-    return rangeUp(start, end, increment);
-  } else {
-    return rangeDown(start, end, increment);
-  }
+	if (start < end) {
+		return rangeUp(start, end, increment);
+	} else {
+		return rangeDown(start, end, increment);
+	}
 };
 assign(acid, {
-  range
+	range
 });

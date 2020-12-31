@@ -1,36 +1,53 @@
 {
-  "name": "Lucy",
-  "company": "Arity",
-  "version": "2.2.1",
-  "description": "Utility library for building CWAs (Conscious Web Apps) for Node & workers. Lucy is also the back-end utility library for the Universal Web. https://sentivate.com",
-  "bugs": {
-    "url": "https://github.com/ArityOfficial/Lucy/issues"
-  },
-  "homepage": "https://acidjs.com",
-  "directories": {
-    "doc": "docs",
-    "source": "source",
-    "build": "build",
-    "test": "tests"
-  },
-  "readme": "README.md",
-  "keywords": [
-    "Acid",
-    "utility",
-    "Lucy",
-    "CWA",
-    "self constructing"
-  ],
-  "license": "ISC",
-  "main": "index.js",
-  "maintainers": [
-    {
-      "email": "tommarchi@protonmail.com",
-      "name": "Tom Marchi"
-    }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ArityOfficial/Lucy.git"
-  }
+	"name": "Lucy",
+	"company": "Universal Web, Inc",
+	"version": "2.2.5",
+	"description": "A modern, performant, robust, asynchronous, and compact utility library.",
+	"bugs": {
+		"url": "https://github.com/tomekmarchi/Lucy/issues"
+	},
+	"homepage": "https://acidjs.com",
+	"directories": {
+		"doc": "docs",
+		"source": "source",
+		"build": "build",
+		"test": "tests"
+	},
+	"readme": "README.md",
+	"keywords": [
+		"Acid",
+		"utility",
+		"Lucy",
+		"Universal Web"
+	],
+	"license": "ISC",
+	"main": "index.js",
+	"maintainers": [
+		{
+			"email": "tom@sentivate.com",
+			"name": "Tom Marchi"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tomekmarchi/Lucy.git"
+	},
+	"devDependencies": {
+		"babel-eslint": "*",
+		"body-parser": "*",
+		"connect-livereload": "*",
+		"docredux": "^2.0.7",
+		"eslint": "^7.16.0",
+		"express": "*",
+		"node-watch": "^0.7.1",
+		"rollup": "^2.35.1",
+		"rollup-plugin-terser": "^5.3.1",
+		"testatron": "^2.0.7",
+		"tiny-lr": "^2.0.0"
+	},
+	"scripts": {
+		"build": "node index.js",
+		"test": "node test.js"
+	},
+	"dependencies": {}
 }
