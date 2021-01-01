@@ -15,7 +15,7 @@
 	"parserOptions": {
 		"sourceType": "module",
 		"allowImportExportEverywhere": true,
-		"ecmaVersion": 10
+		"ecmaVersion": 12
 	},
 	"rules": {
 		"object-curly-newline": [
