@@ -6,9 +6,7 @@ const buildDocs = () => {
 	});
 };
 const rollup = require('rollup').rollup;
-const {
-	terser: minify
-} = require('rollup-plugin-terser');
+const { terser: minify } = require('rollup-plugin-terser');
 const tinyLR = require('tiny-lr')();
 const liveReload = require('connect-livereload');
 const fs = require('fs');

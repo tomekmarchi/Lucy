@@ -16,16 +16,17 @@ import { eachArray } from '../array/each';
   * // => {a: 2}
 */
 export const countBy = (collection, iteratee) => {
-  const object = {};
-  let result;
-  eachArray(collection, (item) => {
-    result = iteratee(item);
-    if (!object[result]) {
-      object[result] = 0;
-    }
-    object[result]++;
-  });
-  return object;
+	const object = {
+	};
+	let result;
+	eachArray(collection, (item) => {
+		result = iteratee(item);
+		if (!object[result]) {
+			object[result] = 0;
+		}
+		object[result]++;
+	});
+	return object;
 };
 /**
   * Count the amount of times a key is present in a colleciton.
@@ -42,13 +43,13 @@ export const countBy = (collection, iteratee) => {
   * // => 2
 */
 export const countKey = (array, property) => {
-  let count = 0;
-  eachArray(array, (item) => {
-    if (item[property]) {
-      count++;
-    }
-  });
-  return count;
+	let count = 0;
+	eachArray(array, (item) => {
+		if (item[property]) {
+			count++;
+		}
+	});
+	return count;
 };
 /**
   * Count the amount of times a key is not present in a colleciton.
@@ -65,16 +66,16 @@ export const countKey = (array, property) => {
   * // => 2
 */
 export const countWithoutKey = (array, keyName) => {
-  let count = 0;
-  eachArray(array, (item) => {
-    if (!item[keyName]) {
-      count++;
-    }
-  });
-  return count;
+	let count = 0;
+	eachArray(array, (item) => {
+		if (!item[keyName]) {
+			count++;
+		}
+	});
+	return count;
 };
 assign(acid, {
-  countBy,
-  countKey,
-  countWithoutKey
+	countBy,
+	countKey,
+	countWithoutKey
 });

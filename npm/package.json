@@ -1,7 +1,7 @@
 {
 	"name": "Lucy",
 	"company": "Universal Web, Inc",
-	"version": "2.3.1",
+	"version": "2.3.2",
 	"description": "A modern, performant, robust, asynchronous, and compact utility library.",
 	"bugs": {
 		"url": "https://github.com/tomekmarchi/Lucy/issues"
@@ -31,19 +31,6 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/tomekmarchi/Lucy.git"
-	},
-	"devDependencies": {
-		"babel-eslint": "*",
-		"body-parser": "*",
-		"connect-livereload": "*",
-		"docredux": "^2.0.7",
-		"eslint": "^7.16.0",
-		"express": "*",
-		"node-watch": "^0.7.1",
-		"rollup": "^2.35.1",
-		"rollup-plugin-terser": "^5.3.1",
-		"testatron": "^2.0.8",
-		"tiny-lr": "^2.0.0"
 	},
 	"scripts": {
 		"build": "node index.js",
