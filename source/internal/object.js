@@ -101,14 +101,14 @@ export const getOwnPropertyNames = objectNative.getOwnPropertyNames;
  * // => 3
 */
 export const objectSize = (target) => {
-  return keys(target).length;
+	return keys(target).length;
 };
 assign(acid, {
-  assign,
-  defineProperty,
-  getOwnPropertyDescriptor,
-  getOwnPropertyNames,
-  is,
-  keys,
-  objectSize
+	assign,
+	defineProperty,
+	getOwnPropertyDescriptor,
+	getOwnPropertyNames,
+	is,
+	keys,
+	objectSize
 });

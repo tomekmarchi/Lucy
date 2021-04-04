@@ -16,5 +16,5 @@ import { assign } from './object';
 */
 export const apply = Reflect.apply;
 assign(acid, {
-  apply
+	apply
 });

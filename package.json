@@ -47,8 +47,5 @@
 	"scripts": {
 		"build": "node index.js",
 		"test": "node test.js"
-	},
-	"dependencies": {
-		"@babel/eslint-parser": "^7.13.14"
 	}
 }
